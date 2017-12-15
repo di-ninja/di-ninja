@@ -544,7 +544,7 @@ di.addRule('B',{ instanceOf: 'A' });
 ```
 
 ##### 4.2.3 substitutions
-type: **object** | **array*
+type: **object** | **array**
 
 Substitutions, as indicated by it's name,
 substitutes a dependency defined by "[params](#411-params)", "[calls](#412-calls)" (and "[lazyCalls](#413-lazycalls)").
@@ -723,31 +723,46 @@ The important distinction between this and global shared objects is that this ob
 
 
 #### 4.4. rule inheritance
-...
-```javascript
-
-```
+The following rule's keys are about rule inheritance.  
+There are three way to herit rule, the priority order of override is
+[inheritInstanceOf](#441-inheritinstanceof),
+overrided by [inheritPrototype](#442-inheritprototype), 
+overrided by [inheritMixins](#443-inheritmixins), 
+and finally the rule itself wich is composed by rule definition and [decorator](#444-decorator).
+Priority between rule and decorator depends of requiring order, the last take precedence, traditionally it's the rule.
 
 ##### 4.4.1 inheritInstanceOf
-...
+type: **boolean** (default true)
+Enable inheritance of rules from instanceOf parents classes.
+
 ```javascript
 
 ```
 
 ##### 4.4.2 inheritPrototype
-...
+type: **boolean** (default false)
+
+Enable inheritance of rules from ES6 extended parents classes.  
+"[decorator](#444-decorator)" must be enabled to parents rules you want to extend from.
 ```javascript
 
 ```
 
 ##### 4.4.3 inheritMixins
-...
+type: **array**
+
+Enable inheritance from a list of specified rules.
 ```javascript
 
 ```
 
 ##### 4.4.4 decorator
-...
+type: **boolean** (default false)
+
+When set to **true**, a [Symbol](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Symbol) property
+will be set on class or factory function, allowing to use [inheritPrototype](#442-inheritprototype).
+If the [decorator injection approach](#22-decorator-injection-approach), it's not necessary to configure this rule,
+because the Symbol will be set whatever the decorator key value is.
 ```javascript
 
 ```
