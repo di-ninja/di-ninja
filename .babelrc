@@ -1,0 +1,16 @@
+{
+	"presets": [
+		"stage-3",
+		"env",
+	],
+	"plugins": [
+		"transform-export-extensions",
+		"transform-decorators",
+		"syntax-decorators",
+		"transform-class-properties",
+		["babel-plugin-transform-builtin-extend", {
+            globals: ["Error", "Array"]
+        }],
+		"transform-runtime",
+	]
+}

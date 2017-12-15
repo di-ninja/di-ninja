@@ -1,0 +1,7 @@
+/node_modules
+/dist
+/browser.js
+/browser.js.map
+/test/browser.dist.js
+/test/browser.dist.js.map
+/.project
