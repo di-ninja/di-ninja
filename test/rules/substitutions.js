@@ -50,6 +50,24 @@ export default ({di, expect})=>{
 			}
 		}
 		
+		class G{
+			constructor(...params){
+				this.params = params;
+			}
+			getParams(){
+				return this.params;
+			}
+			setH(h){
+				this.params[0] = h;
+			}
+			setI(i){
+				this.params[1] = i;
+			}
+		}
+		class H{}
+		class I{}
+		
+		
 		di.addRules({
 			'A': {
 				classDef: A,
@@ -119,6 +137,24 @@ export default ({di, expect})=>{
 			'F':{
 				classDef: F,
 			},
+			
+			'SubstitutionsParentAssocWithCalls':{
+				classDef: G,
+				calls: [
+					[ 'setH', [ 'E' ] ],
+					[ 'setI', [ 'F' ] ],
+				],
+				substitutions: {
+					'E': 'H',
+					'F': 'I',
+				},
+			},
+			'H':{
+				classDef: H,
+			},
+			'I':{
+				classDef: I,
+			},
 		});
 		
 		describe('substitutions by index',function(){
@@ -172,6 +208,17 @@ export default ({di, expect})=>{
 				const [ o ] = instance.getParams();
 				expect(o.subkey.A).equal('E');
 				expect(o.subkey.B).equal('F');
+			});
+			
+		});
+		
+		describe('substitutions by associative keys with calls',function(){
+					
+			it('should return substituted instances',function(){
+				const instance = di.get('SubstitutionsParentAssocWithCalls');
+				const [ h, i ] = instance.getParams();
+				expect(h).instanceof(H);
+				expect(i).instanceof(I);
 			});
 			
 		});
