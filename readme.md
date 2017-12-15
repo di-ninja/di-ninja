@@ -1,6 +1,6 @@
 # Di-Ninja [![Di-Ninja ICON](https://raw.githubusercontent.com/di-ninja/di-ninja/master/icon/icon.png)](https://github.com/di-ninja/di-ninja#)
 
-Universal JavaScript Dependency-Injection framework for node and browser.
+The Dependency-Injection Framework for JavaScript NodeJS and Browser.
 
 ## Installation
 ```
@@ -55,7 +55,7 @@ $ npm i di-ninja
 		2. [calls](#412-calls)
 		3. [lazyCalls](#413-lazycalls)
 	
-	2. [instance](#42-instance)
+	2. [instantiation](#42-instantiation)
 		1. [classDef](#421-classdef)
 		2. [instanceOf](#422-instanceof)
 		3. [substitutions](#423-substitutions)
@@ -85,10 +85,10 @@ $ npm i di-ninja
 	1. [rules](#51-rules)
 	2. [rulesDefault](#52-rulesdefault)
 	
-	3. [autoloadFailOnMissingFile](#53-autoloadfailonmissingfile)
-	4. [dependencies](#54-dependencies)
+	3. [dependencies](#53-dependencies)
+	4. [autoloadPathResolver](#54-autoloadpathresolver)
 	5. [autoloadExtensions](#55-autoloadextensions)
-	6. [autoloadPathResolver](#56-autoloadpathresolver)
+	6. [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile)
 	
 	7. [defaultVar](#57-defaultvar)
 	8. [defaultRuleVar](#58-defaultrulevar)
@@ -381,7 +381,7 @@ Container will resolve dependency with an instance (or value returned by the fun
 of the class (or factory) (CJS export or ES6 export default) exported by specified file.  
 You can use rules to configure it.  
 The behavior of this method differ according to environnement:  
-in all environnement it will rely on preloaded require.context (see [dependencies](#54-dependencies))
+in all environnement it will rely on preloaded require.context (see [dependencies](#53-dependencies))
 wich is the only way to include dependency in webpack (because of static require resolution),
 for node, if the dependency it's not registred, it will require the specified file and register it.
 ```javascript
@@ -510,24 +510,37 @@ di.addRule('A', {
 ```
 
 ##### 4.1.3 lazyCalls
+type: **array** 
+
 Same as [calls](#412-calls), but run after dependency has been distributed to needing instances, this helper offer a simple way to solving circular dependency problem.
 
-#### 4.2. instance
-...
-```javascript
-
-```
+#### 4.2. instantiation
+The following rule's key are about instantiations of classes and factories.
 
 ##### 4.2.1 classDef
-...
-```javascript
+type: **function**
+class or factory
 
+The "classDef" key reference the class that will be used for instantiation.  
+It's used for use reference to class direcly in rule, you can do without if you configure container [dependencies](#53-dependencies) with require.context.
+```javascript
+class A{}
+
+di.addRule('A',{ classDef: A ]);
+
+( di.get('A') instanceof A ) === true
 ```
 
 ##### 4.2.2 instanceOf
-...
-```javascript
+type: **string**
+interface name
 
+Refers to the name of another rule containing "[classDef](#421-classdef)" or "instanceOf", this is resolved recursively.
+```javascript
+di.addRule('A',{ classDef: A });
+di.addRule('B',{ instanceOf: 'A' });
+
+( di.get('B') instanceof A ) === true
 ```
 
 ##### 4.2.3 substitutions
@@ -647,13 +660,13 @@ Same as [calls](#412-calls), but run after dependency has been distributed to ne
 
 ```
 
-#### 5.3 autoloadFailOnMissingFile
+#### 5.3 dependencies
 ...
 ```javascript
 
 ```
 
-#### 5.4 dependencies
+#### 5.4 autoloadPathResolver
 ...
 ```javascript
 
@@ -665,7 +678,8 @@ Same as [calls](#412-calls), but run after dependency has been distributed to ne
 
 ```
 
-#### 5.6 autoloadPathResolver
+
+#### 5.6 autoloadFailOnMissingFile
 ...
 ```javascript
 
