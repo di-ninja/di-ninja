@@ -729,10 +729,10 @@ There are three way to herit rule, the priority order of override is
 overrided by [inheritPrototype](#442-inheritprototype), 
 overrided by [inheritMixins](#443-inheritmixins), 
 and finally the rule itself wich is composed by rule definition and [decorator](#444-decorator).
-Priority between rule and decorator depends of requiring order, the last take precedence, traditionally it's the rule.
+Priority between rule and decorator depends of calls order, the last take precedence, traditionally it's the rule.
 
 ##### 4.4.1 inheritInstanceOf
-type: **boolean** (default true)
+type: **boolean** (default true)  
 Enable inheritance of rules from instanceOf parents classes.
 
 ```javascript
@@ -740,7 +740,7 @@ Enable inheritance of rules from instanceOf parents classes.
 ```
 
 ##### 4.4.2 inheritPrototype
-type: **boolean** (default false)
+type: **boolean** (default false)  
 
 Enable inheritance of rules from ES6 extended parents classes.  
 "[decorator](#444-decorator)" must be enabled to parents rules you want to extend from.
@@ -761,7 +761,7 @@ type: **boolean** (default false)
 
 When set to **true**, a [Symbol](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Symbol) property
 will be set on class or factory function, allowing to use [inheritPrototype](#442-inheritprototype).
-If the [decorator injection approach](#22-decorator-injection-approach), it's not necessary to configure this rule,
+If the [decorator injection approach](#22-decorator-injection-approach) is used, it's not necessary to configure this rule,
 because the Symbol will be set whatever the decorator key value is.
 ```javascript
 
