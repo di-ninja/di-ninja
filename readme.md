@@ -1,4 +1,4 @@
-# DI-Ninja [![DI-Ninja ICON](https://raw.githubusercontent.com/di-ninja/di-ninja/master/icon/icon.png)](https://github.com/di-ninja/di-ninja#)
+# Di-Ninja [![Di-Ninja ICON](https://raw.githubusercontent.com/di-ninja/di-ninja/master/icon/icon.png)](https://github.com/di-ninja/di-ninja#)
 
 Universal JavaScript Dependency-Injection framework for node and browser.
 
@@ -8,7 +8,7 @@ $ npm i di-ninja
 ```
 
 ## Goals
-  * Implement [IoC](https://en.wikipedia.org/wiki/Inversion_of_control) using [Composition Root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/) design pattern, allowing to keep all things decoupled and to wire application components and config at one unique root place.
+  * Implement [IoC](https://en.wikipedia.org/wiki/Inversion_of_control) by [Composition-Root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/) design pattern, allowing to keep all things decoupled and to wire application components and config at one unique root place.
 
   * Replace the singleton anti-pattern with dependency-injection by refacto export of instances to export of classes and factories.
   
@@ -18,7 +18,7 @@ $ npm i di-ninja
   ( [SOLID](https://en.wikipedia.org/wiki/SOLID_(object-oriented_design)),
   [IoC](https://en.wikipedia.org/wiki/Inversion_of_control),
   [Dependency-Injection](https://en.wikipedia.org/wiki/Dependency_injection),
-  [Composition Root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/),
+  [Composition-Root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/),
   [Strategy](https://en.wikipedia.org/wiki/Strategy_pattern) ...).
   
   * Improve code testability.
