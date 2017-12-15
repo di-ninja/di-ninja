@@ -415,7 +415,7 @@ const di = container({
 ```
 
 #### 4.1. dependencies
-The following rule's key are about classes or factories dependencies.
+The following rule's keys are about classes or factories dependencies.
 ```javascript
 //you can use class
 class A{
@@ -515,7 +515,7 @@ type: **array**
 Same as [calls](#412-calls), but run after dependency has been distributed to needing instances, this helper offer a simple way to solving circular dependency problem.
 
 #### 4.2. instantiation
-The following rule's key are about instantiations of classes and factories.
+The following rule's keys are about instantiations of classes and factories.
 
 ##### 4.2.1 classDef
 type: **function**
@@ -544,35 +544,182 @@ di.addRule('B',{ instanceOf: 'A' });
 ```
 
 ##### 4.2.3 substitutions
-...
-```javascript
+type: **object** | **array*
 
+Substitutions, as indicated by it's name,
+substitutes a dependency defined by "[params](#411-params)", "[calls](#412-calls)" (and "[lazyCalls](#413-lazycalls)").
+If an object is provided, the substitutions operate by associative key, else, if an array is provided, the substitution will be done only for "params" and will be index based.  
+By associative key, all dependencies of the rule's named as the key will be replaced by specified other rule's name.
+
+index based
+```javascript
+@di('A', [ 'B' ])
+class A{
+	constructor(B){
+		this.B = B;
+	}
+}
+
+di.addRule('A',{
+	substitutions: [ 'C' ],
+});
+
+( di.get('A').B instanceof C ) === true
+```
+
+associative key
+```javascript
+@di('A', [ { config: { subkey: 'B' } } ])
+class A{
+	constructor(config){
+		this.B = config.subkey.B;
+	}
+}
+di.addRule('A',{
+	substitutions: { 'B': 'C' },
+});
+
+( di.get('A').B instanceof C ) === true
+```
+
+associative key for calls
+```javascript
+class A{
+	setDep(config){
+		this.dep = config.dep;
+	}
+}
+di.addRule('A',{
+	calls: [
+		[ 'setDep', [ { dep: 'B' } ] ],
+	],
+	substitutions: { 'B': 'C' },
+});
+
+( di.get('A').dep instanceof C ) === true
 ```
 
 
 #### 4.3. single instance
-...
-```javascript
-
-```
+The following rule's keys are about sharing single instances.
 
 ##### 4.3.1 shared
-...
+type: **boolean** (default false)
+
+When "shared" is set to **true**, the instance of the classe or the factory return defined by the rule will be shared for the whole application.
 ```javascript
+class A{
+	constructor(b){
+		this.b = b;
+	}
+}
+class B{}
+
+di.addRules({
+	'A': {
+		params: [ 'B' ],
+	},
+	'B': {
+		shared: true,
+	},
+});
+
+const a1 = di.get('A');
+const a2 = di.get('A');
+// a1 !== a2
+
+// a1.b === a2.b
+
+const b1 = di.get('B');
+const b2 = di.get('B');
+// b1 === b2
 
 ```
 
 ##### 4.3.2 singleton
-...
+type: **object** | **array** | **scalar**
+
+If specified it will be registred as shared instance of the dependency for the whole application.
 ```javascript
+class A{
+	constructor(b){
+		this.b = b;
+	}
+}
+class B{}
+
+const b = new B();
+
+di.addRules({
+	'A': {
+		params: [ 'B' ],
+	},
+	'B': {
+		singleton: b,
+	},
+});
+
+const a1 = di.get('A');
+const a2 = di.get('A');
+// a1 !== a2
+
+// a1.b === a2.b === b
+
+const b1 = di.get('B');
+const b2 = di.get('B');
+// b1 === b2 === b
 
 ```
 
 ##### 4.3.3 sharedInTree
-...
+In some cases, you may want to share a a single instance of a class between every class in one tree but if another instance of the top level class is created, have a second instance of the tree.
+
+For instance, imagine a MVC triad where the model needs to be shared between the controller and view, but if another instance of the controller and view are created, they need a new instance of their model shared between them.
+
+The best way to explain this is a practical demonstration:
 ```javascript
+class A {    
+    constructor(b, c){
+		this.b = b;
+		this.c = c;
+    }
+}
+
+class B {
+    constructor(d){
+        this.d = d;
+    }
+}
+
+class C {
+    constructor(d){
+        this.d = d;
+    }
+}
+
+class D {}
+
+di.addRule('A', {
+	'sharedInTree': ['D'],
+});
+
+const a = di.get('A');
+
+// Anywhere that asks for an instance D within the tree that existis within A will be given the same instance:
+// Both the B and C objects within the tree will share an instance of D
+( a.b.d === a.c.d )
+
+// However, create another instance of A and everything in this tree will get its own instance of D:
+const a2 = di.get('A');
+( a2.b.d === a2.c.d )
+
+( a.b.d !== a2.b.d )
+( a.c.d !== a2.c.d )
 
 ```
+
+By using "sharedInTree" it's possible to mark D as shared within each instance of an object tree.
+The important distinction between this and global shared objects is that this object is only shared within a single instance of the object tree. 
 
 
 #### 4.4. rule inheritance
