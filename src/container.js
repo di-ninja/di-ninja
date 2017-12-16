@@ -377,7 +377,7 @@ export default class Container{
 			};
 		}
 		if(this.validateAutoloadFileName(key)){
-			if(rule.autoload){
+			if(rule.autoload || rule.path){
 				const path = rule.path || key;
 				const req = this.requireDep(key, path);
 				if(req){
