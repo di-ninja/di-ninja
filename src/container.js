@@ -144,7 +144,7 @@ export default class Container{
 			return;
 		}
 		switch(key){
-			case 'autoloadFailOnMissingFile ':
+			case 'autoloadFailOnMissingFile':
 			case 'autoloadExtensions':
 			case 'defaultVar':
 			case 'defaultRuleVar':
