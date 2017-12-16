@@ -767,7 +767,7 @@ because the Symbol will be set whatever the decorator key value is.
 
 ```
 
-#### 4.5. asynchrone dependencies resolution
+#### 4.5. asynchronous dependencies resolution
 ...
 ```javascript
 
@@ -786,21 +786,24 @@ because the Symbol will be set whatever the decorator key value is.
 ```
 
 #### 4.6 dependency file location
-...
-```javascript
-
-```
+The following rule's keys are about dependency file location.  
 
 ##### 4.6.1 autoload
-...
+type: **boolean** (default false)
+
+When set to **true**, check for allready registred dependency and if not, in node, try to require it,
+if dependency not found it can maybe throw an Error according to [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile) container config.
 ```javascript
 
 ```
 
 ##### 4.6.2 path
-...
-```javascript
+type: **string**  
+path of dependency file
 
+You can traverse exported and get specific key using ":" character.
+```javascript
+ 
 ```
 
 
