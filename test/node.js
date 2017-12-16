@@ -28,6 +28,7 @@ describe('rules',function(){
 	loadTest('rules/asyncCallsParamsSerie');
 	
 	loadTest('rules/autoload');
+	loadTest('rules/path');
 	
 	loadTest('decorator');
 
