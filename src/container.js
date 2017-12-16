@@ -376,13 +376,25 @@ export default class Container{
 				return new classDefinition(...args);
 			};
 		}
-		if(this.validateAutoloadFileName(key)){
-			if(rule.autoload || rule.path){
-				const path = rule.path || rule.instanceOf || key;
-				const req = this.requireDep(key, path);
-				if(req){
-					this.registerRequire(key, req);
+		if(rule.autoload || rule.path){
+			let path = rule.path;
+			if(!path){
+				if(rule.instanceOf){
+					if(this.rules[rule.instanceOf]){
+						return;
+					}
+					path = rule.instanceOf;
 				}
+				else if(this.validateAutoloadFileName(key)){
+					path = key;
+				}
+				else{
+					return;
+				}
+			}
+			const req = this.requireDep(key, path);
+			if(req){
+				this.registerRequire(key, req);
 			}
 		}
 	}
