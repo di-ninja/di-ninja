@@ -400,8 +400,10 @@ export default class Container{
 		}
 		
 		requirePath = this.autoloadPathResolver(requirePath);
+		if(typeof requirePath === 'symbol') return;
 		
 		const found = this.autoloadExtensions.concat('').some( ext => {
+			
 			
 			const pathFragments = requirePath.split(':');
 			
