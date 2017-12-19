@@ -900,9 +900,9 @@ This is required to enable [inheritPrototype](#442-inheritprototype) feature.
 
 #### 4.5. asynchronous dependencies resolution
 The following rule's keys allow you to manage the asynchronous dependencies resolution flow.  
-When a dependency return a promise and this promise is waited for resolution by one of the corresponding rule
-([asyncResolve](#541-asyncresolve), [asyncCallsSerie](#452-asynccallsserie) or [asyncCallsParamsSerie](#453-asynccallsparamsserie)),
-the outputed object of "di.get()" method will be a [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) object,
+When a dependency return a [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise)
+and this promise is waited for resolution by [asyncResolve](#541-asyncresolve),
+the outputed object of "di.get()" method will be a Promise object,
 wich will be resolved by the expected object.
 
 ##### 4.5.1 asyncResolve
