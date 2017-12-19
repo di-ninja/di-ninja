@@ -896,7 +896,7 @@ When set to **true**, a [Symbol](https://developer.mozilla.org/fr/docs/Web/JavaS
 will be set on class or factory function, allowing to use [inheritPrototype](#442-inheritprototype).
 If the [decorator injection approach](#22-decorator-injection-approach) is used, it's not necessary to configure this rule,
 because the Symbol will be set whatever the decorator key value is.  
-This is required to enable [442-inheritprototype](#inheritPrototype) feature.
+This is required to enable [inheritPrototype](#442-inheritprototype) feature.
 
 #### 4.5. asynchronous dependencies resolution
 The following rule's keys allow you to manage the asynchronous dependencies resolution flow.  
