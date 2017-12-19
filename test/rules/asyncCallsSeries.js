@@ -19,15 +19,15 @@ export default ({di, assert, sinon})=>{
 			}
 		}
 		
-		async function B(d){
-			return await new Promise((resolve)=>{
+		function B(d){
+			return new Promise((resolve)=>{
 				setTimeout(()=>{
 					resolve(d)
 				}, 200);
 			});
 		}
-		async function C(d){
-			return await new Promise((resolve)=>{
+		function C(d){
+			return new Promise((resolve)=>{
 				setTimeout(()=>{
 					resolve(d);
 				}, 100);
