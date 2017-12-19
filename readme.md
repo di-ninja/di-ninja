@@ -132,8 +132,19 @@ It's here that you will configure many rules for your components and wire them t
 Using only the Composition Root design pattern has the advantage to let you have totaly unopinionated components,
 all your classes and factories can keep uncoupled from the dependency injector (di-ninja).
 
-
+example with ES6 class syntax
 ```javascript
+class A{
+	constructor(b){
+		this.b = b;
+	}
+}
+class B{
+	constructor(){
+		this.foo = bar;
+	}
+}
+
 di.addRules({
     'A': {
       classDef: A,
@@ -148,6 +159,39 @@ di.addRules({
 di.get('A')
 ```
 
+example with function as constructor or factory
+```javascript
+
+//function as a constructor
+function A(b){
+	this.b = b;
+}
+
+//function as a factory
+function B(){
+	const object = { foo: 'bar' };
+	
+	// if we return an object or other value than undefined,
+	// this function will be treated by javascript as a factory
+	
+	return object;
+}
+
+di.addRules({
+    'A': {
+      classDef: A,
+      params: [ 'B' ],
+    },
+    'B': {
+      classDef: B,
+    },
+  }
+})
+
+di.get('A')
+```
+
+
 #### 2.2 Decorator injection approach
 
 The Decorator injection approach let your components define their own dependencies.  
@@ -156,6 +200,8 @@ or on direct class or factory definition.
 It can be used in addition to the Composition-Root and replace the rule's key "[params](#411-params)" and also the parameters of call argument for rule's key "[calls](#412-calls)" and "[lazyCalls](#413-lazycalls)".
 
 ##### 2.2.1 abstract class
+
+example with ES6 class syntax
 ```javascript
 di.addRule('B',{
   classDef: B,
@@ -167,6 +213,20 @@ class A{
     this.b = b;
   }
 }
+
+di.get('A')
+```
+
+example with function as constructor or factory
+```javascript
+di.addRule('B',{
+  classDef: B,
+})
+
+function A(b){
+    this.b = b;
+}
+di( 'A', ['B'] )( A );
 
 di.get('A')
 ```
@@ -528,7 +588,7 @@ class A{}
 
 di.addRule('A',{ classDef: A ]);
 
-( di.get('A') instanceof A ) === true
+assert( di.get('A') instanceof A );
 ```
 
 ##### 4.2.2 instanceOf
@@ -540,7 +600,7 @@ Refers to the name of another rule containing "[classDef](#421-classdef)" or "in
 di.addRule('A',{ classDef: A });
 di.addRule('B',{ instanceOf: 'A' });
 
-( di.get('B') instanceof A ) === true
+assert( di.get('B') instanceof A );
 ```
 
 ##### 4.2.3 substitutions
@@ -564,7 +624,7 @@ di.addRule('A',{
 	substitutions: [ 'C' ],
 });
 
-( di.get('A').B instanceof C ) === true
+assert( di.get('A').B instanceof C );
 ```
 
 associative key
@@ -579,7 +639,7 @@ di.addRule('A',{
 	substitutions: { 'B': 'C' },
 });
 
-( di.get('A').B instanceof C ) === true
+assert( di.get('A').B instanceof C );
 ```
 
 associative key for calls
@@ -596,7 +656,7 @@ di.addRule('A',{
 	substitutions: { 'B': 'C' },
 });
 
-( di.get('A').dep instanceof C ) === true
+assert( di.get('A').dep instanceof C )
 ```
 
 
@@ -626,13 +686,13 @@ di.addRules({
 
 const a1 = di.get('A');
 const a2 = di.get('A');
-// a1 !== a2
+assert( a1 !== a2 );
 
-// a1.b === a2.b
+assert( a1.b === a2.b );
 
 const b1 = di.get('B');
 const b2 = di.get('B');
-// b1 === b2
+assert( b1 === b2 );
 
 ```
 
@@ -661,13 +721,13 @@ di.addRules({
 
 const a1 = di.get('A');
 const a2 = di.get('A');
-// a1 !== a2
+assert( a1 !== a2 );
 
-// a1.b === a2.b === b
+assert( a1.b === a2.b === b );
 
 const b1 = di.get('B');
 const b2 = di.get('B');
-// b1 === b2 === b
+assert( b1 === b2 === b );
 
 ```
 
@@ -707,14 +767,14 @@ const a = di.get('A');
 
 // Anywhere that asks for an instance D within the tree that existis within A will be given the same instance:
 // Both the B and C objects within the tree will share an instance of D
-( a.b.d === a.c.d )
+assert( a.b.d === a.c.d );
 
 // However, create another instance of A and everything in this tree will get its own instance of D:
 const a2 = di.get('A');
-( a2.b.d === a2.c.d )
+assert( a2.b.d === a2.c.d );
 
-( a.b.d !== a2.b.d )
-( a.c.d !== a2.c.d )
+assert( a.b.d !== a2.b.d );
+assert( a.c.d !== a2.c.d );
 
 ```
 
@@ -736,6 +796,26 @@ type: **boolean** (default true)
 Enable inheritance of rules from instanceOf parents classes.
 
 ```javascript
+class X{
+	constructor(x){
+		this.x = x;
+	}
+}
+		
+di.addRules({
+	'X':{
+		classDef: X,
+		params: [ di.value('ok') ],
+		shared: true,
+	},
+	'Y':{
+		instanceOf: 'X',
+		inheritInstanceOf: true,
+	},
+});
+
+assert( di.get('Y').x === 'ok' );
+assert( di.get('Y') === di.get('Y') );
 
 ```
 
