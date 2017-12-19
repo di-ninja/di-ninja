@@ -906,6 +906,12 @@ the outputed object of "di.get()" method will be a Promise object,
 wich will be resolved by the expected object.
 
 ##### 4.5.1 asyncResolve
+type: **boolean** (default false)
+
+When set to **true**, if a factory return a Promise, the dependency tree will wait for it's resolution,
+and then call the requiring dependency with the Promise's resolved value.  
+Promise is detected with instanceof operator, if you want to use a specific Promise polyfill (eg: [bluebird](http://bluebirdjs.com)) you can use
+the [promiseFactory](#513-promisefactory) and [promiseInterfaces](#514-promiseinterfaces) container's config options.
 
 ```javascript
 function A(b, c){
@@ -942,9 +948,80 @@ di.get('A').then(a => {
 ```
 
 ##### 4.5.2 asyncCallsSerie
-...
-```javascript
+type: **boolean** (default false)
 
+When set to **true**, defer [calls](#412-calls) sequentially and dependency resolution when the method or callback return a Promise.
+
+```javascript
+class A{
+	setB(d){
+		this.b = ++d.i;
+	}
+	setC(d){
+		this.c = ++d.i;
+	}
+}
+
+function B(d){
+	return new Promise((resolve)=>{
+		setTimeout(()=>{
+			resolve(d)
+		}, 200);
+	});
+}
+function C(d){
+	return new Promise((resolve)=>{
+		setTimeout(()=>{
+			resolve(d);
+		}, 100);
+	});
+}
+
+function D(){
+	this.i = 0;
+}
+
+di.addRules({
+	'A': {
+		classDef: A,
+		calls: [
+			['setB', ['B'] ],
+			['setC', ['C'] ],
+		],
+		sharedInTree: ['D'],
+		asyncCallsSerie: false, //default
+	},
+	'A2': {
+		instanceOf: 'A',
+		asyncCallsSerie: true,
+	},
+	
+	'B': {
+		classDef: B,
+		params: ['D'],
+		asyncResolve: true,
+	},
+	'C': {
+		classDef: C,
+		params: ['D'],
+		asyncResolve: true,
+	},
+	'D':{
+		classDef: D,
+	},
+	
+	
+});
+
+di.get('A').then( a => {
+	assert.strictEqual(a.b, 2);
+	assert.strictEqual(a.c, 1);
+} );
+
+di.get('A2').then( a => {
+	assert.strictEqual(a.b, 1);
+	assert.strictEqual(a.c, 2);
+} );
 ```
 
 ##### 4.5.3 asyncCallsParamsSerie
