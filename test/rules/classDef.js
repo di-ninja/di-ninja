@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	
 	return function(){
 		
@@ -10,7 +10,7 @@ export default ({di, expect})=>{
 		
 		it('should return an instance of A',function(){
 			const instance = di.get('A');
-			expect(instance).instanceof(A);
+			assert.instanceOf(instance, A);
 		});
 		
 	};

@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class N{
@@ -180,9 +180,9 @@ export default ({di, expect})=>{
 			it('should return params passed to method configured by the rule',function(){
 				const instance = di.get('N');
 				const [{ o }] = instance.getParams();
-				expect(o).instanceof(O);
+				assert.instanceOf(o, O);
 				const { n } = o.getParams();
-				expect(n).equal(instance);
+				assert.strictEqual(n, instance);
 			});
 			
 		});
@@ -192,9 +192,9 @@ export default ({di, expect})=>{
 			it('should return params passed to method configured by the rule',function(){
 				const instance = di.get('P');
 				const [{ q }] = instance.getParams();
-				expect(q).instanceof(Q);
+				assert.instanceOf(q, Q);
 				const { p } = q.getParams();
-				expect(p).equal(instance);
+				assert.strictEqual(p, instance);
 			});
 			
 		});
@@ -205,11 +205,11 @@ export default ({di, expect})=>{
 			it('should return params passed to method configured by the rule',function(){
 				const instance = di.get('R');
 				const [{ s }] = instance.getParams();
-				expect(s).instanceof(S);
+				assert.instanceOf(s, S);
 				const [{ t }] = s.getParams();
-				expect(t).instanceof(T);
+				assert.instanceOf(t, T);
 				const { r } = t.getParams();
-				expect(r).equal(instance);
+				assert.strictEqual(r, instance);
 			});
 			
 		});
@@ -219,11 +219,11 @@ export default ({di, expect})=>{
 			it('should return params passed to method configured by the rule',function(){
 				const instance = di.get('U');
 				const [{ v }] = instance.getParams();
-				expect(v).instanceof(V);
+				assert.instanceOf(v, V);
 				const [{ w }] = v.getParams();
-				expect(w).instanceof(W);
+				assert.instanceOf(w, W);
 				const { u } = w.getParams();
-				expect(u).equal(instance);
+				assert.strictEqual(u, instance);
 			});
 			
 		});

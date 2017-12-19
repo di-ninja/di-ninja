@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	
 	return function(){		
 		
@@ -55,7 +55,7 @@ export default ({di, expect})=>{
 		
 		it('should return an instance of B',function(){
 			const instance = di.get('A');
-			expect(instance.B).instanceof( B );
+			assert.instanceOf(instance.B,  B);
 		});
 		
 		
@@ -64,23 +64,23 @@ export default ({di, expect})=>{
 		
 		it('should return an instance of B',function(){
 			const instance = di.get('C');
-			expect(instance.B).instanceof( B );
+			assert.instanceOf(instance.B, B);
 		});
 		it('should not return an instance of B',function(){
 			const instance = di.get('C');
 			instance.method();
-			expect(instance.B).not.instanceof( B );
+			assert.notInstanceOf(instance.B, B);
 		});
 		
 		it('should return an instance of B',function(){
 			const instance = di.get('D');
 			instance.method();
-			expect(instance.B).instanceof( B );
+			assert.instanceOf(instance.B, B);
 		});
 		it('should return an instance of B',function(){
 			const instance = di.get('E');
 			instance.method();
-			expect(instance.B).instanceof( B );
+			assert.instanceOf(instance.B, B);
 		});
 		
 	};

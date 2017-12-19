@@ -1,5 +1,5 @@
 import path from 'path'
-import { expect } from 'chai'
+import { assert } from 'chai'
 
 import loadTestFactory from './utils/loadTestFactory'
 import container from '../src/node'
@@ -64,29 +64,29 @@ describe('dependencies',function(){
 	
 	it('sould be instance of A',function(){
 		const A = di.get('app/A');
-		expect(A).instanceof( require('./autoload/A').default );
+		assert.instanceOf(A, require('./autoload/A').default);
 	});
 	
 	it('sould be instance of B',function(){
 		const B = di.get('app/B');
-		expect(B).instanceof( require('./autoload/B').default );
+		assert.instanceOf(B, require('./autoload/B').default);
 	});
 	
 	it('sould be instance of C',function(){
 		const C = di.get('app/B/C');
-		expect(C).instanceof( require('./autoload/B/C').default );
+		assert.instanceOf(C, require('./autoload/B/C').default);
 	});
 	
 	
 	
 	it('sould be instance of A',function(){
 		const A = di.get('A');
-		expect(A).instanceof( require('./autoload/A').default );
+		assert.instanceOf(A, require('./autoload/A').default);
 	});
 	
 	it('sould be instance of B',function(){
 		const B = di.get('B');
-		expect(B).instanceof( require('./autoload/B').default );
+		assert.instanceOf(B, require('./autoload/B').default);
 	});
 	
 });

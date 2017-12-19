@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 
 	return function(){
 		
@@ -34,7 +34,7 @@ export default ({di, expect})=>{
 			
 			const a = di.get('A').getParams();
 			const b = di.get('B').getParams();
-			expect(b).eql(a);
+			assert.deepEqual(b, a);
 			
 		});
 	

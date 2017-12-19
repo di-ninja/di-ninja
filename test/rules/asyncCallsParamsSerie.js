@@ -1,6 +1,6 @@
 //waiting for https://github.com/sinonjs/lolex/pull/105#pullrequestreview-49708156
 
-export default ({di, expect, sinon})=>{
+export default ({di, assert, sinon})=>{
 	
 	return function(){
 		
@@ -79,7 +79,7 @@ export default ({di, expect, sinon})=>{
 				
 				a = await a;
 				
-				return expect(a.b).equal(1);
+				return assert.strictEqual(a.b, 1);
 			});
 			
 			it('a.c should be equal to 2',async function(){
@@ -90,7 +90,7 @@ export default ({di, expect, sinon})=>{
 				clock.runAll();
 				clock.restore();
 				
-				return expect(a.c).equal(2);
+				return assert.strictEqual(a.c, 2);
 			});
 			
 		});

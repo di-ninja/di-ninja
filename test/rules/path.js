@@ -1,6 +1,6 @@
 import path from 'path'
 
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	
 	return function(){
 		
@@ -45,37 +45,37 @@ export default ({di, expect})=>{
 		
 		it('should return an instance of C',function(){
 			const instance = di.get('C');
-			expect(instance).instanceof( require('../autoload/C').default );
+			assert.instanceOf(instance, require('../autoload/C').default);
 		});
 		
 		it('should return an instance of D',function(){
 			const instance = di.get('D');
-			expect(instance).instanceof( require('../autoload/D').classes.D );
+			assert.instanceOf(instance, require('../autoload/D').classes.D);
 		});
 		
 		it('should return an instance of D',function(){
 			const instance = di.get('D2');
-			expect(instance).instanceof( require('../autoload/D').classes.D );
+			assert.instanceOf(instance, require('../autoload/D').classes.D);
 		});
 		
 		it('should return an instance of http:Server',function(){
 			const instance = di.get('server');
-			expect(instance).instanceof( require('http').Server );
+			assert.instanceOf(instance, require('http').Server);
 		});
 		
 		it('should return an instance of http:Server',function(){
 			const instance = di.get('server2');
-			expect(instance).instanceof( require('http').Server );
+			assert.instanceOf(instance, require('http').Server);
 		});
 		
 		it('should return an instance of http:Server',function(){
 			const instance = di.get('#server3');
-			expect(instance).instanceof( require('http').Server );
+			assert.instanceOf(instance, require('http').Server);
 		});
 		
 		it('should return an instance of http:Server',function(){
 			const instance = di.get('#server4');
-			expect(instance).instanceof( require('http').Server );
+			assert.instanceOf(instance, require('http').Server);
 		});
 		
 	};

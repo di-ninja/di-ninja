@@ -1,4 +1,4 @@
-import { expect } from 'chai'
+import { assert } from 'chai'
 import sinon from 'sinon'
 
 import{
@@ -16,7 +16,7 @@ export default function loadTestFactory(container, requireCaller){
 		
 		const fn = factory({
 			di,
-			expect,
+			assert,
 			sinon,
 		});
 		

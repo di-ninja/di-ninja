@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 
 	return function(){
 		
@@ -63,7 +63,7 @@ export default ({di, expect})=>{
 			it('should not be same configuration as Z',function(){
 				const z = di.get('Z').getParams();
 				const z2 = di.get('Z2').getParams();
-				expect(z2).not.eql(z);
+				assert.notDeepEqual(z2, z);
 			});
 			
 		});
@@ -74,7 +74,7 @@ export default ({di, expect})=>{
 				
 				const z = di.get('Z').getParams();
 				const z3 = di.get('Z3').getParams();
-				expect(z3).eql(z);
+				assert.deepEqual(z3, z);
 				
 			});
 			
@@ -87,7 +87,7 @@ export default ({di, expect})=>{
 				
 				const one = di.get('One').getParams();
 				const two = di.get('Two').getParams();
-				expect(two).not.eql(one);
+				assert.notDeepEqual(two, one);
 				
 			});
 			

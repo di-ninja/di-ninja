@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class A{
@@ -162,8 +162,8 @@ export default ({di, expect})=>{
 			it('should return substituted instances',function(){
 				const instance = di.get('SubstitutionsParentIndex');
 				const [ e, f ] = instance.getParams();
-				expect(e).instanceof(E);
-				expect(f).instanceof(F);
+				assert.instanceOf(e, E);
+				assert.instanceOf(f, F);
 			});
 			
 		});
@@ -173,8 +173,8 @@ export default ({di, expect})=>{
 			it('should return substituted instances',function(){
 				const instance = di.get('SubstitutionsParentAssoc');
 				const [ e, f ] = instance.getParams();
-				expect(e).instanceof(E);
-				expect(f).instanceof(F);
+				assert.instanceOf(e, E);
+				assert.instanceOf(f, F);
 			});
 			
 		});
@@ -184,8 +184,8 @@ export default ({di, expect})=>{
 			it('should return substituted values',function(){
 				const instance = di.get('SubstitutionsParentIndexWithValue');
 				const [ e, f ] = instance.getParams();
-				expect(e).equal('E');
-				expect(f).equal('F');
+				assert.strictEqual(e, 'E');
+				assert.strictEqual(f, 'F');
 			});
 			
 		});
@@ -195,8 +195,8 @@ export default ({di, expect})=>{
 			it('should return substituted values',function(){
 				const instance = di.get('SubstitutionsParentAssocWithValue');
 				const [ e, f ] = instance.getParams();
-				expect(e).equal('E');
-				expect(f).equal('F');
+				assert.strictEqual(e, 'E');
+				assert.strictEqual(f, 'F');
 			});
 			
 		});
@@ -206,8 +206,8 @@ export default ({di, expect})=>{
 			it('should return substituted values',function(){
 				const instance = di.get('SubstitutionsParentAssocInSubkey');
 				const [ o ] = instance.getParams();
-				expect(o.subkey.A).equal('E');
-				expect(o.subkey.B).equal('F');
+				assert.strictEqual(o.subkey.A, 'E');
+				assert.strictEqual(o.subkey.B, 'F');
 			});
 			
 		});
@@ -217,8 +217,8 @@ export default ({di, expect})=>{
 			it('should return substituted instances',function(){
 				const instance = di.get('SubstitutionsParentAssocWithCalls');
 				const [ h, i ] = instance.getParams();
-				expect(h).instanceof(H);
-				expect(i).instanceof(I);
+				assert.instanceOf(h, H);
+				assert.instanceOf(i, I);
 			});
 			
 		});

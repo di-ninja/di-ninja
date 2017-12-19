@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class A{
@@ -74,7 +74,8 @@ export default ({di, expect})=>{
 				const [ {a, i} ] = instance.getParams();
 				const [ {a: a2, j} ] = i.getParams();
 				const [ a3 ] = j.getParams();
-				expect(a).equal(a2).equal(a3);
+				assert.strictEqual(a, a2);
+				assert.strictEqual(a, a3);
 			});
 			
 		});
@@ -86,7 +87,7 @@ export default ({di, expect})=>{
 				const [ {i} ] = instance.getParams();
 				const [ {a, j} ] = i.getParams();
 				const [ a2 ] = j.getParams();
-				expect(a).equal(a2);
+				assert.strictEqual(a, a2);
 			});
 			
 		});

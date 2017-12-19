@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	
 	return function(){
 		
@@ -33,18 +33,18 @@ export default ({di, expect})=>{
 			
 			it('waitA sould be promise',async function(){
 				const instance = di.get('A');
-				//return expect(instance).instanceof(Promise);
-				return expect(typeof instance == 'object' && instance !== null && typeof instance.then === 'function').equal(true);
+				//return assert.instanceOf(instance, Promise);
+				return assert(typeof instance == 'object' && instance !== null && typeof instance.then === 'function');
 			});
 			
 			it('a.b sould be promise',async function(){
 				const instance = di.get('A');
-				//return expect(instance.b).instanceof(Promise);
-				return expect(typeof instance == 'object' && instance !== null && typeof instance.then === 'function').equal(true);
+				//return assert.instanceOf(instance.b, Promise);
+				return assert(typeof instance == 'object' && instance !== null && typeof instance.then === 'function');
 			});
 			it('a.c should be resolved value of promise',async function(){
 				const a = await di.get('A');
-				return expect(a.c).equal('c');
+				return assert.strictEqual(a.c, 'c');
 			});
 			
 		});

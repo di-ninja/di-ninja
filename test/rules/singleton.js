@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class A{}
@@ -12,7 +12,7 @@ export default ({di, expect})=>{
 		it('should return the same instance',function(){
 			const A1 = di.get('A');
 			const A2 = di.get('A');
-			expect(A1).equal(A2);
+			assert.strictEqual(A1, A2);
 		});
 	
 	};

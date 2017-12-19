@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class X{
@@ -49,7 +49,7 @@ export default ({di, expect})=>{
 				
 				const x = di.get('X');
 				const x2 = di.get('X2');
-				expect(x2).eql(x);
+				assert.deepEqual(x2,x);
 				
 			});
 			
@@ -61,7 +61,7 @@ export default ({di, expect})=>{
 			it('should not be same configuration as Y',function(){
 				const y = di.get('Y');
 				const y2 = di.get('Y2');
-				expect(y2).not.eql(y);
+				assert.notDeepEqual(y2,y);
 			});
 			
 		});

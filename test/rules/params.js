@@ -5,7 +5,7 @@ import{
 
 import InterfaceTypeError from '../../src/interfaceTypeError'
 
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class A{
@@ -126,7 +126,7 @@ export default ({di, expect})=>{
 			it('sould return params from rule',function(){
 				const instance = di.get('A');
 				const paramsOfA = instance.getParams();
-				expect(paramsOfA).eql([1, 2, 3]);
+				assert.deepEqual(paramsOfA, [1, 2, 3]);
 			});
 		});
 		
@@ -134,7 +134,7 @@ export default ({di, expect})=>{
 			it('sould return params passed to get call',function(){
 				const instance = di.get('A', [di.value(4), di.value(5), di.value(6)]);
 				const paramsOfA = instance.getParams();
-				expect(paramsOfA).eql([4, 5, 6]);
+				assert.deepEqual(paramsOfA, [4, 5, 6]);
 			});
 		});
 		
@@ -142,8 +142,8 @@ export default ({di, expect})=>{
 			it('sould return instances from rule\'s params',function(){
 				const instance = di.get('C');
 				const [ a, b ] = instance.getParams();
-				expect(a).instanceof(A);
-				expect(b).instanceof(B);
+				assert.instanceOf(a, A);
+				assert.instanceOf(b, B);
 			});
 		});
 		
@@ -151,8 +151,8 @@ export default ({di, expect})=>{
 			it('sould return instances from call\'s params',function(){
 				const instance = di.get('C', ['A','B']);
 				const [ a, b ] = instance.getParams();
-				expect(a).instanceof(A);
-				expect(b).instanceof(B);
+				assert.instanceOf(a, A);
+				assert.instanceOf(b, B);
 			});
 		});
 		
@@ -161,8 +161,8 @@ export default ({di, expect})=>{
 				const instance = di.get('D');
 				const [ c ] = instance.getParams();
 				const [ a, b ] = c.getParams();
-				expect(a).instanceof(A);
-				expect(b).instanceof(B);
+				assert.instanceOf(a, A);
+				assert.instanceOf(b, B);
 			});
 		});
 		
@@ -171,8 +171,8 @@ export default ({di, expect})=>{
 				const instance = di.get('D', ['C']);
 				const [ c ] = instance.getParams();
 				const [ a, b ] = c.getParams();
-				expect(a).instanceof(A);
-				expect(b).instanceof(B);
+				assert.instanceOf(a, A);
+				assert.instanceOf(b, B);
 			});
 		});
 		
@@ -180,8 +180,8 @@ export default ({di, expect})=>{
 			it('sould return values from factories from call\'s params',function(){
 				const instance = di.get('E');
 				const [ a, b ] = instance.getParams();
-				expect(a).equal('A');
-				expect(b).instanceof(B);
+				assert.strictEqual(a, 'A');
+				assert.instanceOf(b, B);
 			});
 		});
 		
@@ -189,8 +189,8 @@ export default ({di, expect})=>{
 			it('sould return values from factories from call\'s params',function(){
 				const instance = di.get('E', [di.valueFactory(()=>new A()),di.valueFactory(()=>'B')]);
 				const [ a, b ] = instance.getParams();
-				expect(a).instanceof(A);
-				expect(b).equal('B');
+				assert.instanceOf(a, A);
+				assert.strictEqual(b, 'B');
 			});
 		});
 		
@@ -198,14 +198,14 @@ export default ({di, expect})=>{
 			it('sould return instance of class definition',function(){
 				const instance = di.get('F');
 				const [ a ] = instance.getParams();
-				expect(a).instanceof(A);
+				assert.instanceOf(a, A);
 			});
 		});
 		describe('direct class definition from manual call',function(){
 			it('sould return instance of class definition',function(){
 				const instance = di.get('F', [ A ]);
 				const [ a ] = instance.getParams();
-				expect(a).instanceof(A);
+				assert.instanceOf(a, A);
 			});
 		});
 		
@@ -214,14 +214,14 @@ export default ({di, expect})=>{
 			it('sould return instance of class definition',function(){
 				const instance = di.get('F', [ I ]);
 				const [ a ] = instance.getParams();
-				expect(a).instanceof(A);
+				assert.instanceOf(a, A);
 			});
 		});
 		describe('direct interface definition by symbol from rules',function(){
 			it('sould return instance of class definition',function(){
 				const instance = di.get('G');
 				const [ a ] = instance.getParams();
-				expect(a).instanceof(A);
+				assert.instanceOf(a, A);
 			});
 		});
 		
@@ -229,7 +229,7 @@ export default ({di, expect})=>{
 			it('sould return instance of class definition',function(){
 				const instance = di.get('H');
 				const [ a ] = instance.getParams();
-				expect(a).instanceof(A);
+				assert.instanceOf(a, A);
 			});
 		});
 		
@@ -245,12 +245,13 @@ export default ({di, expect})=>{
 				catch(e){
 					error = e;
 				}
-				expect(b).not.instanceof(B);
-				expect(error instanceof Error).equal(true);
-				expect(error instanceof TypeError).equal(true);
+				assert.notInstanceOf(b, B);
 				
-				//expect(error instanceof InterfaceTypeError).equal(true);
-				expect(error.errorName).equal('interfaceTypeError');
+				assert.instanceOf(error, Error);
+				assert.instanceOf(error, TypeError);
+				
+				//assert.instanceOf(error, InterfaceTypeError);
+				assert.strictEqual(error.errorName, 'interfaceTypeError');
 			});
 		});
 	

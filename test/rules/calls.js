@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class A{
@@ -58,7 +58,7 @@ export default ({di, expect})=>{
 			it('should return params passed to method configured by the rule',function(){
 				const instance = di.get('L');
 				const { foo } = instance.getParams();
-				expect(foo).equal('bar');
+				assert.strictEqual(foo, 'bar');
 			});
 			
 		});
@@ -68,7 +68,7 @@ export default ({di, expect})=>{
 			it('should return params passed to method configured by the rule',function(){
 				const instance = di.get('M');
 				const { a } = instance.getParams();
-				expect(a).instanceof(A);
+				assert.instanceOf(a, A);
 			});
 			
 		});

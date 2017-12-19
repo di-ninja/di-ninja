@@ -1,4 +1,4 @@
-export default ({di, expect})=>{
+export default ({di, assert})=>{
 	return function(){
 		
 		class A{}
@@ -18,13 +18,13 @@ export default ({di, expect})=>{
 		describe('instanceOf',function(){
 			it('should return an instance of A',function(){
 				const instance = di.get('akaOfA');
-				expect(instance).instanceof(A);
+				assert.instanceOf(instance, A);
 			});
 		});
 		describe('instanceOf recursive',function(){
 			it('should return an instance of A',function(){
 				const instance = di.get('recursiveAkaOfA');
-				expect(instance).instanceof(A);
+				assert.instanceOf(instance, A);
 			});
 		});
 	

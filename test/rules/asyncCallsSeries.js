@@ -1,4 +1,4 @@
-export default ({di, expect, sinon})=>{
+export default ({di, assert, sinon})=>{
 	
 	return function(){
 		
@@ -77,14 +77,14 @@ export default ({di, expect, sinon})=>{
 				let a = di.get('A');
 				clock.runAll();
 				a = await a;
-				return expect(a.b).equal(2);
+				return assert.strictEqual(a.b, 2);
 			});
 			
 			it('a.c should be equal to 2',async function(){
 				let a = di.get('A');
 				clock.runAll();
 				a = await a;
-				return expect(a.c).equal(1);
+				return assert.strictEqual(a.c, 1);
 			});
 			
 		});
@@ -95,14 +95,14 @@ export default ({di, expect, sinon})=>{
 				let a = di.get('A2');
 				clock.runAll();
 				a = await a;
-				return expect(a.b).equal(1);
+				return assert.strictEqual(a.b, 1);
 			});
 			
 			it('a.c should be equal to 2',async function(){
 				let a = di.get('A2');
 				clock.runAll();
 				a = await a;
-				return expect(a.c).equal(2);
+				return assert.strictEqual(a.c, 2);
 			});
 			
 		});
