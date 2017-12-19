@@ -950,7 +950,8 @@ di.get('A').then(a => {
 ##### 4.5.2 asyncCallsSerie
 type: **boolean** (default false)
 
-When set to **true**, defer [calls](#412-calls) sequentially and dependency resolution when the method or callback return a Promise.
+When set to **true**, defer [calls](#412-calls) and dependency resolution sequentially
+when the method or callback require a dependency returning a Promise and for wich [asyncResolve](#451-asyncresolve) rule option setted to true.
 
 ```javascript
 class A{
