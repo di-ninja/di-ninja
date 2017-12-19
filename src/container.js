@@ -123,6 +123,7 @@ export default class Container{
 			
 			asyncResolve: false,
 			asyncCallsSerie: false,
+			asyncCallsParamsSerie: false,
 			
 			decorator: false,
 			
