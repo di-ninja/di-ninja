@@ -74,6 +74,7 @@ $ npm i di-ninja
 	5. [asynchrone dependencies resolution](#45-asynchrone-dependencies-resolution)
 		1. [asyncResolve](#451-asyncresolve)
 		2. [asyncCallsSerie](#452-asynccallsserie)
+		3. [asyncCallsParamsSerie](#453-asynccallsparamsserie)
 		
 	6. [dependency file location](#46-dependency-file-location)
 		1. [autoload](#461-autoload)
@@ -825,6 +826,28 @@ type: **boolean** (default false)
 Enable inheritance of rules from ES6 extended parents classes.  
 "[decorator](#444-decorator)" must be enabled to parents rules you want to extend from.
 ```javascript
+class Z{
+	constructor(...params){
+		this.params = params;
+	}
+}
+class ZX extends Z{}
+
+di.addRules({
+	'Z': {
+		classDef: Z,
+		params: [ di.value(1), di.value(2), di.value(3) ],
+		decorator: true, //needed for parent class by extended using inheritPrototype
+	},
+	'Z2': {
+		classDef: ZX,
+		inheritPrototype: true,
+	},
+});
+
+const z   = di.get('Z').getParams();
+const z2  = di.get('Z2').getParams();
+assert.deepEqual(z2, z);
 
 ```
 
@@ -833,7 +856,37 @@ type: **array**
 
 Enable inheritance from a list of specified rules.
 ```javascript
+class A{
+	constructor(...params){
+		this.params = params;
+	}
+	getParams(){
+		return this.params;
+	}
+}
+class B{
+	constructor(...params){
+		this.params = params;
+	}
+	getParams(){
+		return this.params;
+	}
+}
 
+di.addRules({
+	'A':{
+		classDef: A,
+		params: [ di.value('a') ],
+	},
+	'B':{
+		classDef: B,
+		inheritMixins: [ 'A' ],
+	},
+});
+
+const a = di.get('A').getParams();
+const b = di.get('B').getParams();
+assert.deepEqual(b, a);	
 ```
 
 ##### 4.4.4 decorator
@@ -842,24 +895,59 @@ type: **boolean** (default false)
 When set to **true**, a [Symbol](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Symbol) property
 will be set on class or factory function, allowing to use [inheritPrototype](#442-inheritprototype).
 If the [decorator injection approach](#22-decorator-injection-approach) is used, it's not necessary to configure this rule,
-because the Symbol will be set whatever the decorator key value is.
-```javascript
-
-```
+because the Symbol will be set whatever the decorator key value is.  
+This is required to enable [442-inheritprototype](#inheritPrototype) feature.
 
 #### 4.5. asynchronous dependencies resolution
-...
-```javascript
-
-```
+The following rule's keys allow you to manage the asynchronous dependencies resolution flow.  
+When a dependency return a promise and this promise is waited for resolution by one of the corresponding rule
+([asyncResolve](#541-asyncresolve), [asyncCallsSerie](#452-asynccallsserie) or [asyncCallsParamsSerie](#453-asynccallsparamsserie)),
+the outputed object of "di.get()" method will be a [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise) object,
+wich will be resolved by the expected object.
 
 ##### 4.5.1 asyncResolve
-...
+
 ```javascript
+function A(b, c){
+	this.b = b;
+	this.c = c;
+}
+async function B(){
+	return 'b';
+}
+async function C(){
+	return 'c';
+}
+
+di.addRules({
+	'A': {
+		classDef: A,
+		params: ['B','C'],
+	},
+	'B': {
+		classDef: B,
+		asyncResolve: true,
+	},
+	'C': {
+		classDef: C,
+		asyncResolve: false, //default
+	},
+});
+
+di.get('A').then(a => {
+	assert(a.b === 'b');
+	assert(a.c instanceof Promise);
+});
 
 ```
 
 ##### 4.5.2 asyncCallsSerie
+...
+```javascript
+
+```
+
+##### 4.5.3 asyncCallsParamsSerie
 ...
 ```javascript
 
