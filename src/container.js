@@ -962,11 +962,20 @@ export default class Container{
 				c = [c];
 			}
 			
-			const [
+			let [
 				method,
-				params = instance[method][this.symInterfaces] || [],
+				params,
 				asyncResolve = rule.asyncResolve 
 			] = c;
+			
+			if(params === undefined){
+				if(typeof method !== 'function'){
+					params = instance[method][this.symInterfaces];
+				}
+				if(params === undefined){
+					params = [];
+				}
+			}
 			
 			const makeCall = (resolvedParams)=>{				
 				resolvedParams = structuredResolveParamsInterface(params, resolvedParams);

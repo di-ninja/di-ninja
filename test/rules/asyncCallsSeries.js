@@ -44,6 +44,10 @@ export default ({di, assert, sinon})=>{
 				calls: [
 					['setB', ['B'] ],
 					['setC', ['C'] ],
+					[ (a)=>{
+						const d = new D();
+						a.d = d;
+					} ],
 				],
 				sharedInTree: ['D'],
 				asyncCallsSerie: false, //default
