@@ -164,6 +164,8 @@ export default class Container{
 			case 'rulesDefault':
 				this.setRulesDefault(value);
 			break;
+			case 'rules':
+				this.addRules(value);
 			break;
 			default:
 				throw new Error('Unexpected config key '+key);
