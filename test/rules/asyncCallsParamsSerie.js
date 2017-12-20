@@ -23,14 +23,14 @@ export default ({di, assert, sinon})=>{
 			}
 		}
 		
-		async function B(d){
+		function B(d){
 			return new Promise((resolve)=>{
 				setTimeout(()=>{
 					resolve(++d.i)
 				}, 20);
 			});
 		}
-		async function C(d){
+		function C(d){
 			return new Promise((resolve)=>{
 				setTimeout(()=>{
 					resolve(++d.i);
@@ -49,7 +49,7 @@ export default ({di, assert, sinon})=>{
 					['setB', ['B'] ],
 					['setC', ['C'] ],
 				],
-				asyncCallsSerie: true,
+				//asyncCallsSerie: true,
 				asyncCallsParamsSerie: true,
 				sharedInTree: ['D'],
 			},
