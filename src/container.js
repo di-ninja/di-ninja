@@ -153,9 +153,13 @@ export default class Container{
 			case 'defaultArgsVar':
 			case 'interfacePrototype':
 			case 'interfaceTypeCheck':
+			case 'defaultFactory':
+			case 'defaultFunctionWrapper':
+			case 'promiseFactory':
+			case 'promiseInterfaces':
 				this[key] = value;
 			break;
-			case 'globalkey':
+			case 'globalKey':
 				this.setGlobalKey(value);
 			break;
 			case 'autoloadPathResolver':
@@ -167,6 +171,10 @@ export default class Container{
 			case 'rules':
 				this.addRules(value);
 			break;
+			case 'dependencies':
+				Object.assign(this.dependencies, value);
+			break;
+			
 			default:
 				throw new Error('Unexpected config key '+key);
 			break;
