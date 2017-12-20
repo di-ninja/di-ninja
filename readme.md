@@ -1151,13 +1151,21 @@ assert( di.get('#server') instanceof require('http').Server );
 
 
 ### 5. Container
-...
+The container config options manage the container behavior and the way that the rules are resolving.
 ```javascript
+import container from 'di-ninja'
 
+//set config on container creation
+const di = container(config);
+
+//or using config method
+const di = container();
+di.config(config);
+di.config('aConfigKey', aConfigValue);
 ```
 
 #### 5.1 rules
-...
+See [rules](#4-rules) section.
 ```javascript
 
 ```
