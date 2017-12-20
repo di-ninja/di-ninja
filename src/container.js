@@ -70,12 +70,13 @@ export default class Container{
 		this.providerRegistry = {};
 		this.instanceRegistry = {};
 		this.requires = {};
+		this.dependencies = {};
 		this.allowedDefaultVars = ['interface','value'];
 		
-		this.autoloadFailOnMissingFile = autoloadFailOnMissingFile;
-		this.dependencies = dependencies;
-		this.setAutoloadPathResolver(autoloadPathResolver);
+		this.setAutoloadFailOnMissingFile(autoloadFailOnMissingFile);
+		this.setDependencies(dependencies);
 		
+		this.setAutoloadPathResolver(autoloadPathResolver);
 		this.setAutoloadExtensions(autoloadExtensions);
 		
 		this.setDefaultVar(defaultVar, 'defaultVar');
@@ -87,8 +88,7 @@ export default class Container{
 		this.defaultFunctionWrapper = defaultFunctionWrapper;
 		
 		
-		this.PromiseFactory = promiseFactory;
-		
+		this.setPromiseFactory(promiseFactory);
 		this.setPromiseInterface(promiseInterfaces);
 		
 		this.interfacePrototype = interfacePrototype || interfacePrototypeDefault;
@@ -140,14 +140,18 @@ export default class Container{
 			return;
 		}
 		switch(key){
-			case 'autoloadFailOnMissingFile':
 			case 'interfacePrototype':
 			case 'interfaceTypeCheck':
 			
 			case 'defaultFactory':
 			case 'defaultFunctionWrapper':
-			case 'promiseFactory':
 				this[key] = value;
+			break;
+			case 'autoloadFailOnMissingFile':
+				this.setAutoloadFailOnMissingFile(value);
+			break;
+			case 'promiseFactory':
+				this.setPromiseFactory(value);
 			break;
 			case 'promiseInterfaces':
 				this.setPromiseInterface(value);
@@ -174,15 +178,24 @@ export default class Container{
 				this.addRules(value);
 			break;
 			case 'dependencies':
-				Object.assign(this.dependencies, value);
+				this.setDependencies(value);
 			break;
-			
 			default:
 				throw new Error('Unexpected config key '+key);
 			break;
 		}
 	}
 	
+	setAutoloadFailOnMissingFile(autoloadFailOnMissingFile){
+		this.autoloadFailOnMissingFile = autoloadFailOnMissingFile;
+	}
+	setDependencies(dependencies){
+		Object.assign(this.dependencies, dependencies);
+	}
+	
+	setPromiseFactory(promiseFactory){
+		this.PromiseFactory = promiseFactory;
+	}
 	setPromiseInterface(promiseInterfaces){
 		if(promiseInterfaces.indexOf(this.PromiseFactory) === -1){
 			promiseInterfaces.unshift(this.PromiseFactory);
