@@ -143,10 +143,6 @@ export default class Container{
 		}
 		switch(key){
 			case 'autoloadFailOnMissingFile':
-			case 'defaultVar':
-			case 'defaultRuleVar':
-			case 'defaultDecoratorVar':
-			case 'defaultArgsVar':
 			case 'interfacePrototype':
 			case 'interfaceTypeCheck':
 			
@@ -155,6 +151,12 @@ export default class Container{
 			case 'promiseFactory':
 			case 'promiseInterfaces':
 				this[key] = value;
+			break;
+			case 'defaultVar':
+			case 'defaultRuleVar':
+			case 'defaultDecoratorVar':
+			case 'defaultArgsVar':
+				this.setDefaultVar(value, key);
 			break;
 			case 'globalKey':
 				this.setGlobalKey(value);
