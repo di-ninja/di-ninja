@@ -1104,9 +1104,9 @@ if dependency is not found it can (maybe) throw an Error according to [autoloadF
 The require path resolution is based first on [path](#462-path) rule option if defined,
 then on [instanceOf](#422-instanceof) rule option if defined (if instanceOf point to a rule with it's own path it will get it),
 and finally on the key of the rule.
-This require path can be post processed using [autoloadPathResolver](#54-autoloadpathresolver) container config.  
-The colons character ( : ) can be used to get a subkey of exported,
-and you can us it multiple times in same expression to get nested value.
+This require path can be post-processed using [autoloadPathResolver](#54-autoloadpathresolver) container config.  
+The colons character ":" can be used to get a subkey of exported,
+and you can use it multiple times in same expression to get nested value.
 When [path](#462-path) is defined it will implicitly set autoload to true.
 
 ```javascript
@@ -1132,10 +1132,12 @@ assert( di.get('#server2') instanceof require('http').Server );
 ##### 4.6.2 path
 type: **string**  
 
-The require path can be post processed using [autoloadPathResolver](#54-autoloadpathresolver) container config.  
+The require path can be post-processed by [autoloadPathResolver](#54-autoloadpathresolver) container config.  
 When defined it will implicitly set [autoload](#461-autoload) to true.  
 You can traverse exported and get specific key using colons character ":".  
-See [autoload](#461-autoload) section for more details on the requiring behavior.
+You can't use relative path, if you want to include relative path, your application source files for exemple,
+you have to alias directories (or files) using [autoloadPathResolver](#54-autoloadpathresolver) feature.  
+See [autoload](#461-autoload) section for more details on the requiring behavior based on implicit path with instanceOf and rule's key.
 
 ```javascript
 di.addRules({
