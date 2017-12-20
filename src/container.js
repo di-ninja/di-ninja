@@ -75,7 +75,13 @@ export default class Container{
 		this.autoloadFailOnMissingFile = autoloadFailOnMissingFile;
 		this.dependencies = dependencies;
 		this.setAutoloadPathResolver(autoloadPathResolver);
-		this.loadExtensionRegex = new RegExp('\.('+this.autoloadExtensions.join('|')+')$');
+		
+		if(this.autoloadExtensions instanceof Array){
+			this.loadExtensionRegex = new RegExp('\.('+this.autoloadExtensions.join('|')+')$');
+		}
+		else{
+			this.loadExtensionRegex = this.autoloadExtensions;
+		}
 		
 		this.defaultRuleVar = defaultRuleVar || defaultVar;
 		this.defaultDecoratorVar = defaultDecoratorVar || defaultVar;
@@ -153,6 +159,7 @@ export default class Container{
 			case 'defaultArgsVar':
 			case 'interfacePrototype':
 			case 'interfaceTypeCheck':
+			
 			case 'defaultFactory':
 			case 'defaultFunctionWrapper':
 			case 'promiseFactory':
