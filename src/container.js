@@ -37,33 +37,7 @@ export default class Container{
 		return interfacePrototypeDefault;
 	}
 	
-	constructor({
-		rules,
-		
-		rulesDefault,
-		
-		autoloadFailOnMissingFile,
-		dependencies,
-		autoloadExtensions,
-		autoloadPathResolver,
-		
-		defaultVar,
-		defaultRuleVar,
-		defaultDecoratorVar,
-		defaultArgsVar,
-		
-		defaultFactory,
-		defaultFunctionWrapper,
-		
-		globalKey,
-		
-		promiseFactory,
-		promiseInterfaces,
-		
-		interfacePrototype,
-		interfaceTypeCheck,
-		
-	} = {}){
+	constructor(config = {}){
 		
 		this.symClassName = Symbol('className');
 		this.symInterfaces = Symbol('types');
@@ -102,91 +76,50 @@ export default class Container{
 			path: undefined,
 			
 		};
+		this.configMethods = new Map([
+			['rulesDefault', 'setRulesDefault'],
 		
-		this.setAutoloadFailOnMissingFile(autoloadFailOnMissingFile);
-		this.setDependencies(dependencies);
+			['autoloadFailOnMissingFile', 'setAutoloadFailOnMissingFile'],
+			['autoloadExtensions', 'setAutoloadExtensions'],
+			['autoloadPathResolver', 'setAutoloadPathResolver'],
+			
+			['defaultVar', 'setDefaultVar'],
+			['defaultRuleVar', 'setDefaultRuleVar'],
+			['defaultDecoratorVar', 'setDefaultDecoratorVar'],
+			['defaultArgsVar', 'setDefaultArgsVar'],
+			
+			['defaultFactory', 'setDefaultFactory'],
+			['defaultFunctionWrapper', 'setDefaultFunctionWrapper'],
+			
+			['globalKey', 'setGlobalKey'],
+			
+			['promiseFactory', 'setPromiseFactory'],
+			['promiseInterfaces', 'setPromiseInterfaces'],
+			
+			['interfacePrototype', 'setInterfacePrototype'],
+			['interfaceTypeCheck', 'setInterfaceTypeCheck'],
 		
-		this.setAutoloadPathResolver(autoloadPathResolver);
-		this.setAutoloadExtensions(autoloadExtensions);
+			//order matters for theses methods
+			['dependencies', 'setDependencies'],
+			['rules', 'addRules'],
+		]);
 		
-		this.setDefaultVar(defaultVar, 'defaultVar');
-		this.setDefaultVar(defaultRuleVar, 'defaultRuleVar');
-		this.setDefaultVar(defaultDecoratorVar, 'defaultDecoratorVar');
-		this.setDefaultVar(defaultArgsVar, 'defaultArgsVar');
-		
-		this.setDefaultFactory(defaultFactory);
-		this.setDefaultFunctionWrapper(defaultFunctionWrapper);
-		
-		this.setPromiseFactory(promiseFactory);
-		this.setPromiseInterface(promiseInterfaces);
-		
-		this.setInterfacePrototype(interfacePrototype);
-		this.setInterfaceTypeCheck(interfaceTypeCheck);
-		
-		this.setGlobalKey(globalKey);
-		
-		this.setRulesDefault(rulesDefault);
-		
-		this.loadDependencies();
-		this.addRules(rules);
-		
+		this.config(config, true);
 	}
 	
 	config(key, value){
 		if(typeof key === 'object'){
-			Object.keys(key).forEach(k=>this.config(k, key[k]));
+			const config = key;
+			const init = value;
+			this.configMethods.forEach( (method, key) => {
+				if(config.hasOwnProperty(key) || init){
+					this[method](config[key]); 
+				}
+			});
 			return;
 		}
-		switch(key){
-			case 'defaultFactory':
-				this.setDefaultFactory(value);
-			break;
-			case 'defaultFunctionWrapper':
-				this.setDefaultFunctionWrapper(value);
-			break;
-			case 'interfaceTypeCheck':
-				this.setInterfaceTypeCheck(value);
-			break;
-			case 'interfacePrototype':
-				this.setInterfacePrototype(value);
-			break;
-			case 'autoloadFailOnMissingFile':
-				this.setAutoloadFailOnMissingFile(value);
-			break;
-			case 'promiseFactory':
-				this.setPromiseFactory(value);
-			break;
-			case 'promiseInterfaces':
-				this.setPromiseInterface(value);
-			break;
-			case 'defaultVar':
-			case 'defaultRuleVar':
-			case 'defaultDecoratorVar':
-			case 'defaultArgsVar':
-				this.setDefaultVar(value, key);
-			break;
-			case 'globalKey':
-				this.setGlobalKey(value);
-			break;
-			case 'autoloadExtensions':
-				this.setAutoloadExtensions(value);
-			break;
-			case 'autoloadPathResolver':
-				this.setAutoloadPathResolver(value);
-			break;
-			case 'rulesDefault':
-				this.setRulesDefault(value);
-			break;
-			case 'rules':
-				this.addRules(value);
-			break;
-			case 'dependencies':
-				this.setDependencies(value);
-			break;
-			default:
-				throw new Error('Unexpected config key '+key);
-			break;
-		}
+		const method = this.configMethods.get(key);
+		this[method](value);
 	}
 	
 	setDefaultFactory(defaultFactory = ValueFactory){
@@ -207,14 +140,19 @@ export default class Container{
 	setAutoloadFailOnMissingFile(autoloadFailOnMissingFile = 'path'){
 		this.autoloadFailOnMissingFile = autoloadFailOnMissingFile;
 	}
-	setDependencies(dependencies = {}){
+	setDependencies(dependencies){
+		if(dependencies === undefined){
+			return;
+		}
 		Object.assign(this.dependencies, dependencies);
+		this.loadPaths(this.dependencies);
+		this.registerRequireMap(this.requires);
 	}
 	
 	setPromiseFactory(promiseFactory = Promise){
 		this.PromiseFactory = promiseFactory;
 	}
-	setPromiseInterface(promiseInterfaces = [ Promise ]){
+	setPromiseInterfaces(promiseInterfaces = [ Promise ]){
 		if(promiseInterfaces.indexOf(this.PromiseFactory) === -1){
 			promiseInterfaces.unshift(this.PromiseFactory);
 		}
@@ -329,7 +267,20 @@ export default class Container{
 		
 	}
 	
-	setDefaultVar(value, property){
+	setDefaultVar(value){
+		this._setDefaultVar(value, 'defaultVar');
+	}
+	setDefaultRuleVar(value){
+		this._setDefaultVar(value, 'defaultRuleVar');
+	}
+	setDefaultDecoratorVar(value){
+		this._setDefaultVar(value, 'defaultDecoratorVar');
+	}
+	setDefaultArgsVar(value){
+		this._setDefaultVar(value, 'defaultArgsVar');
+	}
+	
+	_setDefaultVar(value, property){
 		if(value === undefined){
 			value = this.defaultVar || 'interface';
 		}
@@ -339,10 +290,6 @@ export default class Container{
 		this[property] = value;
 	}
 	
-	loadDependencies(){
-		this.loadPaths(this.dependencies);
-		this.registerRequireMap(this.requires);
-	}
 	rulesDetectLazyLoad(){
 		Object.keys(this.rules).forEach(key=>{
 			this.ruleLazyLoad(key);
