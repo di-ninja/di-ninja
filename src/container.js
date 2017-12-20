@@ -71,32 +71,8 @@ export default class Container{
 		this.instanceRegistry = {};
 		this.requires = {};
 		this.dependencies = {};
+		this.rules = {};
 		this.allowedDefaultVars = ['interface','value'];
-		
-		this.setAutoloadFailOnMissingFile(autoloadFailOnMissingFile);
-		this.setDependencies(dependencies);
-		
-		this.setAutoloadPathResolver(autoloadPathResolver);
-		this.setAutoloadExtensions(autoloadExtensions);
-		
-		this.setDefaultVar(defaultVar, 'defaultVar');
-		this.setDefaultVar(defaultRuleVar, 'defaultRuleVar');
-		this.setDefaultVar(defaultDecoratorVar, 'defaultDecoratorVar');
-		this.setDefaultVar(defaultArgsVar, 'defaultArgsVar');
-		
-		this.defaultFactory = defaultFactory;
-		this.defaultFunctionWrapper = defaultFunctionWrapper;
-		
-		
-		this.setPromiseFactory(promiseFactory);
-		this.setPromiseInterface(promiseInterfaces);
-		
-		this.interfacePrototype = interfacePrototype || interfacePrototypeDefault;
-		
-		if(globalKey){
-			this.setGlobalKey(globalKey);
-		}
-		
 		this.rulesDefault = {
 			
 			inheritInstanceOf: true,
@@ -126,8 +102,32 @@ export default class Container{
 			path: undefined,
 			
 		};
+		
+		this.setAutoloadFailOnMissingFile(autoloadFailOnMissingFile);
+		this.setDependencies(dependencies);
+		
+		this.setAutoloadPathResolver(autoloadPathResolver);
+		this.setAutoloadExtensions(autoloadExtensions);
+		
+		this.setDefaultVar(defaultVar, 'defaultVar');
+		this.setDefaultVar(defaultRuleVar, 'defaultRuleVar');
+		this.setDefaultVar(defaultDecoratorVar, 'defaultDecoratorVar');
+		this.setDefaultVar(defaultArgsVar, 'defaultArgsVar');
+		
+		this.defaultFactory = defaultFactory;
+		this.defaultFunctionWrapper = defaultFunctionWrapper;
+		
+		
+		this.setPromiseFactory(promiseFactory);
+		this.setPromiseInterface(promiseInterfaces);
+		
+		this.setInterfacePrototype(interfacePrototype);
+		
+		if(globalKey){
+			this.setGlobalKey(globalKey);
+		}
+		
 		this.setRulesDefault(rulesDefault);
-		this.rules = {};
 		
 		this.loadDependencies();
 		this.addRules(rules);
@@ -140,12 +140,13 @@ export default class Container{
 			return;
 		}
 		switch(key){
-			case 'interfacePrototype':
 			case 'interfaceTypeCheck':
-			
 			case 'defaultFactory':
 			case 'defaultFunctionWrapper':
 				this[key] = value;
+			break;
+			case 'interfacePrototype':
+				this.setInterfacePrototype(value);
 			break;
 			case 'autoloadFailOnMissingFile':
 				this.setAutoloadFailOnMissingFile(value);
@@ -184,6 +185,10 @@ export default class Container{
 				throw new Error('Unexpected config key '+key);
 			break;
 		}
+	}
+	
+	setInterfacePrototype(interfacePrototype){
+		this.interfacePrototype = interfacePrototype || interfacePrototypeDefault;
 	}
 	
 	setAutoloadFailOnMissingFile(autoloadFailOnMissingFile){
