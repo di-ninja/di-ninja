@@ -950,7 +950,7 @@ di.get('A').then(a => {
 ##### 4.5.2 asyncCallsSerie
 type: **boolean** (default false)
 
-When set to **true**, defer [calls](#412-calls) and dependency resolution sequentially
+When set to **true**, defer [calls](#412-calls) resolution sequentially
 when the method or callback require a dependency returning a Promise and for wich [asyncResolve](#451-asyncresolve) rule option setted to true.
 
 ```javascript
@@ -1026,8 +1026,70 @@ di.get('A2').then( a => {
 ```
 
 ##### 4.5.3 asyncCallsParamsSerie
-...
+type: **boolean** (default false)
+
+When set to **true**, ensure that the dependencies stacks for all [calls](#412-calls) of a dependency are resolved sequentially according to order of calls,
+when the method or callback require a dependency returning a Promise and for wich [asyncResolve](#451-asyncresolve) rule option setted to true.
+Setted to true, it will implicitly set [asyncCallsSerie](#452-asynccallsserie) to true.
+
 ```javascript
+class A{
+	setB(b){
+		this.b = b;
+	}
+	setC(c){
+		this.c = c;
+	}
+}
+
+function B(d){
+	return new Promise((resolve)=>{
+		setTimeout(()=>{
+			resolve(++d.i)
+		}, 200);
+	});
+}
+function C(d){
+	return new Promise((resolve)=>{
+		setTimeout(()=>{
+			resolve(++d.i);
+		}, 100);
+	});
+}
+
+function D(){
+	this.i = 0;
+}
+
+di.addRules({
+	'A': {
+		classDef: A,
+		calls: [
+			['setB', ['B'] ],
+			['setC', ['C'] ],
+		],
+		asyncCallsParamsSerie: true,
+		sharedInTree: ['D'],
+	},
+	'B': {
+		classDef: B,
+		params: ['D'],
+		asyncResolve: true,
+	},
+	'C': {
+		classDef: C,
+		params: ['D'],
+		asyncResolve: true,
+	},
+	'D':{
+		classDef: D,
+	},
+});
+
+di.get('A').then( a => {
+	assert(a.b === 1);
+	assert(a.c === 2);
+});
 
 ```
 
