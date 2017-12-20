@@ -27,6 +27,33 @@ import structuredInterfacePrototype from './structuredInterfacePrototype'
 import promiseInterface from './promiseInterface'
 
 let interfacePrototypeDefault;
+const configMethods = new Map([
+	['rulesDefault', 'setRulesDefault'],
+
+	['autoloadFailOnMissingFile', 'setAutoloadFailOnMissingFile'],
+	['autoloadExtensions', 'setAutoloadExtensions'],
+	['autoloadPathResolver', 'setAutoloadPathResolver'],
+	
+	['defaultVar', 'setDefaultVar'],
+	['defaultRuleVar', 'setDefaultRuleVar'],
+	['defaultDecoratorVar', 'setDefaultDecoratorVar'],
+	['defaultArgsVar', 'setDefaultArgsVar'],
+	
+	['defaultFactory', 'setDefaultFactory'],
+	['defaultFunctionWrapper', 'setDefaultFunctionWrapper'],
+	
+	['globalKey', 'setGlobalKey'],
+	
+	['promiseFactory', 'setPromiseFactory'],
+	['promiseInterfaces', 'setPromiseInterfaces'],
+	
+	['interfacePrototype', 'setInterfacePrototype'],
+	['interfaceTypeCheck', 'setInterfaceTypeCheck'],
+
+	//order matters for theses methods
+	['dependencies', 'setDependencies'],
+	['rules', 'addRules'],
+]);
 
 export default class Container{
 	
@@ -76,33 +103,6 @@ export default class Container{
 			path: undefined,
 			
 		};
-		this.configMethods = new Map([
-			['rulesDefault', 'setRulesDefault'],
-		
-			['autoloadFailOnMissingFile', 'setAutoloadFailOnMissingFile'],
-			['autoloadExtensions', 'setAutoloadExtensions'],
-			['autoloadPathResolver', 'setAutoloadPathResolver'],
-			
-			['defaultVar', 'setDefaultVar'],
-			['defaultRuleVar', 'setDefaultRuleVar'],
-			['defaultDecoratorVar', 'setDefaultDecoratorVar'],
-			['defaultArgsVar', 'setDefaultArgsVar'],
-			
-			['defaultFactory', 'setDefaultFactory'],
-			['defaultFunctionWrapper', 'setDefaultFunctionWrapper'],
-			
-			['globalKey', 'setGlobalKey'],
-			
-			['promiseFactory', 'setPromiseFactory'],
-			['promiseInterfaces', 'setPromiseInterfaces'],
-			
-			['interfacePrototype', 'setInterfacePrototype'],
-			['interfaceTypeCheck', 'setInterfaceTypeCheck'],
-		
-			//order matters for theses methods
-			['dependencies', 'setDependencies'],
-			['rules', 'addRules'],
-		]);
 		
 		this.config(config, true);
 	}
@@ -111,14 +111,14 @@ export default class Container{
 		if(typeof key === 'object'){
 			const config = key;
 			const init = value;
-			this.configMethods.forEach( (method, key) => {
-				if(config.hasOwnProperty(key) || init){
+			configMethods.forEach( (method, key) => {
+				if(init || config.hasOwnProperty(key)){
 					this[method](config[key]); 
 				}
 			});
 			return;
 		}
-		const method = this.configMethods.get(key);
+		const method = configMethods.get(key);
 		this[method](value);
 	}
 	
