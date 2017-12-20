@@ -592,7 +592,7 @@ export default class Container{
 	
 	makeProvider(interfaceName){
 		const rule = this.getRule(interfaceName);
-		const classDef = this.resolveInstanceOf(interfaceName);
+		const classDef = rule.resolvedInstanceOf;
 		return (args, sharedInstances, stack)=>{
 			
 			//check for shared after params load
@@ -815,7 +815,7 @@ export default class Container{
 		
 		let stack = [];
 		
-		this.resolveInstanceOf(interfaceName, stack);
+		const resolvedInstanceOf = this.resolveInstanceOf(interfaceName, stack);
 		
 		const rules = [];
 		
@@ -854,6 +854,8 @@ export default class Container{
 			
 			this.mergeRule(rule, mergeRule);
 		});
+		
+		rule.resolvedInstanceOf = resolvedInstanceOf;
 		
 		return rule;
 	}
