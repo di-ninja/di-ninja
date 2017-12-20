@@ -87,11 +87,9 @@ export default class Container{
 		this.defaultFunctionWrapper = defaultFunctionWrapper;
 		
 		
-		if(promiseInterfaces.indexOf(promiseFactory) === -1){
-			promiseInterfaces.unshift(promiseFactory);
-		}
-		this.PromiseInterface = promiseInterface(promiseInterfaces);
 		this.PromiseFactory = promiseFactory;
+		
+		this.setPromiseInterface(promiseInterfaces);
 		
 		this.interfacePrototype = interfacePrototype || interfacePrototypeDefault;
 		
@@ -149,8 +147,10 @@ export default class Container{
 			case 'defaultFactory':
 			case 'defaultFunctionWrapper':
 			case 'promiseFactory':
-			case 'promiseInterfaces':
 				this[key] = value;
+			break;
+			case 'promiseInterfaces':
+				this.setPromiseInterface(value);
 			break;
 			case 'defaultVar':
 			case 'defaultRuleVar':
@@ -181,6 +181,13 @@ export default class Container{
 				throw new Error('Unexpected config key '+key);
 			break;
 		}
+	}
+	
+	setPromiseInterface(promiseInterfaces){
+		if(promiseInterfaces.indexOf(this.PromiseFactory) === -1){
+			promiseInterfaces.unshift(this.PromiseFactory);
+		}
+		this.PromiseInterface = promiseInterface(promiseInterfaces);
 	}
 	
 	setRulesDefault(rulesDefault){
