@@ -122,6 +122,7 @@ export default class Container{
 		this.setPromiseInterface(promiseInterfaces);
 		
 		this.setInterfacePrototype(interfacePrototype);
+		this.setInterfaceTypeCheck(interfaceTypeCheck);
 		
 		if(globalKey){
 			this.setGlobalKey(globalKey);
@@ -140,10 +141,12 @@ export default class Container{
 			return;
 		}
 		switch(key){
-			case 'interfaceTypeCheck':
 			case 'defaultFactory':
 			case 'defaultFunctionWrapper':
 				this[key] = value;
+			break;
+			case 'interfaceTypeCheck':
+				this.setInterfaceTypeCheck(value);
 			break;
 			case 'interfacePrototype':
 				this.setInterfacePrototype(value);
@@ -185,6 +188,10 @@ export default class Container{
 				throw new Error('Unexpected config key '+key);
 			break;
 		}
+	}
+	
+	setInterfaceTypeCheck(interfaceTypeCheck){
+		this.interfaceTypeCheck  = interfaceTypeCheck;
 	}
 	
 	setInterfacePrototype(interfacePrototype){
