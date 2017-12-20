@@ -48,9 +48,9 @@ export default class Container{
 		autoloadPathResolver = (path)=>path,
 		
 		defaultVar = 'interface',
-		defaultRuleVar = null,
-		defaultDecoratorVar = null,
-		defaultArgsVar = null,
+		defaultRuleVar = undefined,
+		defaultDecoratorVar = undefined,
+		defaultArgsVar = undefined,
 		
 		defaultFactory = ValueFactory,
 		defaultFunctionWrapper = ClassFactory,
@@ -69,26 +69,23 @@ export default class Container{
 		this.symInterfaces = Symbol('types');
 		this.providerRegistry = {};
 		this.instanceRegistry = {};
-		
 		this.requires = {};
+		this.allowedDefaultVars = ['interface','value'];
+		
 		this.autoloadFailOnMissingFile = autoloadFailOnMissingFile;
 		this.dependencies = dependencies;
 		this.setAutoloadPathResolver(autoloadPathResolver);
 		
 		this.setAutoloadExtensions(autoloadExtensions);
 		
-		this.defaultRuleVar = defaultRuleVar || defaultVar;
-		this.defaultDecoratorVar = defaultDecoratorVar || defaultVar;
-		this.defaultArgsVar = defaultArgsVar || defaultVar;
+		this.setDefaultVar(defaultVar, 'defaultVar');
+		this.setDefaultVar(defaultRuleVar, 'defaultRuleVar');
+		this.setDefaultVar(defaultDecoratorVar, 'defaultDecoratorVar');
+		this.setDefaultVar(defaultArgsVar, 'defaultArgsVar');
 		
 		this.defaultFactory = defaultFactory;
 		this.defaultFunctionWrapper = defaultFunctionWrapper;
 		
-		this.allowedDefaultVars = ['interface','value'];
-		this.validateDefaultVar(defaultVar, 'defaultVar');
-		this.validateDefaultVar(this.defaultRuleVar, 'defaultRuleVar');
-		this.validateDefaultVar(this.defaultDecoratorVar, 'defaultDecoratorVar');
-		this.validateDefaultVar(this.defaultArgsVar, 'defaultArgsVar');
 		
 		if(promiseInterfaces.indexOf(promiseFactory) === -1){
 			promiseInterfaces.unshift(promiseFactory);
@@ -292,10 +289,14 @@ export default class Container{
 		
 	}
 	
-	validateDefaultVar(value, property){
+	setDefaultVar(value, property){
+		if(value === undefined){
+			value = this.defaultVar;
+		}
 		if(this.allowedDefaultVars.indexOf(value)===-1){
 			throw new Error('invalid type "'+value+'" specified for '+property+', possibles values: '+this.allowedDefaultVars.join(' | '));
 		}
+		this[property] = value;
 	}
 	
 	loadDependencies(){
