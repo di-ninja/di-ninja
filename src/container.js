@@ -71,17 +71,11 @@ export default class Container{
 		this.instanceRegistry = {};
 		
 		this.requires = {};
-		this.autoloadExtensions = autoloadExtensions;
 		this.autoloadFailOnMissingFile = autoloadFailOnMissingFile;
 		this.dependencies = dependencies;
 		this.setAutoloadPathResolver(autoloadPathResolver);
 		
-		if(this.autoloadExtensions instanceof Array){
-			this.loadExtensionRegex = new RegExp('\.('+this.autoloadExtensions.join('|')+')$');
-		}
-		else{
-			this.loadExtensionRegex = this.autoloadExtensions;
-		}
+		this.setAutoloadExtensions(autoloadExtensions);
 		
 		this.defaultRuleVar = defaultRuleVar || defaultVar;
 		this.defaultDecoratorVar = defaultDecoratorVar || defaultVar;
@@ -152,7 +146,6 @@ export default class Container{
 		}
 		switch(key){
 			case 'autoloadFailOnMissingFile':
-			case 'autoloadExtensions':
 			case 'defaultVar':
 			case 'defaultRuleVar':
 			case 'defaultDecoratorVar':
@@ -168,6 +161,9 @@ export default class Container{
 			break;
 			case 'globalKey':
 				this.setGlobalKey(value);
+			break;
+			case 'autoloadExtensions':
+				this.autoloadExtensions(value);
 			break;
 			case 'autoloadPathResolver':
 				this.setAutoloadPathResolver(value);
@@ -193,6 +189,16 @@ export default class Container{
 			...this.rulesDefault,
 			...rulesDefault,
 		};
+	}
+	
+	setAutoloadExtensions(autoloadExtensions){
+		this.autoloadExtensions = autoloadExtensions;
+		if(this.autoloadExtensions instanceof Array){
+			this.loadExtensionRegex = new RegExp('\.('+this.autoloadExtensions.join('|')+')$');
+		}
+		else{
+			this.loadExtensionRegex = this.autoloadExtensions;
+		}
 	}
 	
 	setAutoloadPathResolver(autoloadPathResolver){
