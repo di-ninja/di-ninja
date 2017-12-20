@@ -38,30 +38,30 @@ export default class Container{
 	}
 	
 	constructor({
-		rules = {},
+		rules,
 		
-		rulesDefault = {},
+		rulesDefault,
 		
-		autoloadFailOnMissingFile = 'path',
-		dependencies = {},
-		autoloadExtensions = ['js'],
-		autoloadPathResolver = (path)=>path,
+		autoloadFailOnMissingFile,
+		dependencies,
+		autoloadExtensions,
+		autoloadPathResolver,
 		
-		defaultVar = 'interface',
-		defaultRuleVar = undefined,
-		defaultDecoratorVar = undefined,
-		defaultArgsVar = undefined,
+		defaultVar,
+		defaultRuleVar,
+		defaultDecoratorVar,
+		defaultArgsVar,
 		
-		defaultFactory = ValueFactory,
-		defaultFunctionWrapper = ClassFactory,
+		defaultFactory,
+		defaultFunctionWrapper,
 		
-		globalKey = false,
+		globalKey,
 		
-		promiseFactory = Promise,
-		promiseInterfaces = [ Promise ],
+		promiseFactory,
+		promiseInterfaces,
 		
-		interfacePrototype = undefined,
-		interfaceTypeCheck = false,
+		interfacePrototype,
+		interfaceTypeCheck,
 		
 	} = {}){
 		
@@ -114,9 +114,8 @@ export default class Container{
 		this.setDefaultVar(defaultDecoratorVar, 'defaultDecoratorVar');
 		this.setDefaultVar(defaultArgsVar, 'defaultArgsVar');
 		
-		this.defaultFactory = defaultFactory;
-		this.defaultFunctionWrapper = defaultFunctionWrapper;
-		
+		this.setDefaultFactory(defaultFactory);
+		this.setDefaultFunctionWrapper(defaultFunctionWrapper);
 		
 		this.setPromiseFactory(promiseFactory);
 		this.setPromiseInterface(promiseInterfaces);
@@ -124,9 +123,7 @@ export default class Container{
 		this.setInterfacePrototype(interfacePrototype);
 		this.setInterfaceTypeCheck(interfaceTypeCheck);
 		
-		if(globalKey){
-			this.setGlobalKey(globalKey);
-		}
+		this.setGlobalKey(globalKey);
 		
 		this.setRulesDefault(rulesDefault);
 		
@@ -142,8 +139,10 @@ export default class Container{
 		}
 		switch(key){
 			case 'defaultFactory':
+				this.setDefaultFactory(value);
+			break;
 			case 'defaultFunctionWrapper':
-				this[key] = value;
+				this.setDefaultFunctionWrapper(value);
 			break;
 			case 'interfaceTypeCheck':
 				this.setInterfaceTypeCheck(value);
@@ -170,7 +169,7 @@ export default class Container{
 				this.setGlobalKey(value);
 			break;
 			case 'autoloadExtensions':
-				this.autoloadExtensions(value);
+				this.setAutoloadExtensions(value);
 			break;
 			case 'autoloadPathResolver':
 				this.setAutoloadPathResolver(value);
@@ -190,7 +189,14 @@ export default class Container{
 		}
 	}
 	
-	setInterfaceTypeCheck(interfaceTypeCheck){
+	setDefaultFactory(defaultFactory = ValueFactory){
+		this.defaultFactory = defaultFactory;
+	}
+	setDefaultFunctionWrapper(defaultFunctionWrapper = ClassFactory){
+		this.defaultFunctionWrapper = defaultFunctionWrapper;
+	}
+	
+	setInterfaceTypeCheck(interfaceTypeCheck = false){
 		this.interfaceTypeCheck  = interfaceTypeCheck;
 	}
 	
@@ -198,31 +204,28 @@ export default class Container{
 		this.interfacePrototype = interfacePrototype || interfacePrototypeDefault;
 	}
 	
-	setAutoloadFailOnMissingFile(autoloadFailOnMissingFile){
+	setAutoloadFailOnMissingFile(autoloadFailOnMissingFile = 'path'){
 		this.autoloadFailOnMissingFile = autoloadFailOnMissingFile;
 	}
-	setDependencies(dependencies){
+	setDependencies(dependencies = {}){
 		Object.assign(this.dependencies, dependencies);
 	}
 	
-	setPromiseFactory(promiseFactory){
+	setPromiseFactory(promiseFactory = Promise){
 		this.PromiseFactory = promiseFactory;
 	}
-	setPromiseInterface(promiseInterfaces){
+	setPromiseInterface(promiseInterfaces = [ Promise ]){
 		if(promiseInterfaces.indexOf(this.PromiseFactory) === -1){
 			promiseInterfaces.unshift(this.PromiseFactory);
 		}
 		this.PromiseInterface = promiseInterface(promiseInterfaces);
 	}
 	
-	setRulesDefault(rulesDefault){
-		this.rulesDefault = {
-			...this.rulesDefault,
-			...rulesDefault,
-		};
+	setRulesDefault(rulesDefault = {}){
+		Object.assign(this.rulesDefault,rulesDefault);
 	}
 	
-	setAutoloadExtensions(autoloadExtensions){
+	setAutoloadExtensions(autoloadExtensions = ['js']){
 		this.autoloadExtensions = autoloadExtensions;
 		if(this.autoloadExtensions instanceof Array){
 			this.loadExtensionRegex = new RegExp('\.('+this.autoloadExtensions.join('|')+')$');
@@ -232,7 +235,7 @@ export default class Container{
 		}
 	}
 	
-	setAutoloadPathResolver(autoloadPathResolver){
+	setAutoloadPathResolver( autoloadPathResolver = (path)=>path ){
 		
 		if(typeof autoloadPathResolver == 'object'){
 			
@@ -254,7 +257,10 @@ export default class Container{
 		this.autoloadPathResolver = autoloadPathResolver;
 	}
 	
-	setGlobalKey(globalKey){
+	setGlobalKey(globalKey = false){
+		if(!globalKey){
+			return;
+		}
 		if(globalKey===true){
 			globalKey = 'di';
 		}
@@ -287,7 +293,7 @@ export default class Container{
 	}
 	
 	
-	addRules(rules){
+	addRules(rules = {}){
 		if(typeof rules == 'function'){
 			rules = rules(this);
 		}
@@ -325,7 +331,7 @@ export default class Container{
 	
 	setDefaultVar(value, property){
 		if(value === undefined){
-			value = this.defaultVar;
+			value = this.defaultVar || 'interface';
 		}
 		if(this.allowedDefaultVars.indexOf(value)===-1){
 			throw new Error('invalid type "'+value+'" specified for '+property+', possibles values: '+this.allowedDefaultVars.join(' | '));
