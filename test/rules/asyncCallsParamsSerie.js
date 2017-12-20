@@ -23,14 +23,14 @@ export default ({di, assert, sinon})=>{
 			}
 		}
 		
-		function B(d){
+		async function B(d){
 			return new Promise((resolve)=>{
 				setTimeout(()=>{
 					resolve(++d.i)
 				}, 20);
 			});
 		}
-		function C(d){
+		async function C(d){
 			return new Promise((resolve)=>{
 				setTimeout(()=>{
 					resolve(++d.i);
