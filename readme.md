@@ -107,6 +107,8 @@ $ npm i di-ninja
 	
 	17. [globalKey](#517-globalkey)
 	
+	18. [ruleCache](#518-rulecache)
+	
 
 ### 1. Getting Started
 ```javascript
@@ -1262,6 +1264,12 @@ See [rules](#4-rules) section.
 ```
 
 #### 15.17 globalKey
+...
+```javascript
+
+```
+
+#### 15.18 ruleCache
 ...
 ```javascript
 

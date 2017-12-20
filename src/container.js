@@ -44,11 +44,14 @@ const configMethods = new Map([
 	
 	['globalKey', 'setGlobalKey'],
 	
-	['promiseFactory', 'setPromiseFactory'],
-	['promiseInterfaces', 'setPromiseInterfaces'],
-	
 	['interfacePrototype', 'setInterfacePrototype'],
 	['interfaceTypeCheck', 'setInterfaceTypeCheck'],
+	
+	['ruleCache', 'setRuleCache'],
+	
+	//order matters for theses methods
+	['promiseFactory', 'setPromiseFactory'],
+	['promiseInterfaces', 'setPromiseInterfaces'],
 
 	//order matters for theses methods
 	['dependencies', 'setDependencies'],
@@ -73,6 +76,7 @@ export default class Container{
 		this.requires = {};
 		this.dependencies = {};
 		this.rules = {};
+		this.rulesCache = {};
 		this.allowedDefaultVars = ['interface','value'];
 		this.rulesDefault = {
 			
@@ -120,6 +124,10 @@ export default class Container{
 		}
 		const method = configMethods.get(key);
 		this[method](value);
+	}
+	
+	setRuleCache(ruleCache = true){
+		this.ruleCache = ruleCache;
 	}
 	
 	setDefaultFactory(defaultFactory = ValueFactory){
@@ -334,7 +342,7 @@ export default class Container{
 					return false;
 				}
 				
-				const paramRule = this.getRule(interfaceName);
+				const paramRule = this.buildRule(interfaceName);
 				
 				if(stack.indexOf(interfaceName)!==-1){
 					return true;
@@ -785,6 +793,18 @@ export default class Container{
 	}
 	
 	getRule(interfaceName){
+		if(this.ruleCache && this.rulesCache[interfaceName]){
+			return this.rulesCache[interfaceName];
+		}
+		const rule = this.buildRule(interfaceName);
+		if(this.ruleCache){
+			this.rulesCache[interfaceName] = rule;
+		}
+		return rule;
+	}
+	
+	buildRule(interfaceName){
+		
 		const rule = this.mergeRule({}, this.rulesDefault);
 		rule.interfaceName = interfaceName; //for info
 		if(!interfaceName){
@@ -807,8 +827,7 @@ export default class Container{
 		else{
 			fullStack = new Set( stack.slice(0, 1) );
 		}
-		
-		
+
 		if(ruleBase.inheritPrototype){
 			stack.reverse().forEach((c)=>{
 				if(typeof c == 'function'){
