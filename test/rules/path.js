@@ -41,6 +41,9 @@ export default ({di, assert})=>{
 				instanceOf: 'http:Server',
 			},
 			
+			'http:Server':{
+			
+			},
 		});
 		
 		it('should return an instance of C',function(){
@@ -75,6 +78,11 @@ export default ({di, assert})=>{
 		
 		it('should return an instance of http:Server',function(){
 			const instance = di.get('#server4');
+			assert.instanceOf(instance, require('http').Server);
+		});
+		
+		it('should return an instance of http:Server',function(){
+			const instance = di.get('http:Server');
 			assert.instanceOf(instance, require('http').Server);
 		});
 		
