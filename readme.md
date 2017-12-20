@@ -1100,18 +1100,51 @@ The following rule's keys are about dependency file location.
 type: **boolean** (default false)
 
 When set to **true**, check for allready registred dependency and if not, in node, try to require it,
-if dependency not found it can maybe throw an Error according to [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile) container config.
-```javascript
+if dependency is not found it can (maybe) throw an Error according to [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile) container config.  
+The require path resolution is based first on [path](#462-path) rule option if defined,
+then on [instanceOf](#422-instanceof) rule option if defined (if instanceOf point to a rule with it's own path it will get it),
+and finally on the key of the rule.
+This require path can be post processed using [autoloadPathResolver](#54-autoloadpathresolver) container config.  
+The colons character ( : ) can be used to get a subkey of exported,
+and you can us it multiple times in same expression to get nested value.
+When [path](#462-path) is defined it will implicitly set autoload to true.
 
+```javascript
+di.addRules({
+	'http:Server':{
+		autoload: true,
+	},
+	'#server': {
+		instanceOf: 'http:Server',
+		autoload: true,
+	},
+	'#server2': {
+		path: 'http:Server',
+	},
+	
+});
+
+assert( di.get('http:Server') instanceof require('http').Server );
+assert( di.get('#server') instanceof require('http').Server );
+assert( di.get('#server2') instanceof require('http').Server );
 ```
 
 ##### 4.6.2 path
 type: **string**  
-path of dependency file
 
-You can traverse exported and get specific key using ":" character.
+The require path can be post processed using [autoloadPathResolver](#54-autoloadpathresolver) container config.  
+When defined it will implicitly set [autoload](#461-autoload) to true.  
+You can traverse exported and get specific key using colons character ":".  
+See [autoload](#461-autoload) section for more details on the requiring behavior.
+
 ```javascript
- 
+di.addRules({
+	'#server': {
+		path: 'http:Server',
+	},
+});
+
+assert( di.get('#server') instanceof require('http').Server );
 ```
 
 
