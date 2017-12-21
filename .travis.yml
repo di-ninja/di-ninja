@@ -12,3 +12,7 @@ install:
 
 script:
     - npm test
+
+#branches:
+#  only:
+#  - /^v[0-9]/
