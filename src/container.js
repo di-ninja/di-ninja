@@ -440,9 +440,7 @@ export default class Container{
 			return cached;
 		}
 		
-		console.log('requirePath before resolve',requirePath);
 		requirePath = this.autoloadPathResolver(requirePath);
-		console.log('requirePath after resolve',requirePath);
 		if(typeof requirePath === 'symbol') return;
 		
 		let required;
@@ -456,6 +454,8 @@ export default class Container{
 			if(ext){
 				path += '.'+ext;
 			}
+			
+			console.log('test with path', path);
 			
 			if(this.depExists(path)){
 				required = this.depRequire(path);
