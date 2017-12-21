@@ -15,7 +15,12 @@ function getFolderContents(folder, recursive) {
 	}, []);
 };
 
-export default function(folder, recursive = false, pattern =  /^\.\//, parentDir = undefined) {
+const SEP = path.sep;
+
+const patternDefault = new RegExp('^\.\\'+SEP);
+
+export default function(folder, recursive = false, pattern =  patternDefault, parentDir = undefined) {
+	folder = path.normalize(folder);
 	if(!parentDir){
 		parentDir = path.dirname(stackTrace.get()[1].getFileName());
 	}
@@ -27,7 +32,7 @@ export default function(folder, recursive = false, pattern =  /^\.\//, parentDir
 			return pattern.test(item);
 		})
 		.map(item=>{
-			return './'+item.substr(contextDirLen);
+			return '.'+SEP+item.substr(contextDirLen);
 		})
 	;
 

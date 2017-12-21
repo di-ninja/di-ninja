@@ -28,6 +28,9 @@ import structuredInterfacePrototype from './structuredInterfacePrototype'
 
 import promiseInterface from './promiseInterface'
 
+const SEP = PATH.sep;
+const SEP_BACK = SEP !== '/';
+
 let interfacePrototypeDefault;
 const configMethods = new Map([
 	['rulesDefault', 'setRulesDefault'],
@@ -194,8 +197,11 @@ export default class Container{
 					if(path == alias){
 						path = realPath;
 					}
-					else if(path.substr(0,alias.length+1)==alias+'/'){
-						path = realPath+path.substr(alias.length);
+					else{
+						const dir = path.substr(0,alias.length+1);
+						if(dir == alias+'/' || ( SEP_BACK && dir == alias+SEP ) ){
+							path = realPath+path.substr(alias.length);
+						}
 					}
 				});
 				return path;
@@ -220,7 +226,7 @@ export default class Container{
 			const context = dirs[dirKey];
 			
 			if(context instanceof Dependency){
-				this.requires[dirKey] = context.getDependency();
+				this.setRequire(dirKey, context.getDependency());
 				return;
 			}
 						
@@ -230,12 +236,12 @@ export default class Container{
 				if(key.substr(0,2)=='./'){
 					key = key.substr(2);
 				}
-				
-				key = dirKey+'/'+key.substr(0, key.lastIndexOf('.') || key.length);
+
+				key = dirKey + '/' +key.substr(0, key.lastIndexOf('.') || key.length);
 				if(key.split('/').pop()=='index'){
 					key = key.substr(0, key.lastIndexOf('/'));
 				}
-				this.requires[key] = context(filename);
+				this.setRequire(key, context(filename));
 			});
 		});
 	}
@@ -429,13 +435,15 @@ export default class Container{
 	}
 	
 	requireDep(key, requirePath){
-		if(this.requires[key]){
-			return this.requires[key];
+		const cached = this.getRequire(key);
+		if(cached){
+			return cached;
 		}
 		
 		requirePath = this.autoloadPathResolver(requirePath);
 		if(typeof requirePath === 'symbol') return;
 		
+		let required;
 		const found = this.autoloadExtensions.concat('').some( ext => {
 			
 			
@@ -447,10 +455,8 @@ export default class Container{
 				path += '.'+ext;
 			}
 			
-			path = PATH.normalize(path);
-			
 			if(this.depExists(path)){
-				let required = this.depRequire(path);
+				required = this.depRequire(path);
 								
 				if(pathFragments.length){
 					pathFragments.forEach( subKey => {
@@ -460,8 +466,7 @@ export default class Container{
 					});
 				}
 				
-				
-				this.requires[key] = required;
+				this.setRequire(key, required);
 				
 				return true;
 			}
@@ -471,9 +476,17 @@ export default class Container{
 			throw new Error('Missing expected dependency injection file "'+requirePath+'"');
 		}
 		
-		return this.requires[key];
+		return required;
 	}
 	
+	setRequire(key, required){
+		key = PATH.normalize(key);
+		this.requires[key] = required;
+	}
+	getRequire(key){
+		key = PATH.normalize(key);
+		return this.requires[key];
+	}
 	
 	registerRequireMap(requires){
 		Object.keys(requires).forEach((name)=>{

@@ -29,10 +29,10 @@ class BrowserContainer extends Container{
 	
 	
 	depExists(requirePath){
-		return !!this.requires[requirePath];
+		return !!this.getRequire(requirePath);
 	}
 	depRequire(requirePath){
-		return this.requires[requirePath];
+		return this.getRequire(requirePath);
 	}
 	
 	require(dep){

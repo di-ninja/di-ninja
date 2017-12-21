@@ -1,7 +1,8 @@
+import PATH from 'path'
 import Require from './require'
 export default class BrowserRequire extends Require{
 	constructor(dep, requires = []){
-		super(dep);
+		super( PATH.normalize(dep) );
 		this.requires = requires;
 	}
 	require(){
