@@ -443,7 +443,6 @@ export default class Container{
 		requirePath = this.autoloadPathResolver(requirePath);
 		if(typeof requirePath === 'symbol') return;
 		
-		
 		let required;
 		const found = this.autoloadExtensions.concat('').some( ext => {
 			
@@ -455,9 +454,7 @@ export default class Container{
 			if(ext){
 				path += '.'+ext;
 			}
-			
-			console.log('path', path);
-			console.log('this.depExists(path)', this.depExists(path));
+
 			if(this.depExists(path)){
 				required = this.depRequire(path);
 								
@@ -476,7 +473,7 @@ export default class Container{
 			
 		});
 		if( !found && ((this.autoloadFailOnMissingFile==='path' && rulePath) || this.autoloadFailOnMissingFile===true) ){
-			throw new Error('Missing expected dependency injection file "'+requirePath+'"');
+			throw new Error('Missing expected dependency injection file "'+requirePath+'" for rule key "'+key+'"');
 		}
 		
 		return required;
