@@ -1,9 +1,9 @@
-class D{
-	
+class D {
+
 }
 const classes = {
-	D,
-};
+  D
+}
 
 export {
 	classes

@@ -1,3 +1,3 @@
-export default class interfaceTypeError extends TypeError{
-	errorName = 'interfaceTypeError';
+export default class interfaceTypeError extends TypeError {
+  errorName = 'interfaceTypeError';
 }

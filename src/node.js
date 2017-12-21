@@ -10,51 +10,47 @@ import nodeRequireContext from './nodeRequireContext'
 import Dependency from './dependency'
 import requireFile from './nodeRequireFile'
 
-export default makeContainer;
+export default makeContainer
 
-export function makeContainer(config){
-	const container = new NodeContainer(config);
-	return makeContainerApi(container);
+export function makeContainer (config) {
+  const container = new NodeContainer(config)
+  return makeContainerApi(container)
 }
 
-function dependency(dep){
-	return new Dependency(dep);
+function dependency (dep) {
+  return new Dependency(dep)
 }
 
-makeContainer.dependency = dependency;
-makeContainer.context = nodeRequireContext;
-makeContainer.require = requireFile;
-makeContainer.setInterfacePrototypeDefault = Container.setInterfacePrototypeDefault;
-makeContainer.getInterfacePrototypeDefault = Container.getInterfacePrototypeDefault;
+makeContainer.dependency = dependency
+makeContainer.context = nodeRequireContext
+makeContainer.require = requireFile
+makeContainer.setInterfacePrototypeDefault = Container.setInterfacePrototypeDefault
+makeContainer.getInterfacePrototypeDefault = Container.getInterfacePrototypeDefault
 
 export class NodeContainer extends Container {
-	
-	
-	depExists(requirePath){
-		requirePath = PATH.normalize(requirePath);
-		if(undefined !== this.requires[requirePath]){
-			return true;
-		}
-		
-		try{
-			require.resolve(requirePath);
-			return true;
-		}
-		catch(e){
-			return false;
-		}
-	}
-	depRequire(requirePath){
-		requirePath = PATH.normalize(requirePath);
-		const required = this.requires[requirePath];
-		if(undefined !== required){
-			return required;
-		}
-		return require(requirePath);
-	}
-	
-	require(dep){
-		return new NodeRequire(dep);
-	}
-	
+  depExists (requirePath) {
+    requirePath = PATH.normalize(requirePath)
+    if (undefined !== this.requires[requirePath]) {
+      return true
+    }
+
+    try {
+      require.resolve(requirePath)
+      return true
+    } catch (e) {
+      return false
+    }
+  }
+  depRequire (requirePath) {
+    requirePath = PATH.normalize(requirePath)
+    const required = this.requires[requirePath]
+    if (undefined !== required) {
+      return required
+    }
+    return require(requirePath)
+  }
+
+  require (dep) {
+    return new NodeRequire(dep)
+  }
 }

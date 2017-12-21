@@ -1,3 +1,3 @@
-export default class B{
-	
+export default class B {
+
 }

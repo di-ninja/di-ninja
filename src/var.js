@@ -1,3 +1,3 @@
-export default class Var{
-	
+export default class Var {
+
 }
