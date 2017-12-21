@@ -1191,14 +1191,20 @@ di.addRule('#myClassName', rule);
 #### 5.2 rulesDefault
 Default values for rules, each rule will be extended from this setup, values will be overidded or merged.  
 See [rule inheritance](#44-rule-inheritance) documentation section for more details on extending.
+See [rules](#4-rules) section for rules options.
 ```javascript
 di.config('rulesDefault',rulesDefault);
 ```
 
 #### 5.3 dependencies
-...
+Dependencies is intendeed to allow you to "inject" require's context directories as preload dependencies.
+It work using the webpack "require.context" feature,
+but a node polyfill called "container.context" is provided with di-ninja allowing you to build isomorphic architecture
+(use the same code for browser compilation via webpack than on server-side with nodejs).
 ```javascript
-di.config('rulesDefault',rulesDefault);
+di.config('dependencies',{
+	
+});
 
 ```
 
