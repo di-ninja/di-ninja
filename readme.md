@@ -38,83 +38,83 @@ $ npm i di-ninja
 1. [Getting Started](#1-getting-started)
 
 2. [Dependencies declarations approaches](#2-dependencies-declarations-approaches)
-	1. [Composition Root](#21-composition-root)
-	2. [Decorator injection approach](#22-decorator-injection-approach)
-		1. [abstract class](#221-abstract-class)
-		2. [reference class](#222-reference-class)
+  1. [Composition Root](#21-composition-root)
+  2. [Decorator injection approach](#22-decorator-injection-approach)
+    1. [abstract class](#221-abstract-class)
+    2. [reference class](#222-reference-class)
 
 3. [Dependencies Resolution](#3-dependencies-resolution)
-	1. [Recursive classes or factories](#31-recursive-classes-or-factories)
-	2. [Recursive params](#32-recursive-params)
-	3. [Types of params](#33-types-of-params)
-		1. [interface](#331-interface)
-		2. [value](#332-value)
-		3. [factory](#333-factory)
-		5. [valueFactory](#334-valuefactory)
-		6. [classFactory](#335-classfactory)
-		4. [require](#336-require)
+  1. [Recursive classes or factories](#31-recursive-classes-or-factories)
+  2. [Recursive params](#32-recursive-params)
+  3. [Types of params](#33-types-of-params)
+    1. [interface](#331-interface)
+    2. [value](#332-value)
+    3. [factory](#333-factory)
+    5. [valueFactory](#334-valuefactory)
+    6. [classFactory](#335-classfactory)
+    4. [require](#336-require)
 
 4. [Rules](#4-rules)
-	
-	1. [dependencies](#41-dependencies)
-		1. [params](#411-params)
-		2. [calls](#412-calls)
-		3. [lazyCalls](#413-lazycalls)
-	
-	2. [instantiation](#42-instantiation)
-		1. [classDef](#421-classdef)
-		2. [instanceOf](#422-instanceof)
-		3. [substitutions](#423-substitutions)
-	
-	3. [single instance](#43-single-instance)
-		1. [shared](#431-shared)
-		2. [singleton](#432-singleton)
-		3. [sharedInTree](#433-sharedintree)
-	
-	4. [rule inheritance](#44-rule-inheritance)
-		1. [inheritInstanceOf](#441-inheritinstanceof)
-		2. [inheritPrototype](#442-inheritprototype)
-		3. [inheritMixins](#443-inheritmixins)
-		4. [decorator](#444-decorator)
+  
+  1. [dependencies](#41-dependencies)
+    1. [params](#411-params)
+    2. [calls](#412-calls)
+    3. [lazyCalls](#413-lazycalls)
+  
+  2. [instantiation](#42-instantiation)
+    1. [classDef](#421-classdef)
+    2. [instanceOf](#422-instanceof)
+    3. [substitutions](#423-substitutions)
+  
+  3. [single instance](#43-single-instance)
+    1. [shared](#431-shared)
+    2. [singleton](#432-singleton)
+    3. [sharedInTree](#433-sharedintree)
+  
+  4. [rule inheritance](#44-rule-inheritance)
+    1. [inheritInstanceOf](#441-inheritinstanceof)
+    2. [inheritPrototype](#442-inheritprototype)
+    3. [inheritMixins](#443-inheritmixins)
+    4. [decorator](#444-decorator)
 
-	5. [asynchrone dependencies resolution](#45-asynchrone-dependencies-resolution)
-		1. [asyncResolve](#451-asyncresolve)
-		2. [asyncCallsSerie](#452-asynccallsserie)
-		3. [asyncCallsParamsSerie](#453-asynccallsparamsserie)
-		
-	6. [dependency file location](#46-dependency-file-location)
-		1. [autoload](#461-autoload)
-		2. [path](#462-path)
+  5. [asynchrone dependencies resolution](#45-asynchrone-dependencies-resolution)
+    1. [asyncResolve](#451-asyncresolve)
+    2. [asyncCallsSerie](#452-asynccallsserie)
+    3. [asyncCallsParamsSerie](#453-asynccallsparamsserie)
+    
+  6. [dependency file location](#46-dependency-file-location)
+    1. [autoload](#461-autoload)
+    2. [path](#462-path)
 
 
 5. [Container](#5-container)
 
-	1. [rules](#51-rules)
-	2. [rulesDefault](#52-rulesdefault)
-	
-	3. [dependencies](#53-dependencies)
-	4. [autoloadPathResolver](#54-autoloadpathresolver)
-	5. [autoloadExtensions](#55-autoloadextensions)
-	6. [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile)
-	
-	7. [defaultVar](#57-defaultvar)
-	8. [defaultRuleVar](#58-defaultrulevar)
-	9. [defaultDecoratorVar](#59-defaultdecoratorvar)
-	10. [defaultArgsVar](#510-defaultargsvar)
-	
-	11. [defaultFactory](#511-defaultfactory)
-	12. [defaultFunctionWrapper](#512-defaultfunctionwrapper)
-	
-	13. [promiseFactory](#513-promisefactory)
-	14. [promiseInterfaces](#514-promiseinterfaces)
-	
-	15. [interfacePrototype](#515-interfaceprototype)
-	16. [interfaceTypeCheck](#516-interfacetypecheck)
-	
-	17. [globalKey](#517-globalkey)
-	
-	18. [ruleCache](#518-rulecache)
-	
+  1. [rules](#51-rules)
+  2. [rulesDefault](#52-rulesdefault)
+  
+  3. [dependencies](#53-dependencies)
+  4. [autoloadPathResolver](#54-autoloadpathresolver)
+  5. [autoloadExtensions](#55-autoloadextensions)
+  6. [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile)
+  
+  7. [defaultVar](#57-defaultvar)
+  8. [defaultRuleVar](#58-defaultrulevar)
+  9. [defaultDecoratorVar](#59-defaultdecoratorvar)
+  10. [defaultArgsVar](#510-defaultargsvar)
+  
+  11. [defaultFactory](#511-defaultfactory)
+  12. [defaultFunctionWrapper](#512-defaultfunctionwrapper)
+  
+  13. [promiseFactory](#513-promisefactory)
+  14. [promiseInterfaces](#514-promiseinterfaces)
+  
+  15. [interfacePrototype](#515-interfaceprototype)
+  16. [interfaceTypeCheck](#516-interfacetypecheck)
+  
+  17. [globalKey](#517-globalkey)
+  
+  18. [ruleCache](#518-rulecache)
+  
 
 ### 1. Getting Started
 ```javascript
@@ -144,14 +144,14 @@ all your classes and factories can keep uncoupled from the dependency injector (
 example with ES6 class syntax
 ```javascript
 class A{
-	constructor(b){
-		this.b = b;
-	}
+  constructor(b){
+    this.b = b;
+  }
 }
 class B{
-	constructor(){
-		this.foo = bar;
-	}
+  constructor(){
+    this.foo = bar;
+  }
 }
 
 di.addRules({
@@ -173,17 +173,17 @@ example with function as constructor or factory
 
 //function as a constructor
 function A(b){
-	this.b = b;
+  this.b = b;
 }
 
 //function as a factory
 function B(){
-	const object = { foo: 'bar' };
-	
-	// if we return an object or other value than undefined,
-	// this function will be treated by javascript as a factory
-	
-	return object;
+  const object = { foo: 'bar' };
+  
+  // if we return an object or other value than undefined,
+  // this function will be treated by javascript as a factory
+  
+  return object;
 }
 
 di.addRules({
@@ -259,30 +259,30 @@ The dependencies are resolved according to rule's key "[params](#411-params)" an
 You can use factories or classes, and obviously, all dependencies are resolved recursively.
 ```javascript
 class A{
-	constructor(b){
-		this.b = b;
-	}
+  constructor(b){
+    this.b = b;
+  }
 }
 class B{
-	constructor(c){
-		this.c = c;
-	}
+  constructor(c){
+    this.c = c;
+  }
 }
 function C(){
-	return 'Hello world !';
+  return 'Hello world !';
 }
 di.addRules({
-	A: {
-		classDef: A,
-		params: [ 'B' ],
-	},
-	B: {
-		classDef: B,
-		params: [ 'C' ],
-	},
-	C: {
-		classDef: C,
-	},
+  A: {
+    classDef: A,
+    params: [ 'B' ],
+  },
+  B: {
+    classDef: B,
+    params: [ 'C' ],
+  },
+  C: {
+    classDef: C,
+  },
 });
 
 const a = di.get('A'); //will resolve C and pass it's return to new B, then it will pass the new B to new A
@@ -297,37 +297,37 @@ You can nest dependencies declarations to infinite. It's very common use for con
 
 ```javascript
 class A{
-	constructor(config, aSecondInstanceOfB){
-		this.b = config.wathever.anotherKey.b;
-		this.b2 = aSecondInstanceOfB;
-	}
+  constructor(config, aSecondInstanceOfB){
+    this.b = config.wathever.anotherKey.b;
+    this.b2 = aSecondInstanceOfB;
+  }
 }
 class B{}
 di.addRules({
-	A: {
-		classDef: A,
-		params: [ {
-			wathever: {
-				anotherKey: {
-					b: 'B'
-				},
-			},
-		}, 'B' ],
-	},
-	B: {
-		classDef: B,
-	},
+  A: {
+    classDef: A,
+    params: [ {
+      wathever: {
+        anotherKey: {
+          b: 'B'
+        },
+      },
+    }, 'B' ],
+  },
+  B: {
+    classDef: B,
+  },
 });
 
 const a = di.get('A');
 
 //it will be equivalent to
 const a = new A( {
-	wathever: {
-		anotherKey: {
-			b: new B(),
-		},
-	},
+  wathever: {
+    anotherKey: {
+      b: new B(),
+    },
+  },
 }, new B() );
 ```
 
@@ -340,7 +340,7 @@ All these behaviors can be configured, but the default config is well and the do
 [defaultVar](#57-defaultvar),
 [defaultRuleVar](#58-defaultrulevar),
 [defaultDecoratorVar](#59-defaultdecoratorvar),
-[defaultArgsVar](#510-defaultargsvar),	
+[defaultArgsVar](#510-defaultargsvar),  
 [defaultFactory](#511-defaultfactory),
 [defaultFunctionWrapper](#512-defaultfunctionwrapper))
 
@@ -351,9 +351,9 @@ Container will resolve dependency as, an instance of class or a value from facto
 This is the default wrapper for string.
 ```javascript
 class A{
-	constructor(b){
-		this.b = b;
-	}
+  constructor(b){
+    this.b = b;
+  }
 }
 class B{}
 
@@ -376,14 +376,14 @@ const a = new A( new B() );
 Container will resolve dependency with the specified value. The value type can be anything: scalar, object, array, function...
 ```javascript
 class A{
-	constructor(bar){
-		this.foo = bar;
-	}
+  constructor(bar){
+    this.foo = bar;
+  }
 }
 
 di.addRule('A', {
-	classDef: A,
-	params: [ di.value('bar') ],
+  classDef: A,
+  params: [ di.value('bar') ],
 });
 
 const a = di.get('A');
@@ -400,18 +400,18 @@ By default it's an alias for [valueFactory](#334-valueFactory).
 Container will resolve dependency with the value returned by the given function.
 ```javascript
 class A{
-	constructor(bar){
-		this.foo = bar;
-	}
+  constructor(bar){
+    this.foo = bar;
+  }
 }
 
 function getFoo(){
-	return 'bar';
+  return 'bar';
 }
 
 di.addRule('A', {
-	classDef: A,
-	params: [ di.factory( getFoo ) ],
+  classDef: A,
+  params: [ di.factory( getFoo ) ],
 });
 
 const a = di.get('A');
@@ -425,9 +425,9 @@ Container will resolve dependency with an instance of the referenced class (or t
 This is the default wrapper for classes references.
 ```javascript
 class A{
-	constructor(b){
-		this.b = b;
-	}
+  constructor(b){
+    this.b = b;
+  }
 }
 class B{}
 
@@ -455,13 +455,13 @@ wich is the only way to include dependency in webpack (because of static require
 for node, if the dependency it's not registred, it will require the specified file and register it.
 ```javascript
 di.addRules({
-	'A': {
-		classDef: A,
-		params: [ di.require('path/to/my-file') ],
-	},
-	'path/to/my-file': {
-		/* ... */
-	},
+  'A': {
+    classDef: A,
+    params: [ di.require('path/to/my-file') ],
+  },
+  'path/to/my-file': {
+    /* ... */
+  },
 );
 
 const a = di.get('A');
@@ -479,7 +479,7 @@ di.addRules(rules);
 
 //2nd way to define rules
 const di = container({
-	rules,
+  rules,
 });
 ```
 
@@ -488,28 +488,28 @@ The following rule's keys are about classes or factories dependencies.
 ```javascript
 //you can use class
 class A{
-	constructor(b, c, d){
-		this.b = b;
-		this.c = c;
-		this.d = d;
-	}
+  constructor(b, c, d){
+    this.b = b;
+    this.c = c;
+    this.d = d;
+  }
 }
 
 //or instance factory
 function A(b, c, d){
-	this.b = b;
-	this.c = c;
-	this.d = d;
+  this.b = b;
+  this.c = c;
+  this.d = d;
 }
 
 //or factory
 function A(b, c, d){
-	const anotherValue = {
-		b: b,
-		c: c,
-		d: d,
-	};
-	return anotherValue;
+  const anotherValue = {
+    b: b,
+    c: c,
+    d: d,
+  };
+  return anotherValue;
 }
 ```
 
@@ -523,11 +523,11 @@ The resolutions behavior depends of [Types of params](#33-types-of-params).
 
 ```javascript
 class A{
-	constructor(b, c, d){
-		this.b = b;
-		this.c = c;
-		this.d = d;
-	}
+  constructor(b, c, d){
+    this.b = b;
+    this.c = c;
+    this.d = d;
+  }
 }
 
 di.addRule('A', { params: ['B','C','D'] });
@@ -549,31 +549,31 @@ If some circular dependencies are detected, some items of calls stack will be pl
 
 ```javascript
 class A{
-	method1(dep1){
-		this.dep1 = dep1;
-	}
-	method2(dep2){
-		this.dep2 = dep2;
-	}
-	method3(dep3){
-		this.dep3 = dep3;
-	}
+  method1(dep1){
+    this.dep1 = dep1;
+  }
+  method2(dep2){
+    this.dep2 = dep2;
+  }
+  method3(dep3){
+    this.dep3 = dep3;
+  }
 }
 di.addRule('A', {
-	classDef: A,
-	calls: [
-		
-		[ 'method1', [ 'dep1' ] ],
-		[ 'method2', [ 'dep2' ] ],
-		
-		[
-			function(a, dep3){
-				a.method3(dep3);
-			},
-			[ 'dep3' ]
-		],
-		
-	],
+  classDef: A,
+  calls: [
+    
+    [ 'method1', [ 'dep1' ] ],
+    [ 'method2', [ 'dep2' ] ],
+    
+    [
+      function(a, dep3){
+        a.method3(dep3);
+      },
+      [ 'dep3' ]
+    ],
+    
+  ],
 });
 
 ```
@@ -624,13 +624,13 @@ index based
 ```javascript
 @di('A', [ 'B' ])
 class A{
-	constructor(B){
-		this.B = B;
-	}
+  constructor(B){
+    this.B = B;
+  }
 }
 
 di.addRule('A',{
-	substitutions: [ 'C' ],
+  substitutions: [ 'C' ],
 });
 
 assert( di.get('A').B instanceof C );
@@ -640,12 +640,12 @@ associative key
 ```javascript
 @di('A', [ { config: { subkey: 'B' } } ])
 class A{
-	constructor(config){
-		this.B = config.subkey.B;
-	}
+  constructor(config){
+    this.B = config.subkey.B;
+  }
 }
 di.addRule('A',{
-	substitutions: { 'B': 'C' },
+  substitutions: { 'B': 'C' },
 });
 
 assert( di.get('A').B instanceof C );
@@ -654,15 +654,15 @@ assert( di.get('A').B instanceof C );
 associative key for calls
 ```javascript
 class A{
-	setDep(config){
-		this.dep = config.dep;
-	}
+  setDep(config){
+    this.dep = config.dep;
+  }
 }
 di.addRule('A',{
-	calls: [
-		[ 'setDep', [ { dep: 'B' } ] ],
-	],
-	substitutions: { 'B': 'C' },
+  calls: [
+    [ 'setDep', [ { dep: 'B' } ] ],
+  ],
+  substitutions: { 'B': 'C' },
 });
 
 assert( di.get('A').dep instanceof C )
@@ -678,19 +678,19 @@ type: **boolean** (default false)
 When "shared" is set to **true**, the instance of the classe or the factory return defined by the rule will be shared for the whole application.
 ```javascript
 class A{
-	constructor(b){
-		this.b = b;
-	}
+  constructor(b){
+    this.b = b;
+  }
 }
 class B{}
 
 di.addRules({
-	'A': {
-		params: [ 'B' ],
-	},
-	'B': {
-		shared: true,
-	},
+  'A': {
+    params: [ 'B' ],
+  },
+  'B': {
+    shared: true,
+  },
 });
 
 const a1 = di.get('A');
@@ -711,21 +711,21 @@ type: **object** | **array** | **scalar**
 If specified it will be registred as shared instance of the dependency for the whole application.
 ```javascript
 class A{
-	constructor(b){
-		this.b = b;
-	}
+  constructor(b){
+    this.b = b;
+  }
 }
 class B{}
 
 const b = new B();
 
 di.addRules({
-	'A': {
-		params: [ 'B' ],
-	},
-	'B': {
-		singleton: b,
-	},
+  'A': {
+    params: [ 'B' ],
+  },
+  'B': {
+    singleton: b,
+  },
 });
 
 const a1 = di.get('A');
@@ -749,8 +749,8 @@ The best way to explain this is a practical demonstration:
 ```javascript
 class A {    
     constructor(b, c){
-		this.b = b;
-		this.c = c;
+    this.b = b;
+    this.c = c;
     }
 }
 
@@ -769,7 +769,7 @@ class C {
 class D {}
 
 di.addRule('A', {
-	'sharedInTree': ['D'],
+  'sharedInTree': ['D'],
 });
 
 const a = di.get('A');
@@ -811,21 +811,21 @@ Enable inheritance of rules from instanceOf parents classes.
 
 ```javascript
 class X{
-	constructor(x){
-		this.x = x;
-	}
+  constructor(x){
+    this.x = x;
+  }
 }
-		
+    
 di.addRules({
-	'X':{
-		classDef: X,
-		params: [ di.value('ok') ],
-		shared: true,
-	},
-	'Y':{
-		instanceOf: 'X',
-		inheritInstanceOf: true,
-	},
+  'X':{
+    classDef: X,
+    params: [ di.value('ok') ],
+    shared: true,
+  },
+  'Y':{
+    instanceOf: 'X',
+    inheritInstanceOf: true,
+  },
 });
 
 assert( di.get('Y').x === 'ok' );
@@ -840,22 +840,22 @@ Enable inheritance of rules from ES6 extended parents classes.
 "[decorator](#444-decorator)" must be enabled to parents rules you want to extend from.
 ```javascript
 class Z{
-	constructor(...params){
-		this.params = params;
-	}
+  constructor(...params){
+    this.params = params;
+  }
 }
 class ZX extends Z{}
 
 di.addRules({
-	'Z': {
-		classDef: Z,
-		params: [ di.value(1), di.value(2), di.value(3) ],
-		decorator: true, //needed for parent class by extended using inheritPrototype
-	},
-	'Z2': {
-		classDef: ZX,
-		inheritPrototype: true,
-	},
+  'Z': {
+    classDef: Z,
+    params: [ di.value(1), di.value(2), di.value(3) ],
+    decorator: true, //needed for parent class by extended using inheritPrototype
+  },
+  'Z2': {
+    classDef: ZX,
+    inheritPrototype: true,
+  },
 });
 
 const z   = di.get('Z').getParams();
@@ -870,36 +870,36 @@ type: **array**
 Enable inheritance from a list of specified rules.
 ```javascript
 class A{
-	constructor(...params){
-		this.params = params;
-	}
-	getParams(){
-		return this.params;
-	}
+  constructor(...params){
+    this.params = params;
+  }
+  getParams(){
+    return this.params;
+  }
 }
 class B{
-	constructor(...params){
-		this.params = params;
-	}
-	getParams(){
-		return this.params;
-	}
+  constructor(...params){
+    this.params = params;
+  }
+  getParams(){
+    return this.params;
+  }
 }
 
 di.addRules({
-	'A':{
-		classDef: A,
-		params: [ di.value('a') ],
-	},
-	'B':{
-		classDef: B,
-		inheritMixins: [ 'A' ],
-	},
+  'A':{
+    classDef: A,
+    params: [ di.value('a') ],
+  },
+  'B':{
+    classDef: B,
+    inheritMixins: [ 'A' ],
+  },
 });
 
 const a = di.get('A').getParams();
 const b = di.get('B').getParams();
-assert.deepEqual(b, a);	
+assert.deepEqual(b, a);  
 ```
 
 ##### 4.4.4 decorator
@@ -928,34 +928,34 @@ the [promiseFactory](#513-promisefactory) and [promiseInterfaces](#514-promisein
 
 ```javascript
 function A(b, c){
-	this.b = b;
-	this.c = c;
+  this.b = b;
+  this.c = c;
 }
 async function B(){
-	return 'b';
+  return 'b';
 }
 async function C(){
-	return 'c';
+  return 'c';
 }
 
 di.addRules({
-	'A': {
-		classDef: A,
-		params: ['B','C'],
-	},
-	'B': {
-		classDef: B,
-		asyncResolve: true,
-	},
-	'C': {
-		classDef: C,
-		asyncResolve: false, //default
-	},
+  'A': {
+    classDef: A,
+    params: ['B','C'],
+  },
+  'B': {
+    classDef: B,
+    asyncResolve: true,
+  },
+  'C': {
+    classDef: C,
+    asyncResolve: false, //default
+  },
 });
 
 di.get('A').then(a => {
-	assert(a.b === 'b');
-	assert(a.c instanceof Promise);
+  assert(a.b === 'b');
+  assert(a.c instanceof Promise);
 });
 
 ```
@@ -968,73 +968,73 @@ when the method or callback require a dependency returning a Promise and for wic
 
 ```javascript
 class A{
-	setB(d){
-		this.b = ++d.i;
-	}
-	setC(d){
-		this.c = ++d.i;
-	}
+  setB(d){
+    this.b = ++d.i;
+  }
+  setC(d){
+    this.c = ++d.i;
+  }
 }
 
 function B(d){
-	return new Promise((resolve)=>{
-		setTimeout(()=>{
-			resolve(d)
-		}, 200);
-	});
+  return new Promise((resolve)=>{
+    setTimeout(()=>{
+      resolve(d)
+    }, 200);
+  });
 }
 function C(d){
-	return new Promise((resolve)=>{
-		setTimeout(()=>{
-			resolve(d);
-		}, 100);
-	});
+  return new Promise((resolve)=>{
+    setTimeout(()=>{
+      resolve(d);
+    }, 100);
+  });
 }
 
 function D(){
-	this.i = 0;
+  this.i = 0;
 }
 
 di.addRules({
-	'A': {
-		classDef: A,
-		calls: [
-			['setB', ['B'] ],
-			['setC', ['C'] ],
-		],
-		sharedInTree: ['D'],
-		asyncCallsSerie: false, //default
-	},
-	'A2': {
-		instanceOf: 'A',
-		asyncCallsSerie: true,
-	},
-	
-	'B': {
-		classDef: B,
-		params: ['D'],
-		asyncResolve: true,
-	},
-	'C': {
-		classDef: C,
-		params: ['D'],
-		asyncResolve: true,
-	},
-	'D':{
-		classDef: D,
-	},
-	
-	
+  'A': {
+    classDef: A,
+    calls: [
+      ['setB', ['B'] ],
+      ['setC', ['C'] ],
+    ],
+    sharedInTree: ['D'],
+    asyncCallsSerie: false, //default
+  },
+  'A2': {
+    instanceOf: 'A',
+    asyncCallsSerie: true,
+  },
+  
+  'B': {
+    classDef: B,
+    params: ['D'],
+    asyncResolve: true,
+  },
+  'C': {
+    classDef: C,
+    params: ['D'],
+    asyncResolve: true,
+  },
+  'D':{
+    classDef: D,
+  },
+  
+  
 });
 
 di.get('A').then( a => {
-	assert.strictEqual(a.b, 2);
-	assert.strictEqual(a.c, 1);
+  assert.strictEqual(a.b, 2);
+  assert.strictEqual(a.c, 1);
 } );
 
 di.get('A2').then( a => {
-	assert.strictEqual(a.b, 1);
-	assert.strictEqual(a.c, 2);
+  assert.strictEqual(a.b, 1);
+  assert.strictEqual(a.c, 2);
 } );
 ```
 
@@ -1047,61 +1047,61 @@ Setted to true, it will implicitly set [asyncCallsSerie](#452-asynccallsserie) t
 
 ```javascript
 class A{
-	setB(b){
-		this.b = b;
-	}
-	setC(c){
-		this.c = c;
-	}
+  setB(b){
+    this.b = b;
+  }
+  setC(c){
+    this.c = c;
+  }
 }
 
 function B(d){
-	return new Promise((resolve)=>{
-		setTimeout(()=>{
-			resolve(++d.i)
-		}, 200);
-	});
+  return new Promise((resolve)=>{
+    setTimeout(()=>{
+      resolve(++d.i)
+    }, 200);
+  });
 }
 function C(d){
-	return new Promise((resolve)=>{
-		setTimeout(()=>{
-			resolve(++d.i);
-		}, 100);
-	});
+  return new Promise((resolve)=>{
+    setTimeout(()=>{
+      resolve(++d.i);
+    }, 100);
+  });
 }
 
 function D(){
-	this.i = 0;
+  this.i = 0;
 }
 
 di.addRules({
-	'A': {
-		classDef: A,
-		calls: [
-			['setB', ['B'] ],
-			['setC', ['C'] ],
-		],
-		asyncCallsParamsSerie: true,
-		sharedInTree: ['D'],
-	},
-	'B': {
-		classDef: B,
-		params: ['D'],
-		asyncResolve: true,
-	},
-	'C': {
-		classDef: C,
-		params: ['D'],
-		asyncResolve: true,
-	},
-	'D':{
-		classDef: D,
-	},
+  'A': {
+    classDef: A,
+    calls: [
+      ['setB', ['B'] ],
+      ['setC', ['C'] ],
+    ],
+    asyncCallsParamsSerie: true,
+    sharedInTree: ['D'],
+  },
+  'B': {
+    classDef: B,
+    params: ['D'],
+    asyncResolve: true,
+  },
+  'C': {
+    classDef: C,
+    params: ['D'],
+    asyncResolve: true,
+  },
+  'D':{
+    classDef: D,
+  },
 });
 
 di.get('A').then( a => {
-	assert(a.b === 1);
-	assert(a.c === 2);
+  assert(a.b === 1);
+  assert(a.c === 2);
 });
 
 ```
@@ -1124,17 +1124,17 @@ When [path](#462-path) is defined it will implicitly set autoload to true.
 
 ```javascript
 di.addRules({
-	'http:Server':{
-		autoload: true,
-	},
-	'#server': {
-		instanceOf: 'http:Server',
-		autoload: true,
-	},
-	'#server2': {
-		path: 'http:Server',
-	},
-	
+  'http:Server':{
+    autoload: true,
+  },
+  '#server': {
+    instanceOf: 'http:Server',
+    autoload: true,
+  },
+  '#server2': {
+    path: 'http:Server',
+  },
+  
 });
 
 assert( di.get('http:Server') instanceof require('http').Server );
@@ -1154,9 +1154,9 @@ See [autoload](#461-autoload) section for more details on the requiring behavior
 
 ```javascript
 di.addRules({
-	'#server': {
-		path: 'http:Server',
-	},
+  '#server': {
+    path: 'http:Server',
+  },
 });
 
 assert( di.get('#server') instanceof require('http').Server );
@@ -1183,7 +1183,7 @@ If key/value config object is provided as config param, options will be treated 
 See [rules](#4-rules) section.
 ```javascript
 di.config({
-	rules
+  rules
 });
 
 //or
@@ -1212,27 +1212,27 @@ NodeJS example
 import container from 'di-ninja'
 
 const di = container({
-	rules:{
-		'app/A': {
-			
-		},
-		'app/B': {
-			
-		},
-		'app/B/C': {
-			
-		},
-	},
-	
-	dependencies: {
-		
-		'app' : container.context('./src', true, /\.js$/),
-		
-		'A': container.require('./src/A'),
-		
-		'B': container.dependency(require('./src/B')),
-		
-	},
+  rules:{
+    'app/A': {
+      
+    },
+    'app/B': {
+      
+    },
+    'app/B/C': {
+      
+    },
+  },
+  
+  dependencies: {
+    
+    'app' : container.context('./src', true, /\.js$/),
+    
+    'A': container.require('./src/A'),
+    
+    'B': container.dependency(require('./src/B')),
+    
+  },
 });
 
 assert( di.get('app/A') instanceof require('./src/A').default );
@@ -1258,13 +1258,13 @@ const webpack = require('webpack');
 
 module.exports = {
     plugins: [
-		new webpack.DefinePlugin({
-			'process.env': {
-				APP_ENV: JSON.stringify('browser')
-			}
-		}),		
+    new webpack.DefinePlugin({
+      'process.env': {
+        APP_ENV: JSON.stringify('browser')
+      }
+    }),    
     ],
-	/* ... */
+  /* ... */
 };
 
 ```
@@ -1274,31 +1274,31 @@ and in your dependency-injection config file
 import container from 'di-ninja'
 
 if(process.env.APP_ENV !== 'browser'){
-	//we are not in webpack/browser but in nodejs/server-side
-	require.context = container.context;
+  //we are not in webpack/browser but in nodejs/server-side
+  require.context = container.context;
 }
 
 const di = container({
-	rules:{
-		'app/A': {
-			
-		},
-		'app/B': {
-			
-		},
-		'app/B/C': {
-			
-		},
-		
-	},
-	
-	dependencies: {
-		'app' : require.context('./src', true, /\.js$/),		
-		
-		'A': container.dependency( require('./src/A') ),
-		
-		'B': container.dependency( require('./src/B') ),
-	},
+  rules:{
+    'app/A': {
+      
+    },
+    'app/B': {
+      
+    },
+    'app/B/C': {
+      
+    },
+    
+  },
+  
+  dependencies: {
+    'app' : require.context('./src', true, /\.js$/),    
+    
+    'A': container.dependency( require('./src/A') ),
+    
+    'B': container.dependency( require('./src/B') ),
+  },
 });
 
 assert( di.get('app/A') instanceof require('./src/A').default );
@@ -1319,12 +1319,12 @@ Rule's path post-processor callback function or alias map object.
 with callback
 ```javascript
 di.config('autoloadPathResolver', (path)=>{
-	switch(path){
-		case 'framework':
-			path = 'express';
-		break;
-	}
-	return path;
+  switch(path){
+    case 'framework':
+      path = 'express';
+    break;
+  }
+  return path;
 });
 ```
 
@@ -1332,7 +1332,7 @@ with alias map object
 ```javascript
 import path from 'path'
 const aliasMap = {
-	'app': path.resolve(__dirname, './src'),
+  'app': path.resolve(__dirname, './src'),
 };
 
 di.config('autoloadPathResolver', aliasMap);
@@ -1340,16 +1340,16 @@ di.config('autoloadPathResolver', aliasMap);
 
 //will implicitly set the following predefined callback, here is the magic under the hood
 di.config('autoloadPathResolver', (path)=>{
-	Object.keys(aliasMap).forEach(alias=>{
-		const realPath = aliasMap[alias];
-		if(path == alias){
-			path = realPath;
-		}
-		else if(path.substr(0,alias.length+1)==alias+'/'){
-			path = realPath+path.substr(alias.length);
-		}
-	});
-	return path;
+  Object.keys(aliasMap).forEach(alias=>{
+    const realPath = aliasMap[alias];
+    if(path == alias){
+      path = realPath;
+    }
+    else if(path.substr(0,alias.length+1)==alias+'/'){
+      path = realPath+path.substr(alias.length);
+    }
+  });
+  return path;
 });
 ```
 
@@ -1392,16 +1392,16 @@ interface example
 di.config('defaultVar', 'interface'); //default
 
 di.addRule('A', {
-	params: [
-		{
-			B :        'B',
-			message :  di.value( 'Hello world !' ),
-			config :  di.value({
-				option1: value1
-				/* ... */
-			}),
-		}
-	]
+  params: [
+    {
+      B :        'B',
+      message :  di.value( 'Hello world !' ),
+      config :  di.value({
+        option1: value1
+        /* ... */
+      }),
+    }
+  ]
 });
 ```
 
@@ -1411,16 +1411,16 @@ value example
 di.config('defaultVar', 'value');
 
 di.addRule('A', {
-	params: [
-		{
-			B :        di.interface('B'),
-			message :  'Hello world !',
-			config :  di.value({
-				option1: value1
-				/* ... */
-			}),
-		}
-	]
+  params: [
+    {
+      B :        di.interface('B'),
+      message :  'Hello world !',
+      config :  di.value({
+        option1: value1
+        /* ... */
+      }),
+    }
+  ]
 });
 ```
 
@@ -1454,12 +1454,12 @@ di.config('defaultFunctionWrapper', ClassFactory); //default
 class B{}
 
 di.addRule('A', {
-	params: [
-		B,
-		di.valueFactory( () => {
-			return 'Hello world !';
-		} )
-	],
+  params: [
+    B,
+    di.valueFactory( () => {
+      return 'Hello world !';
+    } )
+  ],
 });
 ```
 
@@ -1471,12 +1471,12 @@ di.config('defaultFunctionWrapper', ValueFactory);
 class B{}
 
 di.addRule('A', {
-	params: [
-		di.classFactory( B ),
-		() => {
-			return 'Hello world !';
-		}
-	],
+  params: [
+    di.classFactory( B ),
+    () => {
+      return 'Hello world !';
+    }
+  ],
 });
 ```
 
