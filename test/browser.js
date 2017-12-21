@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 import { assert } from 'chai'
 
 import loadTestFactory from './utils/loadTestFactory'

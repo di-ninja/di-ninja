@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 import path from 'path'
 
 export default ({di, assert})=>{

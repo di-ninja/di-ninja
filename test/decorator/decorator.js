@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 export default ({di, assert})=>{
 	
 	return function(){		

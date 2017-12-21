@@ -1,3 +1,5 @@
+/* eslint-env mocha */
+
 import{
 	Interface,
 	//InterfacePrototype,
