@@ -28,4 +28,4 @@ test_script:
 build: off
 
 cache:
-  - node_modules
+  - node_modules -> package.json
