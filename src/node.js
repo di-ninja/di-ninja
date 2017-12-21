@@ -34,6 +34,7 @@ export class NodeContainer extends Container {
     }
 
     try {
+	  console.log('require.resolve',requirePath);
       require.resolve(requirePath)
       return true
     } catch (e) {
