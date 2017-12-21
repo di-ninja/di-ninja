@@ -28,15 +28,12 @@ makeContainer.getInterfacePrototypeDefault = Container.getInterfacePrototypeDefa
 
 export class NodeContainer extends Container {
   depExists (requirePath) {
-	console.log('depExists',requirePath);
     requirePath = PATH.normalize(requirePath)
-	console.log('depExists normalized',requirePath);
     if (undefined !== this.requires[requirePath]) {
       return true
     }
 
     try {
-	  console.log('require.resolve',requirePath);
       require.resolve(requirePath)
       return true
     } catch (e) {

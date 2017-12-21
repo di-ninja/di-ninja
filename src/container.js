@@ -434,14 +434,13 @@ export default class Container {
 
     let required
     const found = this.autoloadExtensions.concat('').some(ext => {
-      
       let prefix = ''
       const pathFragments = requirePath.split(':')
       if (isWin32AbsolutePath(requirePath)) {
-        prefix = pathFragments.shift()+':'
+        prefix = pathFragments.shift() + ':'
       }
 
-      let path = prefix+pathFragments.shift()
+      let path = prefix + pathFragments.shift()
       if (ext) {
         path += '.' + ext
       }
