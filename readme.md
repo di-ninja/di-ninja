@@ -2,6 +2,10 @@
 
 [![npm version](https://badge.fury.io/js/di-ninja.svg)](https://badge.fury.io/js/di-ninja)
 
+{::comment}
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+{:/comment}
+
 The Dependency-Injection Framework for JavaScript NodeJS and Browser.
 
 ## Installation
