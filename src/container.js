@@ -49,7 +49,7 @@ const configMethods = new Map([
 	
 	['ruleCache', 'setRuleCache'],
 	
-	//order matters for theses methods
+	//order matters (sometimes a little performance gain) for theses methods
 	['promiseFactory', 'setPromiseFactory'],
 	['promiseInterfaces', 'setPromiseInterfaces'],
 

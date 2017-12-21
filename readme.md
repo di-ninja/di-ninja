@@ -792,7 +792,12 @@ There are three way to herit rule, the priority order of override is
 overrided by [inheritPrototype](#442-inheritprototype), 
 overrided by [inheritMixins](#443-inheritmixins), 
 and finally the rule itself wich is composed by rule definition and [decorator](#444-decorator).
-Priority between rule and decorator depends of calls order, the last take precedence, traditionally it's the rule.
+Priority between rule and decorator depends of calls order, the last take precedence, traditionally it's the rule.  
+Most of rules options are replaced except some options that will be merged:
+[sharedInTree](#433-sharedintree), [substitutions](#423-substitutions),
+[calls](#412-calls) and [lazyCalls](#413-lazycalls).
+
+See also [rulesDefault](#52-rulesDefault) in container config section.
 
 ##### 4.4.1 inheritInstanceOf
 type: **boolean** (default true)  
@@ -1165,22 +1170,35 @@ const di = container();
 di.config(config);
 di.config('aConfigKey', aConfigValue);
 ```
+Order of config calls doesn't matter except for options [dependencies](#53-dependencies) and [rules](#51-rules) wich must be called at end.
+If key/value config object is provided as config param, options will be treated in the correct order.
 
 #### 5.1 rules
 See [rules](#4-rules) section.
 ```javascript
+di.config({
+	rules
+});
 
+//or
+di.config('rules',rules);
+
+//or
+di.addRules(rules);
+di.addRule('#myClassName', rule);
 ```
 
 #### 5.2 rulesDefault
-...
+Default values for rules, each rule will be extended from this setup, values will be overidded or merged.  
+See [rule inheritance](#44-rule-inheritance) documentation section for more details on extending.
 ```javascript
-
+di.config('rulesDefault',rulesDefault);
 ```
 
 #### 5.3 dependencies
 ...
 ```javascript
+di.config('rulesDefault',rulesDefault);
 
 ```
 
