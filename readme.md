@@ -1,8 +1,9 @@
 # Di-Ninja [![Di-Ninja ICON](https://raw.githubusercontent.com/di-ninja/di-ninja/master/icon/icon.png)](https://github.com/di-ninja/di-ninja#)
 
 [![npm version](https://badge.fury.io/js/di-ninja.svg)](https://badge.fury.io/js/di-ninja)
-[![Build Status](https://travis-ci.org/di-ninja/di-ninja.svg?branch=master)](https://travis-ci.org/di-ninja/di-ninja)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![Build Status](https://travis-ci.org/di-ninja/di-ninja.svg?branch=master)](https://travis-ci.org/di-ninja/di-ninja)
+[![Windows Build status](https://ci.appveyor.com/api/projects/status/github/di-ninja/di-ninja?branch=master&svg=true)](https://ci.appveyor.com/project/surikat/di-ninja/branch/master)
 
 
 The Dependency-Injection Framework for JavaScript NodeJS and Browser.
