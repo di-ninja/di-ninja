@@ -1282,10 +1282,18 @@ const di = container({
 		'app/B': {
 			
 		},
+		'app/B/C': {
+			
+		},
+		
 	},
 	
 	dependencies: {
 		'app' : require.context('./src', true, /\.js$/),		
+		
+		'A': container.dependency( require('./src/A') ),
+		
+		'B': container.dependency( require('./src/B') ),
 	},
 });
 
@@ -1293,6 +1301,11 @@ assert( di.get('app/A') instanceof require('./src/A').default );
 
 assert( di.get('app/B') instanceof require('./src/B').default );
 
+assert( di.get('app/B/C') instanceof require('./src/B/C').default );
+
+assert( di.get('A') instanceof require('./src/A').default );
+
+assert( di.get('B') instanceof require('./src/B').default );
 ```
 
 
