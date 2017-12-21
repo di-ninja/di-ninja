@@ -420,7 +420,7 @@ export default class Container{
 					return;
 				}
 			}
-			const req = this.requireDep(key, path);
+			const req = this.requireDep(key, path, rule.path);
 			if(req){
 				this.registerRequire(key, req);
 			}
@@ -434,7 +434,7 @@ export default class Container{
 		return true;
 	}
 	
-	requireDep(key, requirePath){
+	requireDep(key, requirePath, rulePath){
 		const cached = this.getRequire(key);
 		if(cached){
 			return cached;
@@ -475,7 +475,7 @@ export default class Container{
 			}
 			
 		});
-		if( ! found && ((this.autoloadFailOnMissingFile==='path' && requirePath) || this.autoloadFailOnMissingFile===true) ){
+		if( !found && ((this.autoloadFailOnMissingFile==='path' && rulePath) || this.autoloadFailOnMissingFile===true) ){
 			throw new Error('Missing expected dependency injection file "'+requirePath+'"');
 		}
 		
