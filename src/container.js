@@ -443,8 +443,6 @@ export default class Container{
 		requirePath = this.autoloadPathResolver(requirePath);
 		if(typeof requirePath === 'symbol') return;
 		
-		console.log('requirePath', requirePath);
-		console.log('autoloadExtensions', this.autoloadExtensions);
 		
 		let required;
 		const found = this.autoloadExtensions.concat('').some( ext => {
@@ -458,6 +456,8 @@ export default class Container{
 				path += '.'+ext;
 			}
 			
+			console.log('path', path);
+			console.log('this.depExists(path)', this.depExists(path));
 			if(this.depExists(path)){
 				required = this.depRequire(path);
 								
