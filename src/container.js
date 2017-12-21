@@ -28,6 +28,8 @@ import structuredInterfacePrototype from './structuredInterfacePrototype'
 
 import promiseInterface from './promiseInterface'
 
+import isWin32AbsolutePath from './isWin32AbsolutePath'
+
 const SEP = PATH.sep
 const SEP_BACK = SEP !== '/'
 
@@ -432,9 +434,14 @@ export default class Container {
 
     let required
     const found = this.autoloadExtensions.concat('').some(ext => {
+      
+      let prefix = ''
       const pathFragments = requirePath.split(':')
+      if (isWin32AbsolutePath(requirePath)) {
+        prefix = pathFragments.shift()+':'
+      }
 
-      let path = pathFragments.shift()
+      let path = prefix+pathFragments.shift()
       if (ext) {
         path += '.' + ext
       }
