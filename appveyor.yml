@@ -1,0 +1,24 @@
+# AppVeyor file
+# http://www.appveyor.com/docs/appveyor-yml
+
+# Test against this version of Node.js
+environment:
+  matrix:
+    # node.js
+    - nodejs_version: "8"
+    - nodejs_version: "9"
+
+branches:
+  only:
+  - master
+
+#skip_non_tags: true
+
+install:
+  - ps: Install-Product node $env:nodejs_version
+  - npm install
+
+test_script:
+  # Output useful info for debugging.
+  - node --version && npm --version
+  - cmd: npm test
