@@ -1199,14 +1199,100 @@ di.config('rulesDefault',rulesDefault);
 #### 5.3 dependencies
 Dependencies is intendeed to allow you to "inject" require's context directories as preload dependencies.
 It work using the webpack "require.context" feature,
-but a node polyfill called "container.context" is provided with di-ninja allowing you to build isomorphic architecture
-(use the same code for browser compilation via webpack than on server-side with nodejs).
+but a node polyfill called "container.context" is provided with di-ninja allowing you to build isomorphic architecture.
+
+NodeJS example
 ```javascript
-di.config('dependencies',{
+import container from 'di-ninja'
+
+const di = container({
+	rules:{
+		'app/A': {
+			
+		},
+		'app/B': {
+			
+		},
+		'app/B/C': {
+			
+		},
+	},
 	
+	dependencies: {
+		
+		'app' : container.context('./src', true, /\.js$/),
+		
+		'A': container.require('./src/A'),
+		
+		'B': container.dependency(require('./src/B')),
+		
+	},
 });
 
+assert( di.get('app/A') instanceof require('./src/A').default );
+
+assert( di.get('app/B') instanceof require('./src/B').default );
+
+assert( di.get('app/B/C') instanceof require('./src/B/C').default );
+
+assert( di.get('A') instanceof require('./src/A').default );
+
+assert( di.get('B') instanceof require('./src/B').default );
+
 ```
+
+
+Isomorphic example  
+Use the same code for browser compilation via webpack than on server-side with nodejs.  
+
+in webpack.config.js
+
+```javascript
+const webpack = require('webpack');
+
+module.exports = {
+    plugins: [
+		new webpack.DefinePlugin({
+			'process.env': {
+				APP_ENV: JSON.stringify('browser')
+			}
+		}),		
+    ],
+	/* ... */
+};
+
+```
+
+and in your dependency-injection config file
+```javascript
+import container from 'di-ninja'
+
+if(process.env.APP_ENV !== 'browser'){
+	//we are not in webpack/browser but in nodejs/server-side
+	require.context = container.context;
+}
+
+const di = container({
+	rules:{
+		'app/A': {
+			
+		},
+		'app/B': {
+			
+		},
+	},
+	
+	dependencies: {
+		'app' : require.context('./src', true, /\.js$/),		
+	},
+});
+
+assert( di.get('app/A') instanceof require('./src/A').default );
+
+assert( di.get('app/B') instanceof require('./src/B').default );
+
+```
+
 
 #### 5.4 autoloadPathResolver
 ...
