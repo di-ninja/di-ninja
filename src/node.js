@@ -31,7 +31,8 @@ export class NodeContainer extends Container {
 	
 	
 	depExists(requirePath){
-		if(undefined !== this.getRequire(requirePath)){
+		requirePath = PATH.normalize(requirePath);
+		if(undefined !== this.requires[requirePath]){
 			return true;
 		}
 		
@@ -44,7 +45,8 @@ export class NodeContainer extends Container {
 		}
 	}
 	depRequire(requirePath){
-		const required = this.getRequire(requirePath);
+		requirePath = PATH.normalize(requirePath);
+		const required = this.requires[requirePath];
 		if(undefined !== required){
 			return required;
 		}
