@@ -1,5 +1,7 @@
 # Di-Ninja [![Di-Ninja ICON](https://raw.githubusercontent.com/di-ninja/di-ninja/master/icon/icon.png)](https://github.com/di-ninja/di-ninja#)
 
+[![npm version](https://badge.fury.io/js/di-ninja.svg)](https://badge.fury.io/js/di-ninja)
+
 The Dependency-Injection Framework for JavaScript NodeJS and Browser.
 
 ## Installation
