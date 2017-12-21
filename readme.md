@@ -132,7 +132,7 @@ Dependencies definition can be overrided, the last call of addRule or @di decora
 
 The Composition Root is the highest level of your application, the top overlay.  
 It's here that you will configure many rules for your components and wire them together.  
-Using only the Composition Root design pattern has the advantage to let you have totaly unopinionated components,
+Using only the Composition Root design pattern has the advantage to let your components totaly unopinionated,
 all your classes and factories can keep uncoupled from the dependency injector (di-ninja).
 
 example with ES6 class syntax
