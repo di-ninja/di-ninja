@@ -4,7 +4,7 @@ import { assert } from 'chai'
 import sinon from 'sinon'
 
 import {
-	InterfacePrototype
+  InterfacePrototype
 } from 'interface-prototype'
 
 export default function loadTestFactory (container, requireCaller) {

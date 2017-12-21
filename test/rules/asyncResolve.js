@@ -32,13 +32,13 @@ export default ({di, assert}) => {
     describe('simple async', function () {
       it('waitA sould be promise', async function () {
         const instance = di.get('A')
-				// return assert.instanceOf(instance, Promise);
+        // return assert.instanceOf(instance, Promise);
         return assert(typeof instance === 'object' && instance !== null && typeof instance.then === 'function')
       })
 
       it('a.b sould be promise', async function () {
         const instance = di.get('A')
-				// return assert.instanceOf(instance.b, Promise);
+        // return assert.instanceOf(instance.b, Promise);
         return assert(typeof instance === 'object' && instance !== null && typeof instance.then === 'function')
       })
       it('a.c should be resolved value of promise', async function () {

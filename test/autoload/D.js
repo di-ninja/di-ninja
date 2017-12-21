@@ -6,5 +6,5 @@ const classes = {
 }
 
 export {
-	classes
+  classes
 }

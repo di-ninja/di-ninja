@@ -9,7 +9,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class B {
       constructor (...params) {
         this.params = params
@@ -17,7 +17,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
 
     di.addRules({
       'A': {

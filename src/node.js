@@ -1,5 +1,4 @@
 import PATH from 'path'
-import FS from 'fs'
 
 import Container from './container'
 import makeContainerApi from './makeContainerApi'

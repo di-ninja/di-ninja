@@ -9,7 +9,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class B {
       constructor (...params) {
         this.params = params
@@ -17,7 +17,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class C {
       constructor (...params) {
         this.params = params
@@ -25,7 +25,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class D {
       constructor (...params) {
         this.params = params
@@ -33,7 +33,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class E {
       constructor (...params) {
         this.params = params
@@ -41,7 +41,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class F {
       constructor (...params) {
         this.params = params
@@ -49,7 +49,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
 
     class G {
       constructor (...params) {
@@ -64,7 +64,7 @@ export default ({di, assert}) => {
       setI (i) {
         this.params[1] = i
       }
-		}
+    }
     class H {}
     class I {}
 
@@ -139,8 +139,8 @@ export default ({di, assert}) => {
       'SubstitutionsParentAssocWithCalls': {
         classDef: G,
         calls: [
-					[ 'setH', [ 'E' ] ],
-					[ 'setI', [ 'F' ] ]
+          [ 'setH', [ 'E' ] ],
+          [ 'setI', [ 'F' ] ]
         ],
         substitutions: {
           'E': 'H',

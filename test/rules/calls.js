@@ -12,7 +12,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class L {
       constructor (...params) {
         this.params = params
@@ -23,7 +23,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class M {
       constructor (...params) {
         this.params = params
@@ -34,7 +34,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     di.addRules({
       'A': {
         classDef: A,
@@ -43,13 +43,13 @@ export default ({di, assert}) => {
       'L': {
         classDef: L,
         calls: [
-					[ 'setParams', [ { foo: di.value('bar') } ] ]
+          [ 'setParams', [ { foo: di.value('bar') } ] ]
         ]
       },
       'M': {
         classDef: M,
         calls: [
-					[ 'setParams', [ { a: 'A' } ] ]
+          [ 'setParams', [ { a: 'A' } ] ]
         ]
       }
     })

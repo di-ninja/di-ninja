@@ -13,29 +13,31 @@ export default ({di, assert}) => {
     }
     di('A', ['B'])(A)
 
+    /* eslint-disable no-unused-vars */
     @di('C')
-		class C {
+    class C {
       @di(['B'])
-			method (b) {
-  this.B = b
-}
-		}
+        method (b) {
+          this.B = b
+        }
+    }
 
     @di('D')
-		class D {
+      class D {
       @di(['B'], true)
-			method (b) {
-  this.B = b
-}
-		}
+        method (b) {
+          this.B = b
+        }
+      }
 
     @di('E')
-		class E {
+    class E {
       @di.wrap(['B'])
-			method (b) {
-  this.B = b
-}
-		}
+        method (b) {
+          this.B = b
+        }
+    }
+    /* eslint-enable no-unused-vars */
 
     di.addRules({
       'A': {
@@ -46,7 +48,7 @@ export default ({di, assert}) => {
       },
       'C': {
         calls: [
-					[ 'method' ]
+          [ 'method' ]
         ]
       }
     })

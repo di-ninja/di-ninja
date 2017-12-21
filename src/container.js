@@ -134,10 +134,10 @@ export default class Container {
   }
 
   setDefaultFactory (defaultFactory = ValueFactory) {
-    this.defaultFactory = defaultFactory
+    this.DefaultFactory = defaultFactory
   }
   setDefaultFunctionWrapper (defaultFunctionWrapper = ClassFactory) {
-    this.defaultFunctionWrapper = defaultFunctionWrapper
+    this.DefaultFunctionWrapper = defaultFunctionWrapper
   }
 
   setInterfaceTypeCheck (interfaceTypeCheck = false) {
@@ -189,11 +189,11 @@ export default class Container {
       autoloadPathResolver = (path) => {
         Object.keys(aliasMap).forEach(alias => {
           const realPath = PATH.normalize(aliasMap[alias])
-          if (path == alias) {
+          if (path === alias) {
             path = realPath
           } else {
             const dir = path.substr(0, alias.length + 1)
-            if (dir == alias + '/' || (SEP_BACK && dir == alias + SEP)) {
+            if (dir === alias + '/' || (SEP_BACK && dir === alias + SEP)) {
               path = PATH.join(realPath, path.substr(alias.length))
             }
           }
@@ -226,12 +226,12 @@ export default class Container {
 
       context.keys().forEach((filename) => {
         let key = filename
-        if (key.substr(0, 2) == './') {
+        if (key.substr(0, 2) === './') {
           key = key.substr(2)
         }
 
         key = dirKey + '/' + key.substr(0, key.lastIndexOf('.') || key.length)
-        if (key.split('/').pop() == 'index') {
+        if (key.split('/').pop() === 'index') {
           key = key.substr(0, key.lastIndexOf('/'))
         }
         this.setRequire(key, context(filename))
@@ -317,7 +317,7 @@ export default class Container {
       if (typeof callVal === 'function') {
         callVal = [callVal]
       }
-      const [method, params = []] = callVal
+      const [, params = []] = callVal
       if (this.ruleCheckCyclicLoad(params, [ key ])) {
         lazyCalls.push(callVal)
       } else {
@@ -356,7 +356,7 @@ export default class Container {
 
         if (!cyclic) {
           cyclic = paramRule.calls.some(callV => {
-            const [method, params = [] ] = callV
+            const [ , params = [] ] = callV
             return this.ruleCheckCyclicLoad(params, stack)
           })
         }
@@ -389,8 +389,8 @@ export default class Container {
     if (typeof rule.classDef === 'string') {
       const classDefName = rule.classDef
       rule.classDef = (...args) => {
-        const classDefinition = this.get(classDefName)
-        return new classDefinition(...args)
+        const ClassDefinition = this.get(classDefName)
+        return new ClassDefinition(...args)
       }
     }
     if (rule.autoload || rule.path) {
@@ -507,7 +507,7 @@ export default class Container {
         const [ className, types = [] ] = args
         this.decoratorClass(target, className, types)
       } else {
-        const [ types = [], wrap = false, interfaceName ] = args
+        const [ types = [], wrap = false ] = args
         target[method] = this.decoratorMethod(target, method, types, wrap)
       }
       return target
@@ -583,7 +583,7 @@ export default class Container {
 
   makeProvider (interfaceName) {
     const rule = this.getRule(interfaceName)
-    const classDef = rule.resolvedInstanceOf
+    const ClassDef = rule.resolvedInstanceOf
     return (args, sharedInstances, stack) => {
       // check for shared after params load
       if (this.instanceRegistry[interfaceName]) {
@@ -603,7 +603,7 @@ export default class Container {
         params = args
         defaultVar = this.defaultArgsVar
       } else {
-        params = rule.params || classDef[this.symInterfaces] || []
+        params = rule.params || ClassDef[this.symInterfaces] || []
         defaultVar = this.defaultRuleVar
       }
 
@@ -620,10 +620,10 @@ export default class Container {
         resolvedParams = structuredResolveParamsInterface(params, resolvedParams)
 
         if (this.interfaceTypeCheck) {
-          structuredInterfacePrototype(rule.params || classDef[this.symInterfaces] || [], resolvedParams)
+          structuredInterfacePrototype(rule.params || ClassDef[this.symInterfaces] || [], resolvedParams)
         }
 
-        const instance = new classDef(...resolvedParams)
+        const instance = new ClassDef(...resolvedParams)
 
         const finalizeInstanceCreation = () => {
           if (rule.shared) {
@@ -746,13 +746,11 @@ export default class Container {
           return o
         }
         if (typeof type === 'function') {
-          return new this.defaultFunctionWrapper(type)
+          return new this.DefaultFunctionWrapper(type)
         }
         return this.interface(type)
-        break
       case 'value':
         return this.value(type)
-        break
     }
     return type
   }
@@ -797,8 +795,6 @@ export default class Container {
     let stack = []
 
     const resolvedInstanceOf = this.resolveInstanceOf(interfaceName, stack)
-
-    const rules = []
 
     let fullStack
 
@@ -1010,7 +1006,7 @@ export default class Container {
         return () => structuredPromiseAllRecursive(params, resolvedParams, this.PromiseInterface, this.PromiseFactory).then(resolvedParams => {
           return makeCall(resolvedParams)
         })
-      }	else {
+      } else {
         return () => makeCall(resolvedParams)
       }
     })
@@ -1030,7 +1026,7 @@ export default class Container {
             return caller()
           }))
         }
-      }	else {
+      } else {
         callersReturn = callers.map((caller) => {
           const callerReturn = caller()
           if (callerReturn instanceof this.PromiseInterface) {
@@ -1093,7 +1089,7 @@ export default class Container {
   }
 
   factory (callback) {
-    return new this.defaultFactory(callback)
+    return new this.DefaultFactory(callback)
   }
   valueFactory (callback) {
     return new ValueFactory(callback)

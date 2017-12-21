@@ -15,7 +15,7 @@ function getFolderContents (folder, recursive) {
 
 const SEP = path.sep
 
-const patternDefault = new RegExp('^\.\\' + SEP)
+const patternDefault = new RegExp('^.\\' + SEP)
 
 export default function (folder, recursive = false, pattern = patternDefault, parentDir = undefined) {
   folder = path.normalize(folder)

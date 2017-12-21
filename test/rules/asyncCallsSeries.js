@@ -17,7 +17,7 @@ export default ({di, assert, sinon}) => {
       setC (d) {
         this.c = ++d.i
       }
-		}
+    }
 
     function B (d) {
       return new Promise((resolve) => {
@@ -42,8 +42,8 @@ export default ({di, assert, sinon}) => {
       'A': {
         classDef: A,
         calls: [
-					['setB', ['B'] ],
-					['setC', ['C'] ],
+          [ 'setB', ['B'] ],
+          [ 'setC', ['C'] ],
           [ (a) => {
             const d = new D()
             a.d = d

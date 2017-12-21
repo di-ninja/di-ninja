@@ -9,7 +9,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class H {
       constructor (...params) {
         this.params = params
@@ -17,7 +17,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class I {
       constructor (...params) {
         this.params = params
@@ -25,7 +25,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class J {
       constructor (...params) {
         this.params = params
@@ -33,7 +33,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class K {
       constructor (...params) {
         this.params = params
@@ -41,7 +41,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
 
     di.addRules({
       'A': {

@@ -5,7 +5,7 @@ import {
   // InterfacePrototype,
 } from 'interface-prototype'
 
-import InterfaceTypeError from '../../src/interfaceTypeError'
+// import InterfaceTypeError from '../../src/interfaceTypeError'
 
 export default ({di, assert}) => {
   return function () {
@@ -72,6 +72,7 @@ export default ({di, assert}) => {
     const I = Interface()
     I.implementClass(A)
 
+    /* eslint-disable no-unused-vars */
     @di('H', [I])
     class H {
       constructor (...params) {
@@ -81,6 +82,7 @@ export default ({di, assert}) => {
         return this.params
       }
     }
+    /* eslint-enable no-unused-vars */
 
     di.addRules({
       'A': {

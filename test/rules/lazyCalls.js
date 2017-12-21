@@ -9,7 +9,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class O {
       constructor (...params) {
         this.params = params
@@ -20,7 +20,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
 
     class P {
       constructor (...params) {
@@ -29,7 +29,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class Q {
       constructor (...params) {
         this.params = params
@@ -40,7 +40,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
 
     class R {
       constructor (...params) {
@@ -52,7 +52,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class S {
       constructor (...params) {
         this.params = params
@@ -63,7 +63,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class T {
       constructor (...params) {
         this.params = params
@@ -74,7 +74,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
 
     class U {
       constructor (...params) {
@@ -86,7 +86,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class V {
       constructor (...params) {
         this.params = params
@@ -97,7 +97,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class W {
       constructor (...params) {
         this.params = params
@@ -108,7 +108,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
 
     di.addRules({
       'N': {
@@ -120,7 +120,7 @@ export default ({di, assert}) => {
         shared: true,
         classDef: O,
         lazyCalls: [
-					[ 'setParams', [ { n: 'N' } ] ]
+          [ 'setParams', [ { n: 'N' } ] ]
         ]
       },
 
@@ -128,12 +128,12 @@ export default ({di, assert}) => {
         shared: true,
         classDef: Q,
         calls: [
-					[ 'setParams', [ { p: 'P' } ] ]
+          [ 'setParams', [ { p: 'P' } ] ]
         ]
       },
       'P': {
         shared: true,
-        classDef: Q,
+        classDef: P,
         params: [ { q: 'Q' } ]
       },
 
@@ -151,7 +151,7 @@ export default ({di, assert}) => {
         shared: true,
         classDef: T,
         calls: [
-					[ 'setParams', [ { r: 'R' } ] ]
+          [ 'setParams', [ { r: 'R' } ] ]
         ]
       },
 
@@ -169,7 +169,7 @@ export default ({di, assert}) => {
         shared: true,
         classDef: W,
         calls: [
-					[ 'setParams', [ { u: 'U' } ] ]
+          [ 'setParams', [ { u: 'U' } ] ]
         ]
       }
     })

@@ -12,7 +12,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class Y {
       constructor (...params) {
         this.params = params
@@ -23,7 +23,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
 
     di.addRules({
       'X': {

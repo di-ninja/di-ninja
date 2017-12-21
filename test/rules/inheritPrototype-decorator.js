@@ -12,7 +12,7 @@ export default ({di, assert}) => {
       setParams (params) {
         this.params = params
       }
-		}
+    }
     class ZX extends Z {}
 
     class One {
@@ -22,7 +22,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
     class Two extends One {
       constructor (...params) {
         super(params)
@@ -30,7 +30,7 @@ export default ({di, assert}) => {
       getParams () {
         return this.params
       }
-		}
+    }
 
     di.addRules({
       'Z': {

@@ -7,7 +7,7 @@ export default ({di, assert, sinon}) => {
     let clock
     before(function () {
       clock = sinon.useFakeTimers({
-				// shouldAdvanceTime: true,
+        // shouldAdvanceTime: true,
       })
     })
     after(function () {
@@ -21,7 +21,7 @@ export default ({di, assert, sinon}) => {
       setC (c) {
         this.c = c
       }
-		}
+    }
 
     async function B (d) {
       return new Promise((resolve) => {
@@ -46,10 +46,10 @@ export default ({di, assert, sinon}) => {
       'A': {
         classDef: A,
         calls: [
-					['setB', ['B'] ],
-					['setC', ['C'] ]
+          [ 'setB', ['B'] ],
+          [ 'setC', ['C'] ]
         ],
-				// asyncCallsSerie: true,
+        // asyncCallsSerie: true,
         asyncCallsParamsSerie: true,
         sharedInTree: ['D']
       },
@@ -72,7 +72,7 @@ export default ({di, assert, sinon}) => {
       it('a.c should be equal to 1', async function () {
         let a = di.get('A')
 
-				// clock.runAllAsync();
+        // clock.runAllAsync();
         clock.runAll()
         clock.restore()
 
@@ -85,7 +85,7 @@ export default ({di, assert, sinon}) => {
         let a = di.get('A')
         a = await a
 
-				// clock.runAllAsync();
+        // clock.runAllAsync();
         clock.runAll()
         clock.restore()
 
