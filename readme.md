@@ -1295,47 +1295,129 @@ assert( di.get('app/B') instanceof require('./src/B').default );
 
 
 #### 5.4 autoloadPathResolver
-...
-```javascript
+Rule's path post-processor callback function or alias map object.
 
+with callback
+```javascript
+di.config('autoloadPathResolver', (path)=>{
+	switch(path){
+		case 'framework':
+			path = 'express';
+		break;
+	}
+	return path;
+});
+```
+
+with alias map object
+```javascript
+import path from 'path'
+const aliasMap = {
+	'app': path.resolve(__dirname, './src'),
+};
+
+di.config('autoloadPathResolver', aliasMap);
+
+
+//will implicitly set the following predefined callback, here is the magic under the hood
+di.config('autoloadPathResolver', (path)=>{
+	Object.keys(aliasMap).forEach(alias=>{
+		const realPath = aliasMap[alias];
+		if(path == alias){
+			path = realPath;
+		}
+		else if(path.substr(0,alias.length+1)==alias+'/'){
+			path = realPath+path.substr(alias.length);
+		}
+	});
+	return path;
+});
 ```
 
 #### 5.5 autoloadExtensions
-...
+You can use Array or RegExp.
 ```javascript
+di.config('autoloadExtensions', ['js', 'jsx']);
 
+di.config('autoloadExtensions', new RegExp('\.(js|jsx)$'));
 ```
 
 
 #### 5.6 autoloadFailOnMissingFile
-...
-```javascript
+Possible values are string "path", true or false.  
+Setted to false, it will never throw error on missing dependency.  
+Setted to true, it will always throw an error on missing dependency.  
+Setted to "path", it will throw error only if a dependency with a specified rule's option [path](#462-path) is specified.
+The default value is "path".  
 
+```javascript
+di.config('autoloadFailOnMissingFile', true);
 ```
 
 #### 5.7 defaultVar
-...
-```javascript
+Value by default for
+[defaultRuleVar](#58-defaultrulevar),
+[defaultDecoratorVar](#59-defaultdecoratorvar),
+and [defaultArgsVar](#510-defaultargsvar).
 
+This is about implicit wrapping of [params](#411-params), [calls](#412-calls) and [lazyCalls](#413-lazycalls).
+
+Possible values are "interface" or "value".  
+Default is "interface".  
+
+"interface" mean that all scalar values will be implicitly wrapped by di.interface(), it will be resolved as class.
+"value" mean that all scalar values will be wrapped by di.value(), it will be left as untouched.
+
+interface example
+```javascript
+di.config('defaultVar', 'interface'); //default
+
+di.addRule('A', {
+	params: [
+		{
+			B :        'B',
+			message :  di.value( 'Hello world !' ),
+			config :  di.value({
+				option1: value1
+				/* ... */
+			}),
+		}
+	]
+});
+```
+
+
+value example
+```javascript
+di.config('defaultVar', 'value');
+
+di.addRule('A', {
+	params: [
+		{
+			B :        di.interface('B'),
+			message :  'Hello world !',
+			config :  di.value({
+				option1: value1
+				/* ... */
+			}),
+		}
+	]
+});
 ```
 
 #### 5.8 defaultRuleVar
-...
-```javascript
+Implicit wrapping for scalar values defined from [rules](#4-rules).  
+see [defaultVar](#57-defaultvar).
 
-```
 
 #### 5.9 defaultDecoratorVar
-...
-```javascript
+Implicit wrapping for scalar values defined from [decorator](#444-decorator).  
+see [defaultVar](#57-defaultvar).
 
-```
 
 #### 5.10 defaultArgsVar
-...
-```javascript
-
-```
+Implicit wrapping for scalar values defined from manual call (see [params](#411-params)).  
+see [defaultVar](#57-defaultvar).
 
 #### 5.11 defaultFactory
 ...
