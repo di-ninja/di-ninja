@@ -227,7 +227,7 @@ export default class Container {
       }
 
       context.keys().forEach((filename) => {
-        let key = filename
+        let key = filename.replace(/\\/g, '/')
         if (key.substr(0, 2) === './') {
           key = key.substr(2)
         }
