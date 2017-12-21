@@ -193,14 +193,14 @@ export default class Container{
 			const aliasMap = autoloadPathResolver;
 			autoloadPathResolver = (path)=>{
 				Object.keys(aliasMap).forEach(alias=>{
-					const realPath = aliasMap[alias];
+					const realPath = PATH.normalize( aliasMap[alias] );
 					if(path == alias){
 						path = realPath;
 					}
 					else{
 						const dir = path.substr(0,alias.length+1);
 						if(dir == alias+'/' || ( SEP_BACK && dir == alias+SEP ) ){
-							path = realPath+path.substr(alias.length);
+							path = PATH.join(realPath, path.substr(alias.length));
 						}
 					}
 				});
