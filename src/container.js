@@ -1086,6 +1086,7 @@ export default class Container {
         if (!required) {
           return false
         }
+        console.log('rules', this.rules)
         throw new Error('Interface definition ' + (typeof str === 'symbol' ? 'symbol' : '"' + str + '"') + ' not found, di load stack: ' + JSON.stringify(stack, null, 2))
       }
       return this.resolveInstanceOf(resolved, stack, required)
