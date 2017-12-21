@@ -1420,15 +1420,45 @@ Implicit wrapping for scalar values defined from manual call (see [params](#411-
 see [defaultVar](#57-defaultvar).
 
 #### 5.11 defaultFactory
-...
-```javascript
-
-```
+default wrapper class to instanciate for di.factory() method.
 
 #### 5.12 defaultFunctionWrapper
-...
-```javascript
+Implicit wrapping for function or class values.  
+Possible values are ClassFactory or ValueFactory.  
+The default value is ClassFactory.
 
+ClassFactory example
+```javascript
+import ClassFactory from 'di-ninja/dist/classFactory'
+di.config('defaultFunctionWrapper', ClassFactory); //default
+
+class B{}
+
+di.addRule('A', {
+	params: [
+		B,
+		di.valueFactory( () => {
+			return 'Hello world !';
+		} )
+	],
+});
+```
+
+ClassFactory example
+```javascript
+import ValueFactory from 'di-ninja/dist/valueFactory'
+di.config('defaultFunctionWrapper', ValueFactory);
+
+class B{}
+
+di.addRule('A', {
+	params: [
+		di.classFactory( B ),
+		() => {
+			return 'Hello world !';
+		}
+	],
+});
 ```
 
 #### 5.13 promiseFactory
