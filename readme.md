@@ -1444,7 +1444,7 @@ di.addRule('A', {
 });
 ```
 
-ClassFactory example
+ValueFactory example
 ```javascript
 import ValueFactory from 'di-ninja/dist/valueFactory'
 di.config('defaultFunctionWrapper', ValueFactory);
