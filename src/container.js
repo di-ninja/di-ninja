@@ -1,3 +1,5 @@
+import PATH from 'path'
+
 import mapSerie from './mapSerie'
 
 import Var from './var'
@@ -445,6 +447,7 @@ export default class Container{
 				path += '.'+ext;
 			}
 			
+			path = PATH.normalize(path);
 			
 			if(this.depExists(path)){
 				let required = this.depRequire(path);
