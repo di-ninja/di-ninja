@@ -43,6 +43,7 @@
   "homepage": "https://github.com/di-ninja/di-ninja#readme",
   "devDependencies": {
     "babel-cli": "^7.0.0-beta.3",
+    "babel-eslint": "^8.0.3",
     "babel-loader": "^7.1.2",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -70,6 +71,7 @@
     "browser.js.map"
   ],
   "standard": {
+    "parser": "babel-eslint",
     "ignore": [
       "dist/",
       "icon/",
