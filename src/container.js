@@ -57,6 +57,7 @@ const configMethods = new Map([
 	['dependencies', 'setDependencies'],
 	['rules', 'addRules'],
 ]);
+const allowedDefaultVars = ['interface','value'];
 
 export default class Container{
 	
@@ -77,7 +78,6 @@ export default class Container{
 		this.dependencies = {};
 		this.rules = {};
 		this.rulesCache = {};
-		this.allowedDefaultVars = ['interface','value'];
 		this.rulesDefault = {
 			
 			inheritInstanceOf: true,
@@ -292,8 +292,8 @@ export default class Container{
 		if(value === undefined){
 			value = this.defaultVar || 'interface';
 		}
-		if(this.allowedDefaultVars.indexOf(value)===-1){
-			throw new Error('invalid type "'+value+'" specified for '+property+', possibles values: '+this.allowedDefaultVars.join(' | '));
+		if(allowedDefaultVars.indexOf(value)===-1){
+			throw new Error('invalid type "'+value+'" specified for '+property+', possibles values: '+allowedDefaultVars.join(' | '));
 		}
 		this[property] = value;
 	}
