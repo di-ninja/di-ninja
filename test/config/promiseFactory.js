@@ -27,7 +27,7 @@ export default ({di, assert}) => {
     })
 
     describe('promiseFactory', function () {
-      it('should return instanceof selected factory', function () {
+      it('should return instance of selected factory', function () {
         const instance = di.get('A')
         assert.instanceOf(instance, Bluebird)
       })
