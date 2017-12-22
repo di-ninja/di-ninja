@@ -573,13 +573,17 @@ export default class Container {
     return this.provider(interfaceDef)(args, sharedInstances, stack)
   }
   provider (interfaceName) {
+    if (typeof interfaceName === 'function' && this.isInterfacePrototype(interfaceName)) {
+      interfaceName = interfaceName.toString()
+    }
+    
     if (typeof interfaceName === 'function') {
       interfaceName = interfaceName[this.symClassName]
       if (!interfaceName) {
         throw new Error('Unregistred class ' + interfaceName.constructor.name)
       }
     }
-
+    
     if (interfaceName instanceof Interface) {
       interfaceName = interfaceName.getName()
     }
@@ -695,7 +699,6 @@ export default class Container {
     if (interfaceDef instanceof Require) {
       return interfaceDef.require()
     }
-
     if (interfaceDef instanceof Interface) {
       const interfaceName = interfaceDef.getName()
 
