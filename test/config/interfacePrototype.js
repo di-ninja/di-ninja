@@ -19,14 +19,16 @@ export default ({di, assert}) => {
     @di('B')
     @instanceOf(I)
     class B {}
-	
-	@di('D', [I])
-	class D {
-		constructor(i){
-			this.i = i;
-		}
-	}
-	
+
+    /* eslint-disable no-unused-vars */
+    @di('D', [I])
+    class D {
+      constructor (i) {
+        this.i = i
+      }
+    }
+    /* eslint-enable no-unused-vars */
+
     di.addRules({
       [I]: {
         classDef: A
@@ -48,7 +50,7 @@ export default ({di, assert}) => {
         const instance = di.get(I)
         assert.notInstanceOf(instance, B)
       })
-      
+
       it('should be instance of A', function () {
         const d = di.get('D')
         assert.instanceOf(d.i, A)
