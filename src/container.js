@@ -484,7 +484,7 @@ export default class Container {
   }
   registerRequire (name, r) {
     if (typeof name === 'string') {
-      name = name.replace(/\\/g,'/')
+      name = name.replace(/\\/g, '/')
     }
     if (typeof r === 'object' && typeof r.default === 'function') {
       r = r.default
