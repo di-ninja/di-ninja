@@ -122,11 +122,11 @@ $ npm i di-ninja
 ```javascript
 import container from 'di-ninja'
 
-const di = container();
+const di = container()
 
-di.addRules(rules);
+di.addRules(rules)
 
-di.get('MyClassName');
+di.get('MyClassName')
 ```
 
 
@@ -147,12 +147,12 @@ example with ES6 class syntax
 ```javascript
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 class B{
   constructor(){
-    this.foo = bar;
+    this.foo = bar
   }
 }
 
@@ -175,17 +175,17 @@ example with function as constructor or factory
 
 //function as a constructor
 function A(b){
-  this.b = b;
+  this.b = b
 }
 
 //function as a factory
 function B(){
-  const object = { foo: 'bar' };
+  const object = { foo: 'bar' }
   
   // if we return an object or other value than undefined,
   // this function will be treated by javascript as a factory
   
-  return object;
+  return object
 }
 
 di.addRules({
@@ -221,7 +221,7 @@ di.addRule('B',{
 @di('A',[ 'B' ])
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 
@@ -235,9 +235,9 @@ di.addRule('B',{
 })
 
 function A(b){
-    this.b = b;
+    this.b = b
 }
-di( 'A', ['B'] )( A );
+di( 'A', ['B'] )( A )
 
 di.get('A')
 ```
@@ -247,7 +247,7 @@ di.get('A')
 @di('A',[ B ])
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 
@@ -262,16 +262,16 @@ You can use factories or classes, and obviously, all dependencies are resolved r
 ```javascript
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 class B{
   constructor(c){
-    this.c = c;
+    this.c = c
   }
 }
 function C(){
-  return 'Hello world !';
+  return 'Hello world !'
 }
 di.addRules({
   A: {
@@ -285,12 +285,12 @@ di.addRules({
   C: {
     classDef: C,
   },
-});
+})
 
-const a = di.get('A'); //will resolve C and pass it's return to new B, then it will pass the new B to new A
+const a = di.get('A') //will resolve C and pass it's return to new B, then it will pass the new B to new A
 
 //it will be equivalent to
-const a = new A( new B( C() ) );
+const a = new A( new B( C() ) )
 ```
 
 #### 3.2 Recursive params
@@ -300,8 +300,8 @@ You can nest dependencies declarations to infinite. It's very common use for con
 ```javascript
 class A{
   constructor(config, aSecondInstanceOfB){
-    this.b = config.wathever.anotherKey.b;
-    this.b2 = aSecondInstanceOfB;
+    this.b = config.wathever.anotherKey.b
+    this.b2 = aSecondInstanceOfB
   }
 }
 class B{}
@@ -319,9 +319,9 @@ di.addRules({
   B: {
     classDef: B,
   },
-});
+})
 
-const a = di.get('A');
+const a = di.get('A')
 
 //it will be equivalent to
 const a = new A( {
@@ -330,7 +330,7 @@ const a = new A( {
       b: new B(),
     },
   },
-}, new B() );
+}, new B() )
 ```
 
 #### 3.3. Types of params
@@ -354,24 +354,24 @@ This is the default wrapper for string.
 ```javascript
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 class B{}
 
-di.addRule('A', { classDef: A });
-di.addRule('B', { classDef: B });
+di.addRule('A', { classDef: A })
+di.addRule('B', { classDef: B })
 
-di.addRule('A', { params: [ di.interface('B') ] });
+di.addRule('A', { params: [ di.interface('B') ] })
 
 //with default config, previous rule will be equivalent to next one
-di.addRule('A', { params: [ 'B' ] });
+di.addRule('A', { params: [ 'B' ] })
 
 
-const a = di.get('A');
+const a = di.get('A')
 
 //will be equivalent to
-const a = new A( new B() );
+const a = new A( new B() )
 ```
 
 ##### 3.3.2 value
@@ -379,19 +379,19 @@ Container will resolve dependency with the specified value. The value type can b
 ```javascript
 class A{
   constructor(bar){
-    this.foo = bar;
+    this.foo = bar
   }
 }
 
 di.addRule('A', {
   classDef: A,
   params: [ di.value('bar') ],
-});
+})
 
-const a = di.get('A');
+const a = di.get('A')
 
 //will be equivalent to
-const a = new A( 'bar' );
+const a = new A( 'bar' )
 ```
 
 ##### 3.3.3 factory
@@ -403,23 +403,23 @@ Container will resolve dependency with the value returned by the given function.
 ```javascript
 class A{
   constructor(bar){
-    this.foo = bar;
+    this.foo = bar
   }
 }
 
 function getFoo(){
-  return 'bar';
+  return 'bar'
 }
 
 di.addRule('A', {
   classDef: A,
   params: [ di.factory( getFoo ) ],
-});
+})
 
-const a = di.get('A');
+const a = di.get('A')
 
 //will be equivalent to
-const a = new A( getFoo() );
+const a = new A( getFoo() )
 ```
 
 ##### 3.3.5 classFactory
@@ -428,23 +428,23 @@ This is the default wrapper for classes references.
 ```javascript
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 class B{}
 
-di.addRule('A', { classDef: A });
+di.addRule('A', { classDef: A })
 
-di.addRule('A', { params: [ di.classFactory(B) ] });
+di.addRule('A', { params: [ di.classFactory(B) ] })
 
 //with default config, previous rule will be equivalent to next one
-di.addRule('A', { params: [ B ] });
+di.addRule('A', { params: [ B ] })
 
 
-const a = di.get('A');
+const a = di.get('A')
 
 //will be equivalent to
-const a = new A( new B() );
+const a = new A( new B() )
 ```
 
 ##### 3.3.4 require
@@ -464,25 +464,25 @@ di.addRules({
   'path/to/my-file': {
     /* ... */
   },
-);
+)
 
-const a = di.get('A');
+const a = di.get('A')
 ```
 
 
 ### 4. Rules
 The rules define resolutions behaviors of the classes or factories and their dependencies.
 ```javascript
-const rules = {};
+const rules = {}
 
 //1st way to define rules
-const di = container();
-di.addRules(rules);
+const di = container()
+di.addRules(rules)
 
 //2nd way to define rules
 const di = container({
   rules,
-});
+})
 ```
 
 #### 4.1. dependencies
@@ -491,17 +491,17 @@ The following rule's keys are about classes or factories dependencies.
 //you can use class
 class A{
   constructor(b, c, d){
-    this.b = b;
-    this.c = c;
-    this.d = d;
+    this.b = b
+    this.c = c
+    this.d = d
   }
 }
 
 //or instance factory
 function A(b, c, d){
-  this.b = b;
-  this.c = c;
-  this.d = d;
+  this.b = b
+  this.c = c
+  this.d = d
 }
 
 //or factory
@@ -510,8 +510,8 @@ function A(b, c, d){
     b: b,
     c: c,
     d: d,
-  };
-  return anotherValue;
+  }
+  return anotherValue
 }
 ```
 
@@ -526,19 +526,19 @@ The resolutions behavior depends of [Types of params](#33-types-of-params).
 ```javascript
 class A{
   constructor(b, c, d){
-    this.b = b;
-    this.c = c;
-    this.d = d;
+    this.b = b
+    this.c = c
+    this.d = d
   }
 }
 
-di.addRule('A', { params: ['B','C','D'] });
+di.addRule('A', { params: ['B','C','D'] })
 
 ```
 
 You can override params defined in rule on manual call:
 ```javascript
-di.get('A', ['E','F','G']);
+di.get('A', ['E','F','G'])
 
 ```
 
@@ -552,13 +552,13 @@ If some circular dependencies are detected, some items of calls stack will be pl
 ```javascript
 class A{
   method1(dep1){
-    this.dep1 = dep1;
+    this.dep1 = dep1
   }
   method2(dep2){
-    this.dep2 = dep2;
+    this.dep2 = dep2
   }
   method3(dep3){
-    this.dep3 = dep3;
+    this.dep3 = dep3
   }
 }
 di.addRule('A', {
@@ -570,13 +570,13 @@ di.addRule('A', {
     
     [
       function(a, dep3){
-        a.method3(dep3);
+        a.method3(dep3)
       },
       [ 'dep3' ]
     ],
     
   ],
-});
+})
 
 ```
 
@@ -597,9 +597,9 @@ It's used for use reference to class direcly in rule, you can do without if you 
 ```javascript
 class A{}
 
-di.addRule('A',{ classDef: A ]);
+di.addRule('A',{ classDef: A ])
 
-assert( di.get('A') instanceof A );
+assert( di.get('A') instanceof A )
 ```
 
 ##### 4.2.2 instanceOf
@@ -608,10 +608,10 @@ interface name
 
 Refers to the name of another rule containing "[classDef](#421-classdef)" or "instanceOf", this is resolved recursively.
 ```javascript
-di.addRule('A',{ classDef: A });
-di.addRule('B',{ instanceOf: 'A' });
+di.addRule('A',{ classDef: A })
+di.addRule('B',{ instanceOf: 'A' })
 
-assert( di.get('B') instanceof A );
+assert( di.get('B') instanceof A )
 ```
 
 ##### 4.2.3 substitutions
@@ -627,15 +627,15 @@ index based
 @di('A', [ 'B' ])
 class A{
   constructor(B){
-    this.B = B;
+    this.B = B
   }
 }
 
 di.addRule('A',{
   substitutions: [ 'C' ],
-});
+})
 
-assert( di.get('A').B instanceof C );
+assert( di.get('A').B instanceof C )
 ```
 
 associative key
@@ -643,21 +643,21 @@ associative key
 @di('A', [ { config: { subkey: 'B' } } ])
 class A{
   constructor(config){
-    this.B = config.subkey.B;
+    this.B = config.subkey.B
   }
 }
 di.addRule('A',{
   substitutions: { 'B': 'C' },
-});
+})
 
-assert( di.get('A').B instanceof C );
+assert( di.get('A').B instanceof C )
 ```
 
 associative key for calls
 ```javascript
 class A{
   setDep(config){
-    this.dep = config.dep;
+    this.dep = config.dep
   }
 }
 di.addRule('A',{
@@ -665,7 +665,7 @@ di.addRule('A',{
     [ 'setDep', [ { dep: 'B' } ] ],
   ],
   substitutions: { 'B': 'C' },
-});
+})
 
 assert( di.get('A').dep instanceof C )
 ```
@@ -681,7 +681,7 @@ When "shared" is set to **true**, the instance of the classe or the factory retu
 ```javascript
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 class B{}
@@ -693,17 +693,17 @@ di.addRules({
   'B': {
     shared: true,
   },
-});
+})
 
-const a1 = di.get('A');
-const a2 = di.get('A');
-assert( a1 !== a2 );
+const a1 = di.get('A')
+const a2 = di.get('A')
+assert( a1 !== a2 )
 
-assert( a1.b === a2.b );
+assert( a1.b === a2.b )
 
-const b1 = di.get('B');
-const b2 = di.get('B');
-assert( b1 === b2 );
+const b1 = di.get('B')
+const b2 = di.get('B')
+assert( b1 === b2 )
 
 ```
 
@@ -714,12 +714,12 @@ If specified it will be registred as shared instance of the dependency for the w
 ```javascript
 class A{
   constructor(b){
-    this.b = b;
+    this.b = b
   }
 }
 class B{}
 
-const b = new B();
+const b = new B()
 
 di.addRules({
   'A': {
@@ -728,17 +728,17 @@ di.addRules({
   'B': {
     singleton: b,
   },
-});
+})
 
-const a1 = di.get('A');
-const a2 = di.get('A');
-assert( a1 !== a2 );
+const a1 = di.get('A')
+const a2 = di.get('A')
+assert( a1 !== a2 )
 
-assert( a1.b === a2.b === b );
+assert( a1.b === a2.b === b )
 
-const b1 = di.get('B');
-const b2 = di.get('B');
-assert( b1 === b2 === b );
+const b1 = di.get('B')
+const b2 = di.get('B')
+assert( b1 === b2 === b )
 
 ```
 
@@ -751,20 +751,20 @@ The best way to explain this is a practical demonstration:
 ```javascript
 class A {    
     constructor(b, c){
-    this.b = b;
-    this.c = c;
+    this.b = b
+    this.c = c
     }
 }
 
 class B {
     constructor(d){
-        this.d = d;
+        this.d = d
     }
 }
 
 class C {
     constructor(d){
-        this.d = d;
+        this.d = d
     }
 }
 
@@ -772,20 +772,20 @@ class D {}
 
 di.addRule('A', {
   'sharedInTree': ['D'],
-});
+})
 
-const a = di.get('A');
+const a = di.get('A')
 
 // Anywhere that asks for an instance D within the tree that existis within A will be given the same instance:
 // Both the B and C objects within the tree will share an instance of D
-assert( a.b.d === a.c.d );
+assert( a.b.d === a.c.d )
 
 // However, create another instance of A and everything in this tree will get its own instance of D:
-const a2 = di.get('A');
-assert( a2.b.d === a2.c.d );
+const a2 = di.get('A')
+assert( a2.b.d === a2.c.d )
 
-assert( a.b.d !== a2.b.d );
-assert( a.c.d !== a2.c.d );
+assert( a.b.d !== a2.b.d )
+assert( a.c.d !== a2.c.d )
 
 ```
 
@@ -814,7 +814,7 @@ Enable inheritance of rules from instanceOf parents classes.
 ```javascript
 class X{
   constructor(x){
-    this.x = x;
+    this.x = x
   }
 }
     
@@ -828,10 +828,10 @@ di.addRules({
     instanceOf: 'X',
     inheritInstanceOf: true,
   },
-});
+})
 
-assert( di.get('Y').x === 'ok' );
-assert( di.get('Y') === di.get('Y') );
+assert( di.get('Y').x === 'ok' )
+assert( di.get('Y') === di.get('Y') )
 
 ```
 
@@ -843,7 +843,7 @@ Enable inheritance of rules from ES6 extended parents classes.
 ```javascript
 class Z{
   constructor(...params){
-    this.params = params;
+    this.params = params
   }
 }
 class ZX extends Z{}
@@ -858,11 +858,11 @@ di.addRules({
     classDef: ZX,
     inheritPrototype: true,
   },
-});
+})
 
-const z   = di.get('Z').getParams();
-const z2  = di.get('Z2').getParams();
-assert.deepEqual(z2, z);
+const z   = di.get('Z').getParams()
+const z2  = di.get('Z2').getParams()
+assert.deepEqual(z2, z)
 
 ```
 
@@ -873,18 +873,18 @@ Enable inheritance from a list of specified rules.
 ```javascript
 class A{
   constructor(...params){
-    this.params = params;
+    this.params = params
   }
   getParams(){
-    return this.params;
+    return this.params
   }
 }
 class B{
   constructor(...params){
-    this.params = params;
+    this.params = params
   }
   getParams(){
-    return this.params;
+    return this.params
   }
 }
 
@@ -897,11 +897,11 @@ di.addRules({
     classDef: B,
     inheritMixins: [ 'A' ],
   },
-});
+})
 
-const a = di.get('A').getParams();
-const b = di.get('B').getParams();
-assert.deepEqual(b, a);  
+const a = di.get('A').getParams()
+const b = di.get('B').getParams()
+assert.deepEqual(b, a)  
 ```
 
 ##### 4.4.4 decorator
@@ -930,14 +930,14 @@ the [promiseFactory](#513-promisefactory) and [promiseInterfaces](#514-promisein
 
 ```javascript
 function A(b, c){
-  this.b = b;
-  this.c = c;
+  this.b = b
+  this.c = c
 }
 async function B(){
-  return 'b';
+  return 'b'
 }
 async function C(){
-  return 'c';
+  return 'c'
 }
 
 di.addRules({
@@ -953,12 +953,12 @@ di.addRules({
     classDef: C,
     asyncResolve: false, //default
   },
-});
+})
 
 di.get('A').then(a => {
-  assert(a.b === 'b');
-  assert(a.c instanceof Promise);
-});
+  assert(a.b === 'b')
+  assert(a.c instanceof Promise)
+})
 
 ```
 
@@ -971,10 +971,10 @@ when the method or callback require a dependency returning a Promise and for wic
 ```javascript
 class A{
   setB(d){
-    this.b = ++d.i;
+    this.b = ++d.i
   }
   setC(d){
-    this.c = ++d.i;
+    this.c = ++d.i
   }
 }
 
@@ -982,19 +982,19 @@ function B(d){
   return new Promise((resolve)=>{
     setTimeout(()=>{
       resolve(d)
-    }, 200);
-  });
+    }, 200)
+  })
 }
 function C(d){
   return new Promise((resolve)=>{
     setTimeout(()=>{
-      resolve(d);
-    }, 100);
-  });
+      resolve(d)
+    }, 100)
+  })
 }
 
 function D(){
-  this.i = 0;
+  this.i = 0
 }
 
 di.addRules({
@@ -1027,17 +1027,17 @@ di.addRules({
   },
   
   
-});
+})
 
 di.get('A').then( a => {
-  assert.strictEqual(a.b, 2);
-  assert.strictEqual(a.c, 1);
-} );
+  assert.strictEqual(a.b, 2)
+  assert.strictEqual(a.c, 1)
+} )
 
 di.get('A2').then( a => {
-  assert.strictEqual(a.b, 1);
-  assert.strictEqual(a.c, 2);
-} );
+  assert.strictEqual(a.b, 1)
+  assert.strictEqual(a.c, 2)
+} )
 ```
 
 ##### 4.5.3 asyncCallsParamsSerie
@@ -1050,10 +1050,10 @@ Setted to true, it will implicitly set [asyncCallsSerie](#452-asynccallsserie) t
 ```javascript
 class A{
   setB(b){
-    this.b = b;
+    this.b = b
   }
   setC(c){
-    this.c = c;
+    this.c = c
   }
 }
 
@@ -1061,19 +1061,19 @@ function B(d){
   return new Promise((resolve)=>{
     setTimeout(()=>{
       resolve(++d.i)
-    }, 200);
-  });
+    }, 200)
+  })
 }
 function C(d){
   return new Promise((resolve)=>{
     setTimeout(()=>{
-      resolve(++d.i);
-    }, 100);
-  });
+      resolve(++d.i)
+    }, 100)
+  })
 }
 
 function D(){
-  this.i = 0;
+  this.i = 0
 }
 
 di.addRules({
@@ -1099,12 +1099,12 @@ di.addRules({
   'D':{
     classDef: D,
   },
-});
+})
 
 di.get('A').then( a => {
-  assert(a.b === 1);
-  assert(a.c === 2);
-});
+  assert(a.b === 1)
+  assert(a.c === 2)
+})
 
 ```
 
@@ -1137,11 +1137,11 @@ di.addRules({
     path: 'http:Server',
   },
   
-});
+})
 
-assert( di.get('http:Server') instanceof require('http').Server );
-assert( di.get('#server') instanceof require('http').Server );
-assert( di.get('#server2') instanceof require('http').Server );
+assert( di.get('http:Server') instanceof require('http').Server )
+assert( di.get('#server') instanceof require('http').Server )
+assert( di.get('#server2') instanceof require('http').Server )
 ```
 
 ##### 4.6.2 path
@@ -1159,9 +1159,9 @@ di.addRules({
   '#server': {
     path: 'http:Server',
   },
-});
+})
 
-assert( di.get('#server') instanceof require('http').Server );
+assert( di.get('#server') instanceof require('http').Server )
 ```
 
 
@@ -1171,12 +1171,12 @@ The container config options manage the container behavior and the way that the 
 import container from 'di-ninja'
 
 //set config on container creation
-const di = container(config);
+const di = container(config)
 
 //or using config method
-const di = container();
-di.config(config);
-di.config('aConfigKey', aConfigValue);
+const di = container()
+di.config(config)
+di.config('aConfigKey', aConfigValue)
 ```
 Order of config calls doesn't matter except for options [dependencies](#53-dependencies) and [rules](#51-rules) wich must be called at end.
 If key/value config object is provided as config param, options will be treated in the correct order.
@@ -1186,14 +1186,14 @@ See [rules](#4-rules) section.
 ```javascript
 di.config({
   rules
-});
+})
 
 //or
-di.config('rules',rules);
+di.config('rules',rules)
 
 //or
-di.addRules(rules);
-di.addRule('#myClassName', rule);
+di.addRules(rules)
+di.addRule('#myClassName', rule)
 ```
 
 #### 5.2 rulesDefault
@@ -1201,7 +1201,7 @@ Default values for rules, each rule will be extended from this setup, values wil
 See [rule inheritance](#44-rule-inheritance) documentation section for more details on extending.
 See [rules](#4-rules) section for rules options.
 ```javascript
-di.config('rulesDefault',rulesDefault);
+di.config('rulesDefault',rulesDefault)
 ```
 
 #### 5.3 dependencies
@@ -1235,17 +1235,17 @@ const di = container({
     'B': container.dependency(require('./src/B')),
     
   },
-});
+})
 
-assert( di.get('app/A') instanceof require('./src/A').default );
+assert( di.get('app/A') instanceof require('./src/A').default )
 
-assert( di.get('app/B') instanceof require('./src/B').default );
+assert( di.get('app/B') instanceof require('./src/B').default )
 
-assert( di.get('app/B/C') instanceof require('./src/B/C').default );
+assert( di.get('app/B/C') instanceof require('./src/B/C').default )
 
-assert( di.get('A') instanceof require('./src/A').default );
+assert( di.get('A') instanceof require('./src/A').default )
 
-assert( di.get('B') instanceof require('./src/B').default );
+assert( di.get('B') instanceof require('./src/B').default )
 
 ```
 
@@ -1256,7 +1256,7 @@ Use the same code for browser compilation via webpack than on server-side with n
 in webpack.config.js
 
 ```javascript
-const webpack = require('webpack');
+const webpack = require('webpack')
 
 module.exports = {
     plugins: [
@@ -1267,7 +1267,7 @@ module.exports = {
     }),    
     ],
   /* ... */
-};
+}
 
 ```
 
@@ -1277,7 +1277,7 @@ import container from 'di-ninja'
 
 if(process.env.APP_ENV !== 'browser'){
   //we are not in webpack/browser but in nodejs/server-side
-  require.context = container.context;
+  require.context = container.context
 }
 
 const di = container({
@@ -1301,17 +1301,17 @@ const di = container({
     
     'B': container.dependency( require('./src/B') ),
   },
-});
+})
 
-assert( di.get('app/A') instanceof require('./src/A').default );
+assert( di.get('app/A') instanceof require('./src/A').default )
 
-assert( di.get('app/B') instanceof require('./src/B').default );
+assert( di.get('app/B') instanceof require('./src/B').default )
 
-assert( di.get('app/B/C') instanceof require('./src/B/C').default );
+assert( di.get('app/B/C') instanceof require('./src/B/C').default )
 
-assert( di.get('A') instanceof require('./src/A').default );
+assert( di.get('A') instanceof require('./src/A').default )
 
-assert( di.get('B') instanceof require('./src/B').default );
+assert( di.get('B') instanceof require('./src/B').default )
 ```
 
 
@@ -1323,11 +1323,11 @@ with callback
 di.config('autoloadPathResolver', (path)=>{
   switch(path){
     case 'framework':
-      path = 'express';
-    break;
+      path = 'express'
+    break
   }
-  return path;
-});
+  return path
+})
 ```
 
 with alias map object
@@ -1335,32 +1335,32 @@ with alias map object
 import path from 'path'
 const aliasMap = {
   'app': path.resolve(__dirname, './src'),
-};
+}
 
-di.config('autoloadPathResolver', aliasMap);
+di.config('autoloadPathResolver', aliasMap)
 
 
 //will implicitly set the following predefined callback, here is the magic under the hood
 di.config('autoloadPathResolver', (path)=>{
   Object.keys(aliasMap).forEach(alias=>{
-    const realPath = aliasMap[alias];
+    const realPath = aliasMap[alias]
     if(path == alias){
-      path = realPath;
+      path = realPath
     }
     else if(path.substr(0,alias.length+1)==alias+'/'){
-      path = realPath+path.substr(alias.length);
+      path = realPath+path.substr(alias.length)
     }
-  });
-  return path;
-});
+  })
+  return path
+})
 ```
 
 #### 5.5 autoloadExtensions
 You can use Array or RegExp.
 ```javascript
-di.config('autoloadExtensions', ['js', 'jsx']);
+di.config('autoloadExtensions', ['js', 'jsx'])
 
-di.config('autoloadExtensions', new RegExp('\.(js|jsx)$'));
+di.config('autoloadExtensions', new RegExp('\.(js|jsx)$'))
 ```
 
 
@@ -1372,7 +1372,7 @@ Setted to "path", it will throw error only if a dependency with a specified rule
 The default value is "path".  
 
 ```javascript
-di.config('autoloadFailOnMissingFile', true);
+di.config('autoloadFailOnMissingFile', true)
 ```
 
 #### 5.7 defaultVar
@@ -1391,7 +1391,7 @@ Default is "interface".
 
 interface example
 ```javascript
-di.config('defaultVar', 'interface'); //default
+di.config('defaultVar', 'interface') //default
 
 di.addRule('A', {
   params: [
@@ -1404,13 +1404,13 @@ di.addRule('A', {
       }),
     }
   ]
-});
+})
 ```
 
 
 value example
 ```javascript
-di.config('defaultVar', 'value');
+di.config('defaultVar', 'value')
 
 di.addRule('A', {
   params: [
@@ -1423,7 +1423,7 @@ di.addRule('A', {
       }),
     }
   ]
-});
+})
 ```
 
 #### 5.8 defaultRuleVar
@@ -1451,7 +1451,7 @@ The default value is ClassFactory.
 ClassFactory example
 ```javascript
 import ClassFactory from 'di-ninja/dist/classFactory'
-di.config('defaultFunctionWrapper', ClassFactory); //default
+di.config('defaultFunctionWrapper', ClassFactory) //default
 
 class B{}
 
@@ -1459,16 +1459,16 @@ di.addRule('A', {
   params: [
     B,
     di.valueFactory( () => {
-      return 'Hello world !';
+      return 'Hello world !'
     } )
   ],
-});
+})
 ```
 
 ValueFactory example
 ```javascript
 import ValueFactory from 'di-ninja/dist/valueFactory'
-di.config('defaultFunctionWrapper', ValueFactory);
+di.config('defaultFunctionWrapper', ValueFactory)
 
 class B{}
 
@@ -1476,10 +1476,10 @@ di.addRule('A', {
   params: [
     di.classFactory( B ),
     () => {
-      return 'Hello world !';
+      return 'Hello world !'
     }
   ],
-});
+})
 ```
 
 #### 5.13 promiseFactory
@@ -1491,29 +1491,29 @@ The common way is to use it in combination with [promiseInterfaces](#514-promise
 ```javascript
 import bluebird from 'bluebird'
 
-di.config('promiseFactory', bluebird);
+di.config('promiseFactory', bluebird)
 
-function A(b){
-  this.b = b;
+function A (b) {
+  this.b = b
 }
-function B(){
-  return new Promise((resolve, reject)=>{
-    revolve('b');
-  });
+function B () {
+  return new Promise((resolve, reject) => {
+	resolve('b')
+  })
 }
 
 di.addRules({
   'A': {
-    classDef: A,
-    params: ['B'],
+	classDef: A,
+	params: ['B']
   },
   'B': {
-    classDef: B,
-    asyncResolve: true,
-  },
-});
+	classDef: B,
+	asyncResolve: true
+  }
+})
 
-assert( di.get('A') instanceof bluebird );
+assert( di.get('A') instanceof bluebird )
 
 ```
 
@@ -1527,15 +1527,15 @@ The [promiseFactory](#513-promisefactory) option will automatically be pushed to
 ```javascript
 import bluebird from 'bluebird'
 
-di.config('promiseInterfaces', [ bluebird, Promise /* let the standard Promise be identified */ ]);
+di.config('promiseInterfaces', [ bluebird, Promise /* let the standard Promise be identified */ ])
 
 function A(b){
-  this.b = b;
+  this.b = b
 }
 function B(){
   return new bluebird((resolve, reject)=>{
-    revolve('b');
-  });
+    resolve('b')
+  })
 }
 
 di.addRules({
@@ -1547,9 +1547,9 @@ di.addRules({
     classDef: B,
     asyncResolve: true,
   },
-});
+})
 
-assert( di.get('A') instanceof Promise );
+assert( di.get('A') instanceof Promise )
 
 ```
 
