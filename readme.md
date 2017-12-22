@@ -1579,7 +1579,7 @@ assert( di.get('A') instanceof Promise )
 
 
 ## About
-Built with babel but use is unopinionated. Browser usage is optimized for webpack.
+Built with [babel](https://babeljs.io/) but use is unopinionated. Browser usage is optimized for [webpack](https://webpack.js.org/).
 Can be used with [interface-prototype](https://github.com/di-ninja/interface-prototype),
 you can get pre-wired implementation from [omniverse](https://github.com/di-ninja/omniverse) library.
 Inspired by [strategy](https://github.com/redcatphp/strategy) for PHP, itself based on [dice](https://r.je/dice.html) design.
