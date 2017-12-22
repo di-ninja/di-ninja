@@ -1599,21 +1599,40 @@ assert(di.get('D').i instanceof A)
 ```
 
 #### 5.16 interfaceTypeCheck
-...
-```javascript
+type: **boolean** (default false)
 
-```
+Enable check for "implemented" interface using [interfacePrototype](#515-interfaceprototype).
+If a manually provided dependency doesn't "implement" the required "interface", it will throw an error.  
+In combination with [interface-prototype](https://github.com/di-ninja/interface-prototype),
+this enable runtime type-check and custom type-check for all type of variables.  
+
 
 #### 15.17 globalKey
-...
+type: **string** | **boolean** (default false)  
+When setted to true it will be transformed to string 'di'.  
+If provided, global[globalKey] (on node) or window[globalKey] (on browser) will be set to the instance of container.
 ```javascript
+container({
+  globalKey: 'di',
+})
 
+di.get('A')
 ```
 
 #### 15.18 ruleCache
-...
+type: **boolean** (default true)  
+Enable cache for built rules, optimizing the future calls of "di.get()".  
+You can set it to false when you have rules dynamically modified after some "di.get()" calls.
 ```javascript
+di.config('ruleCache', false)
 
+di.addRule('A', { params: [ 'B' ] })
+
+const a1 = di.get('A')
+
+di.addRule('A', { params: [ 'C' ] })
+
+const a2 = di.get('A')
 ```
 
 
