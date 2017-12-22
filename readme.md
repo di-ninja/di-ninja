@@ -1483,14 +1483,73 @@ di.addRule('A', {
 ```
 
 #### 5.13 promiseFactory
-...
+default: Promise (global)  
+"promiseFactory" option let you modify the way DiNinja create Promise for handle [asyncResolve](#451-asyncresolve).  
+For example, you can use it with bluebird.  
+The common way is to use it in combination with [promiseInterfaces](#514-promiseinterfaces) option.
+
 ```javascript
+import bluebird from 'bluebird'
+
+di.config('promiseFactory', bluebird);
+
+function A(b){
+  this.b = b;
+}
+function B(){
+  return new Promise((resolve, reject)=>{
+    revolve('b');
+  });
+}
+
+di.addRules({
+  'A': {
+    classDef: A,
+    params: ['B'],
+  },
+  'B': {
+    classDef: B,
+    asyncResolve: true,
+  },
+});
+
+assert( di.get('A') instanceof bluebird );
 
 ```
 
 #### 5.14 promiseInterfaces
-...
+default: Promise (global)  
+"promiseInterfaces" option let you modify the way DiNinja recognize Promise.  
+For example, you can use it with bluebird.  
+The common way is to use it in combination with [promiseFactory](#513-promisefactory) option.  
+The [promiseFactory](#513-promisefactory) option will automatically be pushed to promiseInterfaces.
+
 ```javascript
+import bluebird from 'bluebird'
+
+di.config('promiseInterfaces', [ bluebird, Promise /* let the standard Promise be identified */ ]);
+
+function A(b){
+  this.b = b;
+}
+function B(){
+  return new bluebird((resolve, reject)=>{
+    revolve('b');
+  });
+}
+
+di.addRules({
+  'A': {
+    classDef: A,
+    params: ['B'],
+  },
+  'B': {
+    classDef: B,
+    asyncResolve: true,
+  },
+});
+
+assert( di.get('A') instanceof Promise );
 
 ```
 
