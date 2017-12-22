@@ -43,7 +43,7 @@ describe('config', function () {
   loadTest('config/promiseFactory')
   loadTest('config/promiseInterfaces')
   loadTest('config/interfacePrototype')
-  
+
   describe('dependencies', function () {
     const di = container({
       rules: (di) => ({

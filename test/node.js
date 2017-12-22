@@ -88,5 +88,4 @@ describe('config', function () {
       assert.instanceOf(B, require('./autoload/B').default)
     })
   })
-  
 })
