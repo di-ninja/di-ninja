@@ -1581,12 +1581,21 @@ di.addRules({
 	}
 })
 
+@di('D', [I])
+class D {
+  constructor(i){
+    this.i = i;
+  }
+}
+
 assert(di.get('A') instanceof I)
 assert(di.get('B') instanceof I)
 
 assert(di.get(I) instanceof A)
 assert( !( di.get(I) instanceof B ))
-    
+
+assert(di.get('D').i instanceof A)
+ 
 ```
 
 #### 5.16 interfaceTypeCheck
