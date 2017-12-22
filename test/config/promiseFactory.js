@@ -1,10 +1,10 @@
 /* eslint-env mocha */
 
-import bluebird from 'bluebird'
+import Bluebird from 'bluebird'
 
 export default ({di, assert}) => {
   return function () {
-    di.config('promiseFactory', bluebird)
+    di.config('promiseFactory', Bluebird)
 
     function A (b) {
       this.b = b
@@ -29,7 +29,7 @@ export default ({di, assert}) => {
     describe('promiseFactory', function () {
       it('should return instanceof selected factory', function () {
         const instance = di.get('A')
-        assert.instanceOf(instance, bluebird)
+        assert.instanceOf(instance, Bluebird)
       })
     })
   }

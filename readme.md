@@ -1259,13 +1259,13 @@ in webpack.config.js
 const webpack = require('webpack')
 
 module.exports = {
-    plugins: [
+  plugins: [
     new webpack.DefinePlugin({
       'process.env': {
         APP_ENV: JSON.stringify('browser')
       }
-    }),    
-    ],
+    }),
+  ],
   /* ... */
 }
 

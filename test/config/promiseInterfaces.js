@@ -1,36 +1,39 @@
 /* eslint-env mocha */
 
-import bluebird from 'bluebird'
+import Bluebird from 'bluebird'
 
 export default ({di, assert}) => {
   return function () {
-    di.config('promiseInterfaces', [ bluebird ]);
+    di.config('promiseInterfaces', [ Bluebird ])
 
-    function A(b){
-      this.b = b;
+    function A (b) {
+      this.b = b
     }
-    function B(){
-      return new bluebird((resolve, reject)=>{
-        resolve('b');
-      });
+    function B () {
+      return new Bluebird((resolve, reject) => {
+        resolve('b')
+      })
     }
 
     di.addRules({
       'A': {
         classDef: A,
-        params: ['B'],
+        params: ['B']
       },
       'B': {
         classDef: B,
-        asyncResolve: true,
-      },
-    });
-
+        asyncResolve: true
+      }
+    })
 
     describe('promiseInterface', function () {
       it('should recognize provided interface and return instanceof Promise', function () {
         const instance = di.get('A')
-        assert.instanceOf(instance, Promise)
+        if (process.env.APP_ENV === 'browser') {
+          assert(typeof instance.then === 'function')
+        } else {
+          assert.instanceOf(instance, Promise)
+        }
       })
     })
   }

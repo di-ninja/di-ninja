@@ -1,3 +1,5 @@
+const webpack = require('webpack')
+
 module.exports = {
   entry: {
     'test/browser.dist': ['./test/browser.js']
@@ -14,5 +16,12 @@ module.exports = {
       }
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        APP_ENV: JSON.stringify('browser')
+      }
+    })
+  ],
   devtool: 'source-map'
 }
