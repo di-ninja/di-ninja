@@ -907,7 +907,7 @@ assert.deepEqual(b, a)
 ##### 4.4.4 decorator
 type: **boolean** (default false)
 
-When set to **true**, a [Symbol](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Symbol) property
+When set to **true**, a [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) property
 will be set on class or factory function, allowing to use [inheritPrototype](#442-inheritprototype).
 If the [decorator injection approach](#22-decorator-injection-approach) is used, it's not necessary to configure this rule,
 because the Symbol will be set whatever the decorator key value is.  
@@ -915,7 +915,7 @@ This is required to enable [inheritPrototype](#442-inheritprototype) feature.
 
 #### 4.5. asynchronous dependencies resolution
 The following rule's keys allow you to manage the asynchronous dependencies resolution flow.  
-When a dependency return a [Promise](https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise)
+When a dependency return a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 and this promise is waited for resolution by [asyncResolve](#541-asyncresolve),
 the outputed object of "di.get()" method will be a Promise object,
 wich will be resolved by the expected object.
@@ -1554,9 +1554,39 @@ assert( di.get('A') instanceof Promise )
 ```
 
 #### 5.15 interfacePrototype
-...
+Enable you to use [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based
+interface reference instead of string as dependency key, allowing you to use runtime [interfaceTypeCheck](#516-interfacetypecheck).
 ```javascript
+import {
+  InterfacePrototype,
+  instanceOf,
+  Interface,
+} from 'interface-prototype'
 
+di.config('interfacePrototype', InterfacePrototype)
+    
+const I = new Interface();
+
+@di('A')
+@instanceOf(I)
+class A{}
+
+@di('B')
+@instanceOf(I)
+class B{}
+
+di.addRules({
+	[I]: {
+		classDef: A,
+	}
+})
+
+assert(di.get('A') instanceof I)
+assert(di.get('B') instanceof I)
+
+assert(di.get(I) instanceof A)
+assert( !( di.get(I) instanceof B ))
+    
 ```
 
 #### 5.16 interfaceTypeCheck
