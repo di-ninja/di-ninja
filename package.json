@@ -57,7 +57,7 @@
     "bluebird": "^3.5.1",
     "chai": "^4.1.2",
     "express": "^4.16.2",
-    "interface-prototype": "^1.1.0",
+    "interface-prototype": "^1.1.1",
     "mocha": "^4.0.1",
     "sinon": "^4.1.2",
     "standard": "^10.0.3",
