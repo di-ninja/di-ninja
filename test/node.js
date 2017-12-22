@@ -30,6 +30,9 @@ describe('rules', function () {
   loadTest('rules/path')
 
   loadTest('decorator')
+
+  loadTest('config/promiseFactory')
+  loadTest('config/promiseInterfaces')
 })
 
 describe('dependencies', function () {
