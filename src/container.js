@@ -1066,7 +1066,7 @@ export default class Container {
   }
 
   defineSym (target, symname, value) {
-    Object.defineProperty(target, symname, {
+    Reflect.defineProperty(target, symname, {
       value: value,
       enumerable: false,
       configurable: true
