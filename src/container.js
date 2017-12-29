@@ -553,7 +553,7 @@ export default class Container {
         const rule = self.getRuleBase(interfaceName || target[self.symClassName])
         const params = types.map(param => self.getParam(param, rule, {}, self.defaultRuleVar))
         const resolvedParams = structuredResolveParamsInterface(types, params)
-        return fn.apply(this, resolvedParams)
+        return Reflect.apply(fn, this, resolvedParams)
       }
     } else {
       if (fn[this.symInterfaces]) {
