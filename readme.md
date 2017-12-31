@@ -7,6 +7,7 @@
 [![Dependencies](https://david-dm.org/di-ninja/di-ninja.svg)](https://david-dm.org/di-ninja/di-ninja#info=dependencies)
 [![devDependencies](https://david-dm.org/di-ninja/di-ninja/dev-status.svg)](https://david-dm.org/di-ninja/di-ninja/#info=devDependencies)
 [![Known Vulnerabilities](https://snyk.io/test/github/di-ninja/di-ninja/badge.svg)](https://snyk.io/test/github/di-ninja/di-ninja)
+[![NPM Status](http://img.shields.io/npm/dm/di-ninja.svg?style=flat)](https://www.npmjs.org/package/di-ninja)
 
 The Dependency-Injection Framework for JavaScript NodeJS and Browser.
 
