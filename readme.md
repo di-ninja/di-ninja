@@ -34,6 +34,20 @@ $ npm i di-ninja
   
   * Extend the Art of JavaScript development.
 
+## Paradigm - Dependency Injection vs Modules
+
+Why to not simply just use *ES6 import* or *CommonJS require* ?  
+Di-Ninja don't pretend to replace these features, that would be silly.  
+Using import/export for getting class or factory function is the good way to use it, that's why it was made for.  
+But when you use it to export singleton (instance of classe supposed to be unique in the whole application),
+this is when you do a mistake and enter in an [anti-pattern](https://en.wikipedia.org/wiki/Anti-pattern) design.
+It predisposes your application to more need for refacto in future, less testability (unable without hack).  
+How to know when to use *dependency injection* over *import/require*, it's very simple:  
+when it's about the implementation, always use dependency injection, even if it's a factory that is exported,
+else if it's not an instance but a stateless input/output function with a general purpose,
+usually coming from a third party library, you can use import. In case of doubt always use dependency injection !
+
+
 ## Documentation
 
 ### Summary
