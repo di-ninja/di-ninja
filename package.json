@@ -14,7 +14,8 @@
     "mocha": "mocha --require babel-register",
     "test": "npm run mocha -- test/node.js",
     "test:dev": "npm run test -- --watch",
-    "test:doc": "npm run mocha -- test -R markdown > test/documentation.md --recursive"
+    "test:doc": "npm run mocha -- test -R markdown > test/documentation.md --recursive",
+    "prepublish": "npm run build && npm run build:test"
   },
   "repository": {
     "type": "git",
