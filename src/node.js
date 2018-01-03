@@ -50,6 +50,6 @@ export class NodeContainer extends Container {
   }
 
   require (dep) {
-    return new NodeRequire(dep)
+    return new NodeRequire(dep, this.requires)
   }
 }
