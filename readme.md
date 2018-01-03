@@ -2,12 +2,12 @@
 
 [![npm version](https://badge.fury.io/js/di-ninja.svg)](https://badge.fury.io/js/di-ninja)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![Build Status](https://travis-ci.org/di-ninja/di-ninja.svg?branch=master)](https://travis-ci.org/di-ninja/di-ninja)
-[![Windows Build status](https://ci.appveyor.com/api/projects/status/github/di-ninja/di-ninja?branch=master&svg=true)](https://ci.appveyor.com/project/surikat/di-ninja/branch/master)
+[![Unix Build](https://travis-ci.org/di-ninja/di-ninja.svg?branch=master)](https://travis-ci.org/di-ninja/di-ninja)
+[![Windows Build](https://ci.appveyor.com/api/projects/status/github/di-ninja/di-ninja?branch=master&svg=true)](https://ci.appveyor.com/project/surikat/di-ninja/branch/master)
 [![Dependencies](https://david-dm.org/di-ninja/di-ninja.svg)](https://david-dm.org/di-ninja/di-ninja#info=dependencies)
 [![devDependencies](https://david-dm.org/di-ninja/di-ninja/dev-status.svg)](https://david-dm.org/di-ninja/di-ninja/#info=devDependencies)
 [![Known Vulnerabilities](https://snyk.io/test/github/di-ninja/di-ninja/badge.svg)](https://snyk.io/test/github/di-ninja/di-ninja)
-[![NPM Status](http://img.shields.io/npm/dm/di-ninja.svg?style=flat)](https://www.npmjs.org/package/di-ninja)
+[![NPM Status](http://img.shields.io/npm/dm/di-ninja.svg?style=flat)](https://www.npmjs.com/package/di-ninja)
 
 The Dependency-Injection Framework for JavaScript NodeJS and Browser.
 
