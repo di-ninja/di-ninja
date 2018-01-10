@@ -172,14 +172,14 @@ class B{
 }
 
 di.addRules({
-    'A': {
-      classDef: A,
-      params: [ 'B' ],
-    },
-    'B': {
-      classDef: B,
-    },
-  }
+  'A': {
+    classDef: A,
+    params: [ 'B' ],
+  },
+  'B': {
+    classDef: B,
+  },
+}
 })
 
 di.get('A')
@@ -204,14 +204,13 @@ function B(){
 }
 
 di.addRules({
-    'A': {
-      classDef: A,
-      params: [ 'B' ],
-    },
-    'B': {
-      classDef: B,
-    },
-  }
+  'A': {
+    classDef: A,
+    params: [ 'B' ],
+  },
+  'B': {
+    classDef: B,
+  },
 })
 
 di.get('A')
@@ -250,7 +249,7 @@ di.addRule('B',{
 })
 
 function A(b){
-    this.b = b
+  this.b = b
 }
 di( 'A', ['B'] )( A )
 
@@ -765,22 +764,22 @@ For instance, imagine a MVC triad where the model needs to be shared between the
 The best way to explain this is a practical demonstration:
 ```javascript
 class A {    
-    constructor(b, c){
+  constructor(b, c){
     this.b = b
     this.c = c
-    }
+  }
 }
 
 class B {
-    constructor(d){
-        this.d = d
-    }
+  constructor(d){
+    this.d = d
+  }
 }
 
 class C {
-    constructor(d){
-        this.d = d
-    }
+  constructor(d){
+    this.d = d
+  }
 }
 
 class D {}
