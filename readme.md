@@ -37,7 +37,7 @@ $ npm i di-ninja
 ## Paradigm - Dependency Injection vs Modules
 
 Why to not simply just use *ES6 import* or *CommonJS require* ?  
-Di-Ninja don't pretend to replace these features, that would be silly.  
+Di-Ninja don't pretend to replace these features, that would be useless.  
 Using import/export for getting class or factory function is the good way to use it, that's why it was made for.  
 But when you use it to export singleton (instance of classe supposed to be unique in the whole application),
 this is when you do a mistake and enter in an [anti-pattern](https://en.wikipedia.org/wiki/Anti-pattern) design.
