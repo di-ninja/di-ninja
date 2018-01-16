@@ -1,6 +1,6 @@
 # Di-Ninja [![Di-Ninja ICON](https://raw.githubusercontent.com/di-ninja/di-ninja/master/icon/icon.png)](https://github.com/di-ninja/di-ninja#)
 
-[![npm version](https://badge.fury.io/js/di-ninja.svg)](https://badge.fury.io/js/di-ninja)
+[![npm version](https://badge.fury.io/js/di-ninja.svg)](https://www.npmjs.com/package/di-ninja)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![Unix Build](https://travis-ci.org/di-ninja/di-ninja.svg?branch=master)](https://travis-ci.org/di-ninja/di-ninja)
 [![Windows Build](https://ci.appveyor.com/api/projects/status/github/di-ninja/di-ninja?branch=master&svg=true)](https://ci.appveyor.com/project/surikat/di-ninja/branch/master)
