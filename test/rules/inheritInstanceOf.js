@@ -28,6 +28,7 @@ export default ({di, assert}) => {
     di.addRules({
       'X': {
         classDef: X,
+        shared: true,
         params: [di.value('x')]
       },
       'Y': {
@@ -57,6 +58,14 @@ export default ({di, assert}) => {
         const y = di.get('Y')
         const y2 = di.get('Y2')
         assert.notDeepEqual(y2, y)
+      })
+    })
+
+    describe('inheritInstanceOf shared', function () {
+      it('should be same instance, inherited shared config from X', function () {
+        const x2 = di.get('X2')
+        const x22 = di.get('X2')
+        assert.equal(x2, x22)
       })
     })
   }
