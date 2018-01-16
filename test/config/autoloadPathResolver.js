@@ -10,16 +10,15 @@ if (process.env.APP_ENV !== 'browser') {
 
 export default ({di, assert}) => {
   return function () {
-    
     const aliasMap = {
       'app': path.resolve(__dirname, '../autoload')
     }
-    
+
     di.config({
       rulesDefault: {
         autoload: true
       },
-      autoloadPathResolver: function(pathName){
+      autoloadPathResolver: function (pathName) {
         Object.keys(aliasMap).forEach(alias => {
           const realPath = path.normalize(aliasMap[alias])
           if (pathName === alias) {
@@ -36,7 +35,7 @@ export default ({di, assert}) => {
       autoloadFailOnMissingFile: true,
       dependencies: {
         'app': require.context('../autoload', true, /\.js$/)
-      },
+      }
     })
 
     di.addRules({
@@ -48,7 +47,7 @@ export default ({di, assert}) => {
       },
       'D2': {
         path: 'app/D:classes:D'
-      },
+      }
     })
 
     it('should return an instance of C', function () {
