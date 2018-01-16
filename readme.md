@@ -131,6 +131,7 @@ usually coming from a third party library, you can use import. In case of doubt 
 	17. [globalKey](#517-globalkey)
 	
 	18. [ruleCache](#518-rulecache)
+	19. [polyfillRequireContext](#519-polyfillrequirecontext)
 	
 
 ### 1. Getting Started
@@ -465,8 +466,8 @@ const a = new A( new B() )
 Container will resolve dependency with an instance (or value returned by the function)
 of the class (or factory) (CJS export or ES6 export default) exported by specified file.  
 You can use rules to configure it.  
-The behavior of this method differ according to environnement:  
-in all environnement it will rely on preloaded require.context (see [dependencies](#53-dependencies))
+The behavior of this method differ according to environment:  
+in all environment it will rely on preloaded require.context (see [dependencies](#53-dependencies))
 wich is the only way to include dependency in webpack (because of static require resolution),
 for node, if the dependency it's not registred, it will require the specified file and register it.
 ```javascript
@@ -1221,7 +1222,8 @@ di.config('rulesDefault',rulesDefault)
 #### 5.3 dependencies
 Dependencies is intendeed to allow you to "inject" require's context directories as preload dependencies.
 It work using the webpack "require.context" feature,
-but a node polyfill called "container.context" is provided with di-ninja allowing you to build isomorphic architecture.
+but a node polyfill called "container.context" is provided with di-ninja allowing you to build isomorphic architecture.  
+see also [polyfillRequireContext](#519-polyfillrequirecontext)
 
 NodeJS example
 ```javascript
@@ -1649,9 +1651,14 @@ di.addRule('A', { params: [ 'C' ] })
 const a2 = di.get('A')
 ```
 
+#### 15.19 polyfillRequireContext
+type: **boolean** (default false)  
+This is an experimental feature, so be carefull.  
+Only available for node, it will automatically polyfill the [webpack's require.context method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.
 
 ## About
-Built with [babel](https://babeljs.io/) but use is unopinionated. Browser usage is optimized for [webpack](https://webpack.js.org/).
+Built with [babel](https://babeljs.io/) and ♥ but use is unopinionated ;)  
+Browser usage is optimized for and tested with [webpack](https://webpack.js.org/).  
 Can be used with [interface-prototype](https://github.com/di-ninja/interface-prototype),
 you can get pre-wired implementation from [omniverse](https://github.com/di-ninja/omniverse) library.
-Inspired by [strategy](https://github.com/redcatphp/strategy) for PHP, itself based on [dice](https://r.je/dice.html) design.
+Inspired by [strategy](https://github.com/redcatphp/strategy) for php, itself based on [dice](https://r.je/dice.html) design.
