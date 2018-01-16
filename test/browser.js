@@ -42,4 +42,5 @@ describe('config', function () {
   loadTest('config/promiseInterfaces')
   loadTest('config/interfacePrototype')
   loadTest('config/dependencies')
+  loadTest('config/autoloadPathResolver')
 })
