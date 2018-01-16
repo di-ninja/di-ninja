@@ -1635,7 +1635,7 @@ container({
 di.get('A')
 ```
 
-#### 15.18 ruleCache
+#### 5.18 ruleCache
 type: **boolean** (default true)  
 Enable cache for built rules, optimizing the future calls of "di.get()".  
 You can set it to false when you have rules dynamically modified after some "di.get()" calls.
@@ -1651,7 +1651,7 @@ di.addRule('A', { params: [ 'C' ] })
 const a2 = di.get('A')
 ```
 
-#### 15.19 polyfillRequireContext
+#### 5.19 polyfillRequireContext
 type: **boolean** (default false)  
 This is an experimental feature, so be carefull.  
 Only available for node, it will automatically polyfill the [webpack's require.context method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.
