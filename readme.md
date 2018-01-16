@@ -1654,7 +1654,9 @@ const a2 = di.get('A')
 #### 5.19 polyfillRequireContext
 type: **boolean** (default false)  
 This is an experimental feature, so be carefull.  
-Only available for node, it will automatically polyfill the [webpack's require.context method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.
+It will automatically polyfill the [webpack's require.context method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.  
+It's an helper to enforce easy isomorphism (cross-environment).  
+See also [dependencies](#53-dependencies) for the hack-less technic
 
 ## About
 Built with [babel](https://babeljs.io/) and ♥ but use is unopinionated ;)  
