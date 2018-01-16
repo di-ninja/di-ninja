@@ -62,7 +62,9 @@ const configMethods = new Map([
 
   // order matters for theses methods
   ['dependencies', 'setDependencies'],
-  ['rules', 'addRules']
+  ['rules', 'addRules'],
+
+  ['polyfillRequireContext', 'setPolyfillRequireContext']
 ])
 const allowedDefaultVars = ['interface', 'value']
 
@@ -171,6 +173,8 @@ export default class Container {
     }
     this.PromiseInterface = promiseInterface(promiseInterfaces)
   }
+
+  setPolyfillRequireContext (polyfill = true) {}
 
   setRulesDefault (rulesDefault = {}) {
     Object.assign(this.rulesDefault, rulesDefault)

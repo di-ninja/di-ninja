@@ -52,4 +52,25 @@ export class NodeContainer extends Container {
   require (dep) {
     return new NodeRequire(dep, this.requires)
   }
+
+  static polyfillRequireContext = false
+  setPolyfillRequireContext (polyfill = false) {
+    if (polyfill && !NodeContainer.polyfillRequireContext) {
+      NodeContainer.polyfillRequireContext = true
+      const wrap = module.constructor.wrap
+      const options = JSON.stringify({
+        alias: {
+          'di-ninja': PATH.join(__dirname, 'node')
+        }
+      })
+      require('babel-plugin-module-resolver')
+      module.constructor.wrap = function (script) {
+        return wrap(`require.context = require(
+          require('babel-plugin-module-resolver').resolvePath('di-ninja', '${module.filename}', ${options})
+        ).default.context
+          ${script}
+        `)
+      }
+    }
+  }
 }
