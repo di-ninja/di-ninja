@@ -88,10 +88,10 @@ export default class Container {
     this.rulesDefault = {
 
       inheritInstanceOf: true,
-      inheritPrototype: false,
+      inheritPrototype: undefined,
       inheritMixins: [],
 
-      shared: false,
+      shared: undefined,
       instanceOf: undefined,
       classDef: undefined,
       params: undefined,
@@ -104,13 +104,13 @@ export default class Container {
 
       singleton: undefined,
 
-      asyncResolve: false,
-      asyncCallsSerie: false,
-      asyncCallsParamsSerie: false,
+      asyncResolve: undefined,
+      asyncCallsSerie: undefined,
+      asyncCallsParamsSerie: undefined,
 
-      decorator: false,
+      decorator: undefined,
 
-      autoload: false,
+      autoload: undefined,
       path: undefined
 
     }
@@ -838,7 +838,6 @@ export default class Container {
 
     fullStack.forEach((className) => {
       const mergeRule = this.rules[className]
-
       if (mergeRule.inheritMixins) {
         this.mixinsRule(rule, mergeRule.inheritMixins)
       }
