@@ -88,13 +88,13 @@ export default class Container {
     this.rulesDefault = {
 
       inheritInstanceOf: true,
-      inheritPrototype: undefined,
+      inheritPrototype: false,
       inheritMixins: [],
 
-      shared: undefined,
-      instanceOf: undefined,
-      classDef: undefined,
-      params: undefined,
+      shared: false,
+      instanceOf: false,
+      classDef: false,
+      params: false,
 
       calls: [],
       lazyCalls: [],
@@ -102,13 +102,13 @@ export default class Container {
       substitutions: [],
       sharedInTree: [],
 
-      singleton: undefined,
+      singleton: false,
 
-      asyncResolve: undefined,
-      asyncCallsSerie: undefined,
-      asyncCallsParamsSerie: undefined,
+      asyncResolve: false,
+      asyncCallsSerie: false,
+      asyncCallsParamsSerie: false,
 
-      decorator: undefined,
+      decorator: false,
 
       autoload: undefined,
       path: undefined
@@ -258,7 +258,7 @@ export default class Container {
     }
 
     if (this.rules[interfaceName] === undefined) {
-      this.rules[interfaceName] = this.mergeRule({}, this.rulesDefault)
+      this.rules[interfaceName] = {}
     }
 
     this.rules[interfaceName] = this.mergeRule(this.rules[interfaceName], rule)
@@ -835,7 +835,6 @@ export default class Container {
       })
     }
     fullStack = Array.from(fullStack).reverse()
-
     fullStack.forEach((className) => {
       const mergeRule = this.rules[className]
       if (mergeRule.inheritMixins) {
