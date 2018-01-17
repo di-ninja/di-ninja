@@ -43,4 +43,5 @@ describe('config', function () {
   loadTest('config/interfacePrototype')
   loadTest('config/dependencies')
   loadTest('config/autoloadPathResolver')
+  loadTest('config/rulesDefault')
 })

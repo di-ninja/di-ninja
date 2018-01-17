@@ -37,4 +37,5 @@ describe('config', function () {
   loadTest('config/dependencies')
   loadTest('config.node/dependencies')
   loadTest('config/autoloadPathResolver')
+  loadTest('config/rulesDefault')
 })
