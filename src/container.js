@@ -376,9 +376,9 @@ export default class Container {
 
   processRule (key, stack = []) {
     if (this.rules[key] === undefined) {
-      this.rules[key] = this.mergeRule({}, this.rulesDefault)
+      this.rules[key] = {}
     }
-    const rule = this.rules[key]
+    const rule = this.mergeRule( this.mergeRule({}, this.rulesDefault), this.rules[key])
     if (rule.instanceOf) {
       if (stack.indexOf(key) !== -1) {
         throw new Error('Cyclic interface definition error in ' + JSON.stringify(stack.concat(key), null, 2))
@@ -387,13 +387,13 @@ export default class Container {
       this.processRule(rule.instanceOf, stack)
     }
     if (rule.singleton) {
-      rule.classDef = function () {
+      this.rules[key].classDef = function () {
         return rule.singleton
       }
     }
     if (typeof rule.classDef === 'string') {
       const classDefName = rule.classDef
-      rule.classDef = (...args) => {
+      this.rules[key].classDef = (...args) => {
         const ClassDefinition = this.get(classDefName)
         return new ClassDefinition(...args)
       }
