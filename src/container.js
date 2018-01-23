@@ -1100,6 +1100,27 @@ export default class Container {
     stack.push(str)
     return str
   }
+  
+  makeRegisterFactory(prefixPath, dependencies = []){
+    const di = this
+    return function(...params){
+      return new Proxy({}, {
+        get(o, k){
+          if(o[k] === undefined){
+            let dep = dependencies
+            if(typeof dep === 'function'){
+              dep = dep(k)
+            }
+            o[k] = di.get(prefixPath+k, [
+              ...dependencies,
+              ...params
+            ])
+          }
+          return o[k]
+        }
+      })
+    }
+  }
 
   factory (callback) {
     return new this.DefaultFactory(callback)
