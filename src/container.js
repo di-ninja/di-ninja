@@ -730,11 +730,19 @@ export default class Container {
     }
 
     if (typeof interfaceDef === 'object' && !(interfaceDef instanceof Var)) {
-      const o = {}
-      Object.keys(interfaceDef).forEach(k => {
-        o[k] = this.getParam(interfaceDef[k], rule, sharedInstances, defaultVar, undefined, stack)
-      })
-      return o
+      console.log(interfaceDef, interfaceDef instanceof Array)
+      if(interfaceDef instanceof Array){
+        return interfaceDef.map(interfaceDefVal => {
+          return this.getParam(interfaceDefVal, rule, sharedInstances, defaultVar, undefined, stack)
+        })
+      }
+      else{
+        const o = {}
+        Object.keys(interfaceDef).forEach(k => {
+          o[k] = this.getParam(interfaceDef[k], rule, sharedInstances, defaultVar, undefined, stack)
+        })        
+        return o
+      }
     }
 
     return interfaceDef
@@ -753,12 +761,19 @@ export default class Container {
     switch (defaultVar) {
       case 'interface':
         if (typeof type === 'object' && type !== null) {
-          const o = {}
-          Object.keys(type).forEach(key => {
-            const v = type[key]
-            o[key] = typeof v === 'object' && v !== null && !(v instanceof Var) ? this.wrapVarType(v, defaultVar) : v
-          })
-          return o
+          if(type instanceof Array){
+            return type.map(v => {
+              return typeof v === 'object' && v !== null && !(v instanceof Var) ? this.wrapVarType(v, defaultVar) : v
+            })
+          }
+          else{
+            const o = {}
+            Object.keys(type).forEach(key => {
+              const v = type[key]
+              o[key] = typeof v === 'object' && v !== null && !(v instanceof Var) ? this.wrapVarType(v, defaultVar) : v
+            })
+            return o
+          }
         }
         if (typeof type === 'function') {
           return new this.DefaultFunctionWrapper(type)
