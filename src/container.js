@@ -730,7 +730,6 @@ export default class Container {
     }
 
     if (typeof interfaceDef === 'object' && !(interfaceDef instanceof Var)) {
-      console.log(interfaceDef, interfaceDef instanceof Array)
       if(interfaceDef instanceof Array){
         return interfaceDef.map(interfaceDefVal => {
           return this.getParam(interfaceDefVal, rule, sharedInstances, defaultVar, undefined, stack)
