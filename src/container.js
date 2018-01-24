@@ -378,7 +378,7 @@ export default class Container {
     if (this.rules[key] === undefined) {
       this.rules[key] = {}
     }
-    const rule = this.mergeRule( this.mergeRule({}, this.rulesDefault), this.rules[key])
+    const rule = this.mergeRule(this.mergeRule({}, this.rulesDefault), this.rules[key])
     if (rule.instanceOf) {
       if (stack.indexOf(key) !== -1) {
         throw new Error('Cyclic interface definition error in ' + JSON.stringify(stack.concat(key), null, 2))
@@ -730,16 +730,15 @@ export default class Container {
     }
 
     if (typeof interfaceDef === 'object' && !(interfaceDef instanceof Var)) {
-      if(interfaceDef instanceof Array){
+      if (interfaceDef instanceof Array) {
         return interfaceDef.map(interfaceDefVal => {
           return this.getParam(interfaceDefVal, rule, sharedInstances, defaultVar, undefined, stack)
         })
-      }
-      else{
+      } else {
         const o = {}
         Object.keys(interfaceDef).forEach(k => {
           o[k] = this.getParam(interfaceDef[k], rule, sharedInstances, defaultVar, undefined, stack)
-        })        
+        })
         return o
       }
     }
@@ -760,12 +759,11 @@ export default class Container {
     switch (defaultVar) {
       case 'interface':
         if (typeof type === 'object' && type !== null) {
-          if(type instanceof Array){
+          if (type instanceof Array) {
             return type.map(v => {
               return typeof v === 'object' && v !== null && !(v instanceof Var) ? this.wrapVarType(v, defaultVar) : v
             })
-          }
-          else{
+          } else {
             const o = {}
             Object.keys(type).forEach(key => {
               const v = type[key]
@@ -1114,18 +1112,18 @@ export default class Container {
     stack.push(str)
     return str
   }
-  
-  makeRegisterFactory(prefixPath, dependencies = []){
+
+  makeRegisterFactory (prefixPath, dependencies = []) {
     const di = this
-    return function(...params){
+    return function (...params) {
       return new Proxy({}, {
-        get(o, k){
-          if(o[k] === undefined){
+        get (o, k) {
+          if (o[k] === undefined) {
             let dep = dependencies
-            if(typeof dep === 'function'){
+            if (typeof dep === 'function') {
               dep = dep(k)
             }
-            o[k] = di.get(prefixPath+k, [
+            o[k] = di.get(prefixPath + k, [
               ...dependencies,
               ...params
             ])

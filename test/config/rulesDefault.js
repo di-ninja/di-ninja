@@ -3,16 +3,16 @@
 export default ({di, assert}) => {
   return function () {
     di.config('rulesDefault', {
-      shared: true,
+      shared: true
     })
 
     di.addRules({
       'A': {
-        classDef: function(){},
+        classDef: function () {}
       },
       'B': {
-        instanceOf: 'A',
-      },
+        instanceOf: 'A'
+      }
     })
 
     describe('rulesDefault shared true', function () {

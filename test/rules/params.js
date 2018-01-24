@@ -121,11 +121,11 @@ export default ({di, assert}) => {
       [I]: {
         classDef: A
       },
-      
+
       'J': {
         classDef: A,
         params: [{
-          key: [],
+          key: []
         }]
       }
     })
@@ -260,9 +260,9 @@ export default ({di, assert}) => {
         assert.strictEqual(error.errorName, 'interfaceTypeError')
       })
     })
-    
-    describe('recursive params resolution', function () {
-      it('should be an array', function(){
+
+    describe('recursive params resolution', function () {
+      it('should be an array', function () {
         const instance = di.get('J')
         const [ a ] = instance.getParams()
         assert(a.key instanceof Array)
