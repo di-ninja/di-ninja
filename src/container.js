@@ -398,7 +398,7 @@ export default class Container {
         return new ClassDefinition(...args)
       }
     }
-    if (rule.autoload || rule.path) {
+    if ((rule.autoload && !rule.classDef) || rule.path) {
       let path = rule.path
       if (!path) {
         if (rule.instanceOf) {
