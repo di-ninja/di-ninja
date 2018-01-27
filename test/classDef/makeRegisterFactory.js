@@ -23,7 +23,10 @@ export default ({di, assert}) => {
       },
       'LoaderCurry': {
         classDef: di.makeRegisterFactory('app/', [{foo:di.value('bar')}], true)
-      }
+      },
+      'Loader2': {
+        classDef: di.makeRegisterFactory('app/', [], false, ['then','test'])
+      },
     })
 
     it('should load an instance of A with dependencies', function () {
@@ -39,6 +42,13 @@ export default ({di, assert}) => {
       const a = A( {foo2:'bar2'} )
       assert(a instanceof require('../autoload/A').default)
       assert.deepEqual(a.params[0], {foo:'bar',foo2:'bar2'})
+    })
+    
+    it('should return undefined', function () {
+      const instance = di.get('Loader2')
+      const { then, test } = instance
+      assert.equal(then, undefined)
+      assert.equal(test, undefined)
     })
     
   }

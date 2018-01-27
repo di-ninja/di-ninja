@@ -1113,7 +1113,7 @@ export default class Container {
     return str
   }
 
-  makeRegisterFactory (prefixPath, dependencies = [], curry = false) {
+  makeRegisterFactory (prefixPath, dependencies = [], curry = false, ignore = ['then']) {
     const di = this
     return function (...params) {
       const deps = [...dependencies, ...params]
@@ -1136,6 +1136,9 @@ export default class Container {
       }
       return new Proxy({}, {
         get (o, k) {
+          if(ignore.indexOf(k)!==-1){
+            return
+          }
           if (o[k] === undefined) {
             let dep = dependencies
             if (typeof dep === 'function') {
