@@ -27,6 +27,9 @@ describe('rules', function () {
   loadTest('rules/autoload')
   loadTest('rules/path')
 })
+describe('classDef', function () {
+  loadTest('classDef/makeRegisterFactory')
+})
 describe('decorator', function () {
   loadTest('decorator')
 })
@@ -37,5 +40,6 @@ describe('config', function () {
   loadTest('config/dependencies')
   loadTest('config.node/dependencies')
   loadTest('config/autoloadPathResolver')
+  loadTest('config/autoloadFailOnMissingFile')
   loadTest('config/rulesDefault')
 })

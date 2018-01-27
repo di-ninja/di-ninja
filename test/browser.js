@@ -10,6 +10,8 @@ const loadTest = loadTestFactory(container, (name) => {
   switch (root) {
     case 'rules':
       return require('./rules/' + path).default
+    case 'classDef':
+      return require('./classDef/' + path).default
     case 'config':
       return require('./config/' + path).default
     case 'decorator':
@@ -34,6 +36,9 @@ describe('rules', function () {
   loadTest('rules/asyncCallsSeries')
   loadTest('rules/asyncCallsParamsSerie')
 })
+describe('classDef', function () {
+  loadTest('classDef/makeRegisterFactory')
+})
 describe('decorator', function () {
   loadTest('decorator')
 })
@@ -43,5 +48,6 @@ describe('config', function () {
   loadTest('config/interfacePrototype')
   loadTest('config/dependencies')
   loadTest('config/autoloadPathResolver')
+  loadTest('config/autoloadFailOnMissingFile')
   loadTest('config/rulesDefault')
 })
