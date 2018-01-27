@@ -1113,9 +1113,24 @@ export default class Container {
     return str
   }
 
-  makeRegisterFactory (prefixPath, dependencies = []) {
+  makeRegisterFactory (prefixPath, dependencies = [], curry = false) {
     const di = this
     return function (...params) {
+      const deps = [...dependencies, ...params]
+      let make
+      if(curry){
+        make = name => (...merge) => {
+          merge.forEach((mergeParam,i) => {
+            if(typeof mergeParam === 'object' && mergeParam !== null){
+              Object.keys(mergeParam).forEach(key => deps[i][key] = di.value(mergeParam[key]))
+            }
+          })
+          return di.get(loadPath+'/'+name, deps)
+        }
+      }
+      else{
+        make = name => di.get(prefixPath + name, deps)
+      }
       return new Proxy({}, {
         get (o, k) {
           if (o[k] === undefined) {
@@ -1123,10 +1138,7 @@ export default class Container {
             if (typeof dep === 'function') {
               dep = dep(k)
             }
-            o[k] = di.get(prefixPath + k, [
-              ...dependencies,
-              ...params
-            ])
+            o[k] = make(k)
           }
           return o[k]
         }
