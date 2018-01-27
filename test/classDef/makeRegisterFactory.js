@@ -15,41 +15,40 @@ export default ({di, assert}) => {
     })
 
     di.addRules({
-      'app/A':{
-        
+      'app/A': {
+
       },
       'Loader': {
-        classDef: di.makeRegisterFactory('app/', [{foo:di.value('bar')}])
+        classDef: di.makeRegisterFactory('app/', [{foo: di.value('bar')}])
       },
       'LoaderCurry': {
-        classDef: di.makeRegisterFactory('app/', [{foo:di.value('bar')}], true)
+        classDef: di.makeRegisterFactory('app/', [{foo: di.value('bar')}], true)
       },
       'Loader2': {
-        classDef: di.makeRegisterFactory('app/', [], false, ['then','test'])
-      },
+        classDef: di.makeRegisterFactory('app/', [], false, ['then', 'test'])
+      }
     })
 
     it('should load an instance of A with dependencies', function () {
       const instance = di.get('Loader')
       const { A } = instance
       assert(A instanceof require('../autoload/A').default)
-      assert.deepEqual(A.params[0], {foo:'bar'})
+      assert.deepEqual(A.params[0], {foo: 'bar'})
     })
-    
+
     it('should load an instance of A with dependencies and merged dependencies', function () {
       const instance = di.get('LoaderCurry')
       const { A } = instance
-      const a = A( {foo2:'bar2'} )
+      const a = A({foo2: 'bar2'})
       assert(a instanceof require('../autoload/A').default)
-      assert.deepEqual(a.params[0], {foo:'bar',foo2:'bar2'})
+      assert.deepEqual(a.params[0], {foo: 'bar', foo2: 'bar2'})
     })
-    
+
     it('should return undefined', function () {
       const instance = di.get('Loader2')
       const { then, test } = instance
       assert.equal(then, undefined)
       assert.equal(test, undefined)
     })
-    
   }
 }

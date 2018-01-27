@@ -1,7 +1,5 @@
 /* eslint-env mocha */
 
-import path from 'path'
-
 export default ({di, assert}) => {
   return function () {
     di.config({
@@ -11,35 +9,31 @@ export default ({di, assert}) => {
       autoloadFailOnMissingFile: true
     })
 
-
     it('should throw an error', function () {
       let error
-      try{
+      try {
         di.addRules({
           'A': {
-            
+
           }
         })
-      }
-      catch(e){
+      } catch (e) {
         error = e
       }
       assert(error !== undefined)
     })
     it('should not throw an error', function () {
       let error
-      try{
+      try {
         di.addRules({
           'B': {
-            classDef: function(){}
+            classDef: function () {}
           }
         })
-      }
-      catch(e){
+      } catch (e) {
         error = e
       }
       assert(error === undefined)
     })
-    
   }
 }
