@@ -1122,10 +1122,13 @@ export default class Container {
         make = name => (...merge) => {
           merge.forEach((mergeParam,i) => {
             if(typeof mergeParam === 'object' && mergeParam !== null){
+              if(deps[i] === undefined){
+                deps[i] = {}
+              }
               Object.keys(mergeParam).forEach(key => deps[i][key] = di.value(mergeParam[key]))
             }
           })
-          return di.get(loadPath+'/'+name, deps)
+          return di.get(prefixPath + name, deps)
         }
       }
       else{
