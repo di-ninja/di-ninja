@@ -1623,10 +1623,10 @@ In combination with [interface-prototype](https://github.com/di-ninja/interface-
 this enable runtime type-check and custom type-check for all type of variables.  
 
 
-#### 15.17 globalKey
+#### 5.17 globalKey
 type: **string** | **boolean** (default false)  
 When setted to true it will be transformed to string 'di'.  
-If provided, global[globalKey] (on node) or window[globalKey] (on browser) will be set to the instance of container.
+If provided, global.globalKey (on node) or window.globalKey (on browser) will be set to the instance of container.
 ```javascript
 container({
   globalKey: 'di',
