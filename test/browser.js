@@ -50,4 +50,5 @@ describe('config', function () {
   loadTest('config/autoloadPathResolver')
   loadTest('config/autoloadFailOnMissingFile')
   loadTest('config/rulesDefault')
+  loadTest('config/globalKey')
 })

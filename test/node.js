@@ -43,4 +43,5 @@ describe('config', function () {
   loadTest('config/autoloadFailOnMissingFile')
   loadTest('config/rulesDefault')
   loadTest('config.node/autoloadExtensions')
+  loadTest('config/globalKey')
 })
