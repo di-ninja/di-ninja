@@ -34,7 +34,7 @@ export default ({di, assert}) => {
       },
       autoloadFailOnMissingFile: true,
       dependencies: {
-        'app': require.context('../autoload', true, /\.js$/)
+        '/autoload': require.context('../autoload', true, /\.js$/)
       }
     })
 
