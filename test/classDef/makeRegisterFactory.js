@@ -2,14 +2,21 @@
 
 import path from 'path'
 
+
+if (process.env.APP_ENV !== 'browser') {
+  // we are not in webpack/browser but in nodejs/server-side
+  const container = require('../../src/node').default
+  require.context = container.context
+}
+
 export default ({di, assert}) => {
   return function () {
     di.config({
       rulesDefault: {
         autoload: true
       },
-      autoloadPathResolver: {
-        'app': path.resolve(__dirname, '../autoload')
+      dependencies: {
+        'app': require.context('../autoload', true, /\.js$/),
       },
       autoloadFailOnMissingFile: true
     })
