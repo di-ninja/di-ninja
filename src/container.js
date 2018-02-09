@@ -1113,43 +1113,63 @@ export default class Container {
     return str
   }
 
-  makeRegisterFactory (prefixPath, dependencies = [], curry = false, ignore = ['then']) {
+  makeRegisterFactory (prefixPath, dependencies = [], asyncSharedDepsArray = undefined, curry = false, ignore = ['then']) {
     const di = this
     return function (...params) {
       const deps = [...dependencies, ...params]
-      let make
-      if (curry) {
-        make = name => (...merge) => {
-          merge.forEach((mergeParam, i) => {
-            if (typeof mergeParam === 'object' && mergeParam !== null) {
-              if (deps[i] === undefined) {
-                deps[i] = {}
+      function makeProxy () {
+        let make
+        if (curry) {
+          make = name => (...merge) => {
+            merge.forEach((mergeParam, i) => {
+              if (typeof mergeParam === 'object' && mergeParam !== null) {
+                if (deps[i] === undefined) {
+                  deps[i] = {}
+                }
+                Object.keys(mergeParam).forEach(key => {
+                  deps[i][key] = di.value(mergeParam[key])
+                })
               }
-              Object.keys(mergeParam).forEach(key => {
-                deps[i][key] = di.value(mergeParam[key])
-              })
-            }
-          })
-          return di.get(prefixPath + name, deps)
+            })
+            return di.get(prefixPath + name, deps)
+          }
+        } else {
+          make = name => di.get(prefixPath + name, deps)
         }
-      } else {
-        make = name => di.get(prefixPath + name, deps)
+
+        return new Proxy({}, {
+          get (o, k) {
+            if (ignore.indexOf(k) !== -1) {
+              return
+            }
+            if (o[k] === undefined) {
+              o[k] = make(k)
+            }
+            return o[k]
+          }
+        })
       }
-      return new Proxy({}, {
-        get (o, k) {
-          if (ignore.indexOf(k) !== -1) {
-            return
-          }
-          if (o[k] === undefined) {
-            let dep = dependencies
-            if (typeof dep === 'function') {
-              dep = dep(k)
-            }
-            o[k] = make(k)
-          }
-          return o[k]
-        }
-      })
+
+      if (asyncSharedDepsArray) {
+        const depPromises = []
+        asyncSharedDepsArray.forEach((asyncSharedDeps, i) => {
+          Object.keys(asyncSharedDeps).forEach(k => {
+            depPromises.push(
+              Promise.resolve(di.get(asyncSharedDeps[k])).then(resolved => {
+                if (!deps[i]) {
+                  deps[i] = {}
+                }
+                deps[i][k] = di.value(resolved)
+              })
+            )
+          })
+        })
+        return Promise.all(depPromises).then(() => {
+          return makeProxy()
+        })
+      } else {
+        return makeProxy()
+      }
     }
   }
 

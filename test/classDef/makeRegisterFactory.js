@@ -26,10 +26,10 @@ export default ({di, assert}) => {
         classDef: di.makeRegisterFactory('app/', [{foo: di.value('bar')}])
       },
       'LoaderCurry': {
-        classDef: di.makeRegisterFactory('app/', [{foo: di.value('bar')}], true)
+        classDef: di.makeRegisterFactory('app/', [{foo: di.value('bar')}], undefined, true)
       },
       'Loader2': {
-        classDef: di.makeRegisterFactory('app/', [], false, ['then', 'test'])
+        classDef: di.makeRegisterFactory('app/', [], undefined, false, ['then', 'test'])
       }
     })
 
