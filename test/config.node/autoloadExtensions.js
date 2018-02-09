@@ -5,7 +5,7 @@ import path from 'path'
 export default ({di, assert}) => {
   return function () {
     di.config({
-      autoloadExtensions: ['jsx','js'],
+      autoloadExtensions: ['jsx', 'js'],
       autoloadPathResolver: {
         'app': path.resolve(__dirname, '../autoload')
       }

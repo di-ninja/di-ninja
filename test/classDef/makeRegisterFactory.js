@@ -1,8 +1,5 @@
 /* eslint-env mocha */
 
-import path from 'path'
-
-
 if (process.env.APP_ENV !== 'browser') {
   // we are not in webpack/browser but in nodejs/server-side
   const container = require('../../src/node').default
@@ -16,7 +13,7 @@ export default ({di, assert}) => {
         autoload: true
       },
       dependencies: {
-        'app': require.context('../autoload', true, /\.js$/),
+        'app': require.context('../autoload', true, /\.js$/)
       },
       autoloadFailOnMissingFile: true
     })
