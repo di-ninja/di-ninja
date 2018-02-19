@@ -17,25 +17,25 @@ export default ({di, assert}) => {
     @di('C')
     class C {
       @di(['B'])
-        method (b) {
-          this.B = b
-        }
+      method (b) {
+        this.B = b
+      }
     }
 
     @di('D')
-      class D {
+    class D {
       @di(['B'], true)
-        method (b) {
-          this.B = b
-        }
+      method (b) {
+        this.B = b
       }
+    }
 
     @di('E')
     class E {
       @di.wrap(['B'])
-        method (b) {
-          this.B = b
-        }
+      method (b) {
+        this.B = b
+      }
     }
     /* eslint-enable no-unused-vars */
 
