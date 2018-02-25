@@ -1,8 +1,8 @@
 /* eslint-env mocha */
 
 import loadTestFactory from './utils/loadTestFactory'
-// import container from '../src/browser'
-import container from '../browser'
+import container from '../src/browser'
+// import container from '../browser'
 
 const loadTest = loadTestFactory(container, (name) => {
   const path = name.split('/')
