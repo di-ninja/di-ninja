@@ -230,25 +230,35 @@ export default class Container {
         return
       }
 
-      context.keys().forEach((filename) => {
-        let key = filename.replace(/\\/g, '/')
-        if (key.substr(0, 2) === './') {
-          key = key.substr(2)
-        }
+      context
+        .keys()
+        .sort( (a, b) => {
+          if(a.substr(a.lastIndexOf('/'))==='index'){
+            return true
+          }
+          if(b.substr(b.lastIndexOf('/'))==='index'){
+            return false
+          }
+          return a > b
+        })
+        .forEach((filename) => {
+          let key = filename.replace(/\\/g, '/')
+          if (key.substr(0, 2) === './') {
+            key = key.substr(2)
+          }
 
-        key = dirKey + '/' + key.substr(0, key.lastIndexOf('.') || key.length)
-        const ctxFilename = context(filename)
-        this.setRequire(key, ctxFilename)
-        
-        const pathFragments = key.split('/')
-        const lastPathFragment = pathFragments.pop()
-        if (lastPathFragment === 'index') {
-          this.setRequire(key.substr(0, key.lastIndexOf('/')), ctxFilename)
-        }
-        // else if(lastPathFragment === pathFragments.pop()){
-          // key = key.substr(0, key.lastIndexOf('/'))
-        // }
-      })
+          key = dirKey + '/' + key.substr(0, key.lastIndexOf('.') || key.length)
+          const ctxFilename = context(filename)
+          
+          this.setRequire(key, ctxFilename)
+          
+          const pathFragments = key.split('/')
+          const lastPathFragment = pathFragments.pop()
+          if (lastPathFragment === 'index' || lastPathFragment === pathFragments.pop()) {
+            this.setRequire(key.substr(0, key.lastIndexOf('/')), ctxFilename)
+          }
+          
+        })
     })
   }
 

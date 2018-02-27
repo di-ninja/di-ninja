@@ -37,6 +37,10 @@ export default ({di, assert}) => {
 
         },
         
+        'app/H': {
+
+        },
+        
       }),
       dependencies: {
         'app': require.context('../autoload', true, /\.js$/)
@@ -65,7 +69,7 @@ export default ({di, assert}) => {
     
     it('sould be F from root', function () {
       const F = di.get('app/F')
-      assert.instanceOf(F, require('../autoload/F').default)
+      assert.instanceOf(F, require('../autoload/F/index').default)
     })
     
     it('sould be G from index', function () {
@@ -76,6 +80,11 @@ export default ({di, assert}) => {
     it('sould be G/index from index', function () {
       const G = di.get('app/G/index')
       assert.instanceOf(G, require('../autoload/G/index').default)
+    })
+    
+    it('sould be H from H/H', function () {
+      const H = di.get('app/H')
+      assert.instanceOf(H, require('../autoload/H/H').default)
     })
     
   }
