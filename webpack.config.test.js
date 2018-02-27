@@ -2,10 +2,11 @@ const webpack = require('webpack')
 
 module.exports = {
   entry: {
-    'test/browser.dist': ['./test/browser.js']
+    'browser.dist': ['./test/browser.js']
   },
   output: {
-    filename: '[name].js'
+    filename: '[name].js',
+    path: __dirname + '/test',
   },
   module: {
     rules: [
