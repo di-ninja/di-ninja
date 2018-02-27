@@ -237,10 +237,17 @@ export default class Container {
         }
 
         key = dirKey + '/' + key.substr(0, key.lastIndexOf('.') || key.length)
-        if (key.split('/').pop() === 'index') {
-          key = key.substr(0, key.lastIndexOf('/'))
+        const ctxFilename = context(filename)
+        this.setRequire(key, ctxFilename)
+        
+        const pathFragments = key.split('/')
+        const lastPathFragment = pathFragments.pop()
+        if (lastPathFragment === 'index') {
+          this.setRequire(key.substr(0, key.lastIndexOf('/')), ctxFilename)
         }
-        this.setRequire(key, context(filename))
+        // else if(lastPathFragment === pathFragments.pop()){
+          // key = key.substr(0, key.lastIndexOf('/'))
+        // }
       })
     })
   }
