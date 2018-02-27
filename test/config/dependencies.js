@@ -23,7 +23,12 @@ export default ({di, assert}) => {
         'requireA': {
           instanceOf: 'app/A',
           params: [ di.require('app/B') ]
-        }
+        },
+        
+        'app/F': {
+
+        },
+        
       }),
       dependencies: {
         'app': require.context('../autoload', true, /\.js$/)
@@ -48,6 +53,11 @@ export default ({di, assert}) => {
     it('sould be equal to B', function () {
       const A = di.get('requireA')
       assert.strictEqual(A.params[0], require('../autoload/B'))
+    })
+    
+    it('sould be F from root', function () {
+      const F = di.get('app/F')
+      assert.instanceOf(F, require('../autoload/F').default)
     })
   }
 }
