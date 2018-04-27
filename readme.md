@@ -310,7 +310,7 @@ const a = new A( new B( C() ) )
 
 #### 3.2 Recursive params
 You can nest dependencies declarations to infinite. It's very common use for config.  
-(for others params behaviors see [params](#411-params))
+(for others params behaviors see [`params`](#411-params))
 
 ```javascript
 class A{
@@ -354,14 +354,14 @@ By default all values and subvalues of params are traversed when it's an Object 
 are wrapped with `classFactory` when it's a function, and else by `interface`.  
 All these behaviors can be configured, but the default config is well and the documentation rely on it.
 (see
-[defaultVar](#57-defaultvar),
-[defaultRuleVar](#58-defaultrulevar),
-[defaultDecoratorVar](#59-defaultdecoratorvar),
-[defaultArgsVar](#510-defaultargsvar),  
-[defaultFactory](#511-defaultfactory),
-[defaultFunctionWrapper](#512-defaultfunctionwrapper))
+[`defaultVar`](#57-defaultvar),
+[`defaultRuleVar`](#58-defaultrulevar),
+[`defaultDecoratorVar`](#59-defaultdecoratorvar),
+[`defaultArgsVar`](#510-defaultargsvar),  
+[`defaultFactory`](#511-defaultfactory),
+[`defaultFunctionWrapper`](#512-defaultfunctionwrapper))
 
-(for others params behaviors see [params](#411-params))
+(for others params behaviors see [`params`](#411-params))
 
 ##### 3.3.1 interface
 Container will resolve dependency as, an instance of class or a value from factory, defined by corresponding rule's key.  
@@ -410,8 +410,8 @@ const a = new A( 'bar' )
 ```
 
 ##### 3.3.3 factory
-The behavior of this method can be configured with container config's key [defaultFactory](#511-defaultfactory).  
-By default it's an alias for [valueFactory](#334-valueFactory).
+The behavior of this method can be configured with container config's key [`defaultFactory`](#511-defaultfactory).  
+By default it's an alias for [`valueFactory`](#334-valuefactory).
 
 ##### 3.3.4 valueFactory
 Container will resolve dependency with the value returned by the given function.
@@ -467,7 +467,7 @@ Container will resolve dependency with an instance (or value returned by the fun
 of the class (or factory) (CJS export or ES6 export default) exported by specified file.  
 You can use rules to configure it.  
 The behavior of this method differ according to environment:  
-in all environment it will rely on preloaded require.context (see [dependencies](#53-dependencies))
+in all environment it will rely on preloaded require.context (see [`dependencies`](#53-dependencies))
 wich is the only way to include dependency in webpack (because of static require resolution),
 for node, if the dependency it's not registred, it will require the specified file and register it.
 ```javascript
@@ -559,10 +559,10 @@ di.get('A', ['E','F','G'])
 
 ##### 4.1.2 calls
 type: **array**  
-stack of call array with 1st item for method name or callback and 2nd item an array of params for methods (working same as [params](#411-params)).
+stack of call array with 1st item for method name or callback and 2nd item an array of params for methods (working same as [`params`](#411-params)).
 
 Stack of methods to call after instance creation.  
-If some circular dependencies are detected, some items of calls stack will be placed automatically in [lazyCalls](#413-lazycalls).
+If some circular dependencies are detected, some items of calls stack will be placed automatically in [`lazyCalls`](#413-lazycalls).
 
 ```javascript
 class A{
@@ -598,7 +598,7 @@ di.addRule('A', {
 ##### 4.1.3 lazyCalls
 type: **array** 
 
-Same as [calls](#412-calls), but run after dependency has been distributed to needing instances, this helper offer a simple way to solving circular dependency problem.
+Same as [`calls`](#412-calls), but run after dependency has been distributed to needing instances, this helper offer a simple way to solving circular dependency problem.
 
 #### 4.2. instantiation
 The following rule's keys are about instantiations of classes and factories.
@@ -608,7 +608,7 @@ type: **function**
 class or factory
 
 The `classDef` key reference the class that will be used for instantiation.  
-It's used for use reference to class direcly in rule, you can do without if you configure container [dependencies](#53-dependencies) with require.context.
+It's used for use reference to class direcly in rule, you can do without if you configure container [`dependencies`](#53-dependencies) with require.context.
 ```javascript
 class A{}
 
@@ -811,16 +811,16 @@ The important distinction between this and global shared objects is that this ob
 #### 4.4. rule inheritance
 The following rule's keys are about rule inheritance.  
 There are three way to herit rule, the priority order of override is
-[inheritInstanceOf](#441-inheritinstanceof),
-overrided by [inheritPrototype](#442-inheritprototype), 
-overrided by [inheritMixins](#443-inheritmixins), 
-and finally the rule itself wich is composed by rule definition and [decorator](#444-decorator).
+[`inheritInstanceOf`](#441-inheritinstanceof),
+overrided by [`inheritPrototype`](#442-inheritprototype), 
+overrided by [`inheritMixins`](#443-inheritmixins), 
+and finally the rule itself wich is composed by rule definition and [`decorator`](#444-decorator).
 Priority between rule and decorator depends of calls order, the last take precedence, traditionally it's the rule.  
 Most of rules options are replaced except some options that will be merged:
-[sharedInTree](#433-sharedintree), [substitutions](#423-substitutions),
-[calls](#412-calls) and [lazyCalls](#413-lazycalls).
+[`sharedInTree`](#433-sharedintree), [`substitutions`](#423-substitutions),
+[`calls`](#412-calls) and [`lazyCalls`](#413-lazycalls).
 
-See also [rulesDefault](#52-rulesDefault) in container config section.
+See also [`rulesDefault`](#52-rulesDefault) in container config section.
 
 ##### 4.4.1 inheritInstanceOf
 type: **boolean** (default true)  
@@ -922,16 +922,16 @@ assert.deepEqual(b, a)
 ##### 4.4.4 decorator
 type: **boolean** (default false)
 
-When set to `true`, a [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) property
-will be set on class or factory function, allowing to use [inheritPrototype](#442-inheritprototype).
+When set to `true`, a [`Symbol`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) property
+will be set on class or factory function, allowing to use [`inheritPrototype`](#442-inheritprototype).
 If the [decorator injection approach](#22-decorator-injection-approach) is used, it's not necessary to configure this rule,
 because the Symbol will be set whatever the decorator key value is.  
-This is required to enable [inheritPrototype](#442-inheritprototype) feature.
+This is required to enable [`inheritPrototype`](#442-inheritprototype) feature.
 
 #### 4.5. asynchronous dependencies resolution
 The following rule's keys allow you to manage the asynchronous dependencies resolution flow.  
-When a dependency return a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
-and this promise is waited for resolution by [asyncResolve](#541-asyncresolve),
+When a dependency return a [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
+and this promise is waited for resolution by [`asyncResolve`](#541-asyncresolve),
 the outputed object of `di.get()` method will be a Promise object,
 wich will be resolved by the expected object.
 
@@ -941,7 +941,7 @@ type: **boolean** (default false)
 When set to `true`, if a factory return a Promise, the dependency tree will wait for it's resolution,
 and then call the requiring dependency with the Promise's resolved value.  
 Promise is detected with instanceof operator, if you want to use a specific Promise polyfill (eg: [bluebird](http://bluebirdjs.com)) you can use
-the [promiseFactory](#513-promisefactory) and [promiseInterfaces](#514-promiseinterfaces) container's config options.
+the [`promiseFactory`](#513-promisefactory) and [`promiseInterfaces`](#514-promiseinterfaces) container's config options.
 
 ```javascript
 function A(b, c){
@@ -980,8 +980,8 @@ di.get('A').then(a => {
 ##### 4.5.2 asyncCallsSerie
 type: **boolean** (default false)
 
-When set to `true`, defer [calls](#412-calls) resolution sequentially
-when the method or callback require a dependency returning a Promise and for wich [asyncResolve](#451-asyncresolve) rule option setted to true.
+When set to `true`, defer [`calls`](#412-calls) resolution sequentially
+when the method or callback require a dependency returning a Promise and for wich [`asyncResolve`](#451-asyncresolve) rule option setted to true.
 
 ```javascript
 class A{
@@ -1058,9 +1058,9 @@ di.get('A2').then( a => {
 ##### 4.5.3 asyncCallsParamsSerie
 type: **boolean** (default false)
 
-When set to `true`, ensure that the dependencies stacks for all [calls](#412-calls) of a dependency are resolved sequentially according to order of calls,
-when the method or callback require a dependency returning a Promise and for wich [asyncResolve](#451-asyncresolve) rule option setted to true.
-Setted to true, it will implicitly set [asyncCallsSerie](#452-asynccallsserie) to true.
+When set to `true`, ensure that the dependencies stacks for all [`calls`](#412-calls) of a dependency are resolved sequentially according to order of calls,
+when the method or callback require a dependency returning a Promise and for wich [`asyncResolve`](#451-asyncresolve) rule option setted to true.
+Setted to true, it will implicitly set [`asyncCallsSerie`](#452-asynccallsserie) to true.
 
 ```javascript
 class A{
@@ -1130,14 +1130,14 @@ The following rule's keys are about dependency file location.
 type: **boolean** (default false)
 
 When set to `true`, check for allready registred dependency and if not, in node, try to require it,
-if dependency is not found it can (maybe) throw an Error according to [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile) container config.  
-The require path resolution is based first on [path](#462-path) rule option if defined,
-then on [instanceOf](#422-instanceof) rule option if defined (if instanceOf point to a rule with it's own path it will get it),
+if dependency is not found it can (maybe) throw an Error according to [`autoloadFailOnMissingFile`](#56-autoloadfailonmissingfile) container config.  
+The require path resolution is based first on [`path`](#462-path) rule option if defined,
+then on [`instanceOf`](#422-instanceof) rule option if defined (if instanceOf point to a rule with it's own path it will get it),
 and finally on the key of the rule.
-This require path can be post-processed using [autoloadPathResolver](#54-autoloadpathresolver) container config.  
+This require path can be post-processed using [`autoloadPathResolver`](#54-autoloadpathresolver) container config.  
 The colons character `:` can be used to get a subkey of exported,
 and you can use it multiple times in same expression to get nested value.
-When [path](#462-path) is defined it will implicitly set autoload to true.
+When [`path`](#462-path) is defined it will implicitly set autoload to true.
 
 ```javascript
 di.addRules({
@@ -1162,12 +1162,12 @@ assert( di.get('#server2') instanceof require('http').Server )
 ##### 4.6.2 path
 type: **string**  
 
-The require path can be post-processed by [autoloadPathResolver](#54-autoloadpathresolver) container config.  
-When defined it will implicitly set [autoload](#461-autoload) to true.  
+The require path can be post-processed by [`autoloadPathResolver`](#54-autoloadpathresolver) container config.  
+When defined it will implicitly set [`autoload`](#461-autoload) to true.  
 You can traverse exported and get specific key using colons character `:`.  
 You can't use relative path, if you want to include relative path, your application source files for exemple,
-you have to alias directories (or files) using [autoloadPathResolver](#54-autoloadpathresolver) feature.  
-See [autoload](#461-autoload) section for more details on the requiring behavior based on implicit path with instanceOf and rule's key.
+you have to alias directories (or files) using [`autoloadPathResolver`](#54-autoloadpathresolver) feature.  
+See [`autoload`](#461-autoload) section for more details on the requiring behavior based on implicit path with instanceOf and rule's key.
 
 ```javascript
 di.addRules({
@@ -1193,11 +1193,11 @@ const di = container()
 di.config(config)
 di.config('aConfigKey', aConfigValue)
 ```
-Order of config calls doesn't matter except for options [dependencies](#53-dependencies) and [rules](#51-rules) wich must be called at end.
+Order of config calls doesn't matter except for options [`dependencies`](#53-dependencies) and [`rules`](#51-rules) wich must be called at end.
 If key/value config object is provided as config param, options will be treated in the correct order.
 
 #### 5.1 rules
-See [rules](#4-rules) section.
+See [`rules`](#4-rules) section.
 ```javascript
 di.config({
   rules
@@ -1214,7 +1214,7 @@ di.addRule('#myClassName', rule)
 #### 5.2 rulesDefault
 Default values for rules, each rule will be extended from this setup, values will be overidded or merged.  
 See [rule inheritance](#44-rule-inheritance) documentation section for more details on extending.
-See [rules](#4-rules) section for rules options.
+See [`rules`](#4-rules) section for rules options.
 ```javascript
 di.config('rulesDefault',rulesDefault)
 ```
@@ -1223,7 +1223,7 @@ di.config('rulesDefault',rulesDefault)
 Dependencies is intendeed to allow you to "inject" require's context directories as preload dependencies.
 It work using the webpack `require.context` feature,
 but a node polyfill called `container.context` is provided with di-ninja allowing you to build isomorphic architecture.  
-see also [polyfillRequireContext](#519-polyfillrequirecontext)
+see also [`polyfillRequireContext`](#519-polyfillrequirecontext)
 
 NodeJS example
 ```javascript
@@ -1384,7 +1384,7 @@ di.config('autoloadExtensions', new RegExp('\.(js|jsx)$'))
 Possible values are string `path`, `true` or `false`.  
 Setted to false, it will never throw error on missing dependency.  
 Setted to true, it will always throw an error on missing dependency.  
-Setted to `path`, it will throw error only if a dependency with a specified rule's option [path](#462-path) is specified.
+Setted to `path`, it will throw error only if a dependency with a specified rule's option [`path`](#462-path) is specified.
 The default value is `path`.  
 
 ```javascript
@@ -1393,11 +1393,11 @@ di.config('autoloadFailOnMissingFile', true)
 
 #### 5.7 defaultVar
 Value by default for
-[defaultRuleVar](#58-defaultrulevar),
-[defaultDecoratorVar](#59-defaultdecoratorvar),
-and [defaultArgsVar](#510-defaultargsvar).
+[`defaultRuleVar`](#58-defaultrulevar),
+[`defaultDecoratorVar`](#59-defaultdecoratorvar),
+and [`defaultArgsVar`](#510-defaultargsvar).
 
-This is about implicit wrapping of [params](#411-params), [calls](#412-calls) and [lazyCalls](#413-lazycalls).
+This is about implicit wrapping of [`params`](#411-params), [`calls`](#412-calls) and [`lazyCalls`](#413-lazycalls).
 
 Possible values are `interface` or `value`.  
 Default is `interface`.  
@@ -1443,18 +1443,18 @@ di.addRule('A', {
 ```
 
 #### 5.8 defaultRuleVar
-Implicit wrapping for scalar values defined from [rules](#4-rules).  
-see [defaultVar](#57-defaultvar).
+Implicit wrapping for scalar values defined from [`rules`](#4-rules).  
+see [`defaultVar`](#57-defaultvar).
 
 
 #### 5.9 defaultDecoratorVar
-Implicit wrapping for scalar values defined from [decorator](#444-decorator).  
-see [defaultVar](#57-defaultvar).
+Implicit wrapping for scalar values defined from [`decorator`](#444-decorator).  
+see [`defaultVar`](#57-defaultvar).
 
 
 #### 5.10 defaultArgsVar
-Implicit wrapping for scalar values defined from manual call (see [params](#411-params)).  
-see [defaultVar](#57-defaultvar).
+Implicit wrapping for scalar values defined from manual call (see [`params`](#411-params)).  
+see [`defaultVar`](#57-defaultvar).
 
 #### 5.11 defaultFactory
 default wrapper class to instanciate for di.factory() method.
@@ -1500,9 +1500,9 @@ di.addRule('A', {
 
 #### 5.13 promiseFactory
 default: Promise (global)  
-`promiseFactory` option let you modify the way DiNinja create Promise for handle [asyncResolve](#451-asyncresolve).  
+`promiseFactory` option let you modify the way DiNinja create Promise for handle [`asyncResolve`](#451-asyncresolve).  
 For example, you can use it with bluebird.  
-The common way is to use it in combination with [promiseInterfaces](#514-promiseinterfaces) option.
+The common way is to use it in combination with [`promiseInterfaces`](#514-promiseinterfaces) option.
 
 ```javascript
 import bluebird from 'bluebird'
@@ -1537,8 +1537,8 @@ assert( di.get('A') instanceof bluebird )
 default: Promise (global)  
 `promiseInterfaces` option let you modify the way DiNinja recognize Promise.  
 For example, you can use it with bluebird.  
-The common way is to use it in combination with [promiseFactory](#513-promisefactory) option.  
-The [promiseFactory](#513-promisefactory) option will automatically be pushed to promiseInterfaces.
+The common way is to use it in combination with [`promiseFactory`](#513-promisefactory) option.  
+The [`promiseFactory`](#513-promisefactory) option will automatically be pushed to promiseInterfaces.
 
 ```javascript
 import bluebird from 'bluebird'
@@ -1570,8 +1570,8 @@ assert( di.get('A') instanceof Promise )
 ```
 
 #### 5.15 interfacePrototype
-Enable you to use [Symbol](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based
-interface reference instead of string as dependency key, allowing you to use runtime [interfaceTypeCheck](#516-interfacetypecheck).
+Enable you to use [`Symbol`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) based
+interface reference instead of string as dependency key, allowing you to use runtime [`interfaceTypeCheck`](#516-interfacetypecheck).
 ```javascript
 import {
   InterfacePrototype,
@@ -1617,7 +1617,7 @@ assert(di.get('D').i instanceof A)
 #### 5.16 interfaceTypeCheck
 type: **boolean** (default false)
 
-Enable check for "implemented" interface using [interfacePrototype](#515-interfaceprototype).
+Enable check for "implemented" interface using [`interfacePrototype`](#515-interfaceprototype).
 If a manually provided dependency doesn't "implement" the required "interface", it will throw an error.  
 In combination with [interface-prototype](https://github.com/di-ninja/interface-prototype),
 this enable runtime type-check and custom type-check for all type of variables.  
@@ -1654,9 +1654,9 @@ const a2 = di.get('A')
 #### 5.19 polyfillRequireContext
 type: **boolean** (default false)  
 This is an experimental feature, so be carefull.  
-It will automatically polyfill the [webpack's require.context method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.  
+It will automatically polyfill the [webpack's `require.context` method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.  
 It's an helper to enforce easy isomorphism (cross-environment).  
-See also [dependencies](#53-dependencies) for the hack-less technic
+See also [`dependencies`](#53-dependencies) for the hack-less technic
 
 ## About
 Built with [babel](https://babeljs.io/) and ♥ but use is unopinionated ;)  
