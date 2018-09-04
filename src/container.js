@@ -1319,7 +1319,11 @@ export default class Container {
         return registry
       }
 
-      const getterMap = this.directoryLoaders[dir](options, diParams)
+      const loader = this.directoryLoaders[dir]
+      if (!loader) {
+        throw new Error('Directory not found "' + dir + '"')
+      }
+      const getterMap = loader(options, diParams)
 
       if (getterMap instanceof Promise) {
         return getterMap.then(getterMapResolved => {
