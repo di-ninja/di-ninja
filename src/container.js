@@ -507,6 +507,13 @@ export default class Container {
       stack.push(key)
       this.processRule(rule.instanceOf, stack)
     }
+    if(rule.directory){
+      const {
+        path,
+        ...options,
+      } = rule.directory
+      this.rules[key].classDef = this.directoryLoader(path, options)
+    }
     if (rule.singleton) {
       this.rules[key].classDef = function () {
         return rule.singleton
@@ -1026,15 +1033,19 @@ export default class Container {
       sharedInTree,
       classDef,
       singleton,
+      directory,
       asyncResolve,
       asyncCallsSerie,
       asyncCallsParamsSerie,
       decorator,
       autoload,
-      path
+      path,
     } = rule
     if (classDef !== undefined) {
       extendRule.classDef = classDef
+    }
+    if (directory !== undefined) {
+      extendRule.directory = directory
     }
     if (shared !== undefined) {
       extendRule.shared = shared
