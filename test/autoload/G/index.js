@@ -1,3 +1,3 @@
-export default function G(){
-  
+export default function G () {
+
 }

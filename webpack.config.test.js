@@ -1,3 +1,4 @@
+const path = require('path')
 const webpack = require('webpack')
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    path: __dirname + '/test',
+    path: path.join(__dirname, 'test')
   },
   module: {
     rules: [

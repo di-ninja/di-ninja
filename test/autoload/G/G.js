@@ -1,3 +1,3 @@
-export default function ignoredG(){
-  
+export default function ignoredG () {
+
 }
