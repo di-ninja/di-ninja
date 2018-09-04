@@ -45,8 +45,8 @@
   "homepage": "https://github.com/di-ninja/di-ninja#readme",
   "devDependencies": {
     "babel-cli": "^7.0.0-beta.3",
-    "babel-eslint": "^8.2.1",
-    "babel-loader": "^7.1.2",
+    "babel-eslint": "^8.2.6",
+    "babel-loader": "^7.1.5",
     "babel-plugin-transform-builtin-extend": "^1.1.2",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-decorators": "^7.0.0-beta.3",
@@ -63,7 +63,7 @@
     "interface-prototype": "^1.1.1",
     "mocha": "^5.0.0",
     "sinon": "^6.1.3",
-    "standard": "^11.0.0",
+    "standard": "^11.0.1",
     "webpack": "^4.15.1",
     "webpack-cli": "^3.0.8"
   },
