@@ -170,7 +170,7 @@ export default class Container {
     this.PromiseFactory = promiseFactory
   }
   setPromiseInterfaces (promiseInterfaces = [ Promise ]) {
-    if (promiseInterfaces.indexOf(this.PromiseFactory) === -1) {
+    if (!promiseInterfaces.includes(this.PromiseFactory)) {
       promiseInterfaces.unshift(this.PromiseFactory)
     }
     this.PromiseInterface = promiseInterface(promiseInterfaces)
@@ -417,7 +417,7 @@ export default class Container {
     if (value === undefined) {
       value = this.defaultVar || 'interface'
     }
-    if (allowedDefaultVars.indexOf(value) === -1) {
+    if (!allowedDefaultVars.includes(value)) {
       throw new Error('invalid type "' + value + '" specified for ' + property + ', possibles values: ' + allowedDefaultVars.join(' | '))
     }
     this[property] = value
@@ -468,7 +468,7 @@ export default class Container {
 
         const paramRule = this.buildRule(interfaceName)
 
-        if (stack.indexOf(interfaceName) !== -1) {
+        if (stack.includes(interfaceName)) {
           return true
         }
 
@@ -501,7 +501,7 @@ export default class Container {
     }
     const rule = this.mergeRule(this.mergeRule({}, this.rulesDefault), this.rules[key])
     if (rule.instanceOf) {
-      if (stack.indexOf(key) !== -1) {
+      if (stack.includes(key)) {
         throw new Error('Cyclic interface definition error in ' + JSON.stringify(stack.concat(key), null, 2))
       }
       stack.push(key)
@@ -834,7 +834,7 @@ export default class Container {
       const interfaceName = interfaceDef.getName()
 
       stack = stack.slice(0)
-      if (stack.indexOf(interfaceName) !== -1) {
+      if (stack.includes(interfaceName)) {
         throw new Error('Cyclic dependency error in ' + JSON.stringify(stack.concat(interfaceName), null, 2))
       }
       stack.push(interfaceName)
@@ -1220,7 +1220,7 @@ export default class Container {
 
   resolveInstanceOf (str, stack = [], required = true) {
     if (typeof str === 'string' || typeof str === 'symbol') {
-      if (stack.indexOf(str) !== -1) {
+      if (stack.includes(str)) {
         throw new Error('Cyclic interface definition error in ' + JSON.stringify(stack.concat(str), null, 2))
       }
       stack.push(str)
@@ -1271,7 +1271,7 @@ export default class Container {
 
         return new Proxy({}, {
           get (o, k) {
-            if (ignore.indexOf(k) !== -1) {
+            if (ignore.includes(k)) {
               return
             }
             if (o[k] === undefined) {
