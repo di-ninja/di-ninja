@@ -272,7 +272,7 @@ export default class Container {
         return
       }
 
-      directoryLoaders[dirKey] = function (options, diParams = []) {
+      directoryLoaders[dirKey] = (options, diParams = []) => {
         const {
           params = [],
           sharedAsync = undefined,
