@@ -507,10 +507,10 @@ export default class Container {
       stack.push(key)
       this.processRule(rule.instanceOf, stack)
     }
-    if(rule.directory){
+    if (rule.directory) {
       const {
         path,
-        ...options,
+        ...options
       } = rule.directory
       this.rules[key].classDef = this.directoryLoader(path, options)
     }
@@ -1039,7 +1039,7 @@ export default class Container {
       asyncCallsParamsSerie,
       decorator,
       autoload,
-      path,
+      path
     } = rule
     if (classDef !== undefined) {
       extendRule.classDef = classDef
