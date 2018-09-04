@@ -1306,7 +1306,7 @@ export default class Container {
   }
 
   directoryLoader (dir, options) {
-    return function (...diParams) {
+    return (...diParams) => {
       function getterMapToRegistry (getterMap) {
         const registry = {}
         Object.entries(getterMap).forEach(([key, getter]) => {
