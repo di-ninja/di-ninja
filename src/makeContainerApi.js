@@ -16,5 +16,6 @@ export default function makeContainerApi (container) {
   di.config = container.config.bind(container)
   di.wrap = container.wrap.bind(container)
   di.makeRegisterFactory = container.makeRegisterFactory.bind(container)
+  di.directoryLoader = container.directoryLoader.bind(container)
   return di
 }

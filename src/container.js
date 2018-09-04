@@ -83,6 +83,7 @@ export default class Container {
     this.instanceRegistry = {}
     this.requires = {}
     this.dependencies = {}
+    this.directoryLoaders = {}
     this.rules = {}
     this.rulesCache = {}
     this.rulesDefault = {
@@ -161,6 +162,7 @@ export default class Container {
     }
     Object.assign(this.dependencies, dependencies)
     this.loadPaths(this.dependencies)
+    this.registerDirectories(this.dependencies)
     this.registerRequireMap(this.requires)
   }
 
@@ -232,11 +234,11 @@ export default class Container {
 
       context
         .keys()
-        .sort( (a, b) => {
-          if(a.substr(a.lastIndexOf('/'))==='index'){
+        .sort((a, b) => {
+          if (a.substr(a.lastIndexOf('/')) === 'index') {
             return true
           }
-          if(b.substr(b.lastIndexOf('/'))==='index'){
+          if (b.substr(b.lastIndexOf('/')) === 'index') {
             return false
           }
           return a > b
@@ -249,16 +251,118 @@ export default class Container {
 
           key = dirKey + '/' + key.substr(0, key.lastIndexOf('.') || key.length)
           const ctxFilename = context(filename)
-          
+
           this.setRequire(key, ctxFilename)
-          
+
           const pathFragments = key.split('/')
           const lastPathFragment = pathFragments.pop()
           if (lastPathFragment === 'index' || lastPathFragment === pathFragments.pop()) {
             this.setRequire(key.substr(0, key.lastIndexOf('/')), ctxFilename)
           }
-          
         })
+    })
+  }
+
+  registerDirectories (dependencies) {
+    const directoryLoaders = this.directoryLoaders
+    Object.keys(dependencies).forEach(dirKey => {
+      const context = dependencies[dirKey]
+
+      if (context instanceof Dependency) {
+        return
+      }
+
+      directoryLoaders[dirKey] = function (options, diParams = []) {
+        const {
+          params = [],
+          sharedAsync = undefined,
+          curry = false,
+          ignore = [],
+          getter = (key, params) => {
+            if (ignore.includes(key)) {
+              return () => {}
+            }
+            return () => this.get(dirKey + '/' + key, params)
+          }
+        } = options
+
+        const deps = [...params, ...diParams]
+
+        const makeGetterMap = () => {
+          let makeGetter
+          if (curry) {
+            makeGetter = name => (...merge) => {
+              merge.forEach((mergeParam, i) => {
+                if (typeof mergeParam === 'object' && mergeParam !== null) {
+                  if (deps[i] === undefined) {
+                    deps[i] = {}
+                  }
+                  Object.keys(mergeParam).forEach(key => {
+                    deps[i][key] = this.value(mergeParam[key])
+                  })
+                }
+              })
+              return getter(name, deps)
+            }
+          } else {
+            makeGetter = name => getter(name, deps)
+          }
+
+          const getterMap = {}
+          context
+            .keys()
+            .sort((a, b) => {
+              if (a.substr(a.lastIndexOf('/')) === 'index') {
+                return true
+              }
+              if (b.substr(b.lastIndexOf('/')) === 'index') {
+                return false
+              }
+              return a > b
+            })
+            .forEach((filename) => {
+              let key = filename.replace(/\\/g, '/')
+              if (key.substr(0, 2) === './') {
+                key = key.substr(2)
+              }
+
+              // key = dirKey + '/' + key.substr(0, key.lastIndexOf('.') || key.length)
+              key = key.substr(0, key.lastIndexOf('.') || key.length)
+
+              getterMap[key] = makeGetter(key)
+
+              const pathFragments = key.split('/')
+              const lastPathFragment = pathFragments.pop()
+              if (lastPathFragment === 'index' || lastPathFragment === pathFragments.pop()) {
+                const key2 = key.substr(0, key.lastIndexOf('/'))
+                getterMap[key2] = makeGetter(key2)
+              }
+            })
+
+          return getterMap
+        }
+
+        if (sharedAsync) {
+          const depPromises = []
+          sharedAsync.forEach((asyncDeps, i) => {
+            Object.keys(asyncDeps).forEach(k => {
+              depPromises.push(
+                Promise.resolve(this.get(asyncDeps[k])).then(resolved => {
+                  if (!deps[i]) {
+                    deps[i] = {}
+                  }
+                  deps[i][k] = this.value(resolved)
+                })
+              )
+            })
+          })
+          return Promise.all(depPromises).then(() => {
+            return makeGetterMap()
+          })
+        } else {
+          return makeGetterMap()
+        }
+      }
     })
   }
 
@@ -1186,6 +1290,32 @@ export default class Container {
         })
       } else {
         return makeProxy()
+      }
+    }
+  }
+
+  directoryLoader (dir, options) {
+    return function (...diParams) {
+      function getterMapToRegistry (getterMap) {
+        const registry = {}
+        Object.entries(getterMap).forEach(([key, getter]) => {
+          Object.defineProperty(registry, key, {
+            get: function () {
+              return getter()
+            }
+          })
+        })
+        return registry
+      }
+
+      const getterMap = this.directoryLoaders[dir](options, diParams)
+
+      if (getterMap instanceof Promise) {
+        return getterMap.then(getterMapResolved => {
+          return getterMapToRegistry(getterMapResolved)
+        })
+      } else {
+        return getterMapToRegistry(getterMap)
       }
     }
   }
