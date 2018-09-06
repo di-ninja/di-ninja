@@ -29,6 +29,9 @@ import structuredInterfacePrototype from './structuredInterfacePrototype'
 import promiseInterface from './promiseInterface'
 
 import isWin32AbsolutePath from './isWin32AbsolutePath'
+import ReflectPolyfill from './ReflectPolyfill'
+
+const LocalReflect = Reflect===undefined ? ReflectPolyfill : Reflect
 
 const SEP = PATH.sep
 const SEP_BACK = SEP !== '/'
@@ -370,7 +373,7 @@ export default class Container {
     if (typeof rules === 'function') {
       rules = rules(this)
     }
-    Reflect.ownKeys(rules).forEach(interfaceName => this.addRule(interfaceName, rules[interfaceName], false))
+    LocalReflect.ownKeys(rules).forEach(interfaceName => this.addRule(interfaceName, rules[interfaceName], false))
     this.rulesDetectLazyLoad()
   }
   addRule (interfaceName, rule, detectLazyLoad = true) {
@@ -684,7 +687,7 @@ export default class Container {
         const rule = self.getRuleBase(interfaceName || target[self.symClassName])
         const params = types.map(param => self.getParam(param, rule, {}, self.defaultRuleVar))
         const resolvedParams = structuredResolveParamsInterface(types, params)
-        return Reflect.apply(fn, this, resolvedParams)
+        return LocalReflect.apply(fn, this, resolvedParams)
       }
     } else {
       if (fn[this.symInterfaces]) {
@@ -969,7 +972,7 @@ export default class Container {
             if (className) {
               fullStack.add(className)
             }
-            parentProto = Reflect.getPrototypeOf(parentProto)
+            parentProto = LocalReflect.getPrototypeOf(parentProto)
           }
         }
       })
@@ -1211,7 +1214,7 @@ export default class Container {
   }
 
   defineSym (target, symname, value) {
-    Reflect.defineProperty(target, symname, {
+    LocalReflect.defineProperty(target, symname, {
       value: value,
       enumerable: false,
       configurable: true
