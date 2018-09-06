@@ -1,16 +1,29 @@
 {
-	"presets": [
-		"stage-3",
-		"env",
-	],
-	"plugins": [
-		"transform-export-extensions",
-		"transform-decorators",
-		"syntax-decorators",
-		"transform-class-properties",
-		["babel-plugin-transform-builtin-extend", {
-      globals: ["Error", "Array"]
-    }],
-		"transform-runtime",
-	]
+  "presets": [
+    "@babel/preset-env"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-export-default-from",
+    "@babel/plugin-proposal-export-namespace-from",
+    [
+      "@babel/plugin-proposal-decorators",
+      {
+        "legacy": true
+      }
+    ],
+    [
+      "babel-plugin-transform-builtin-extend",
+      {
+        "globals": [
+          "Error",
+          "Array"
+        ]
+      }
+    ],
+    "@babel/plugin-transform-runtime",
+    "@babel/plugin-syntax-dynamic-import",
+    "@babel/plugin-syntax-import-meta",
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-json-strings"
+  ]
 }
