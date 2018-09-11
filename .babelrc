@@ -11,15 +11,6 @@
         "legacy": true
       }
     ],
-    [
-      "babel-plugin-transform-builtin-extend",
-      {
-        "globals": [
-          "Error",
-          "Array"
-        ]
-      }
-    ],
     "@babel/plugin-transform-runtime",
     "@babel/plugin-syntax-dynamic-import",
     "@babel/plugin-syntax-import-meta",

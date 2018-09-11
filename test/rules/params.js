@@ -3,7 +3,7 @@
 import {
   Interface
   // InterfacePrototype,
-} from 'interface-prototype'
+} from '../../src/interface-prototype'
 
 // import InterfaceTypeError from '../../src/interfaceTypeError'
 

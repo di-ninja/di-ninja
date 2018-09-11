@@ -4,7 +4,7 @@ import {
   InterfacePrototype,
   instanceOf,
   Interface
-} from 'interface-prototype'
+} from '../../src/interface-prototype'
 
 export default ({di, assert}) => {
   return function () {

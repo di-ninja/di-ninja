@@ -5,7 +5,7 @@ import sinon from 'sinon'
 
 import {
   InterfacePrototype
-} from 'interface-prototype'
+} from '../../src/interface-prototype'
 
 export default function loadTestFactory (container, requireCaller) {
   container.setInterfacePrototypeDefault(InterfacePrototype)
