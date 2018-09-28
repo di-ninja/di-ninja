@@ -1659,7 +1659,7 @@ It's an helper to enforce easy isomorphism (cross-environment).
 See also [`dependencies`](#53-dependencies) for the hack-less technic
 
 ## About
-Built with [babel](https://babeljs.io/) and ♥ but use is unopinionated ;)  
+Built with [babel](https://babeljs.io/) and ❤️ but use is unopinionated ;)  
 Browser usage is optimized for and tested with [webpack](https://webpack.js.org/).  
 Can be used with [interface-prototype](https://github.com/di-ninja/interface-prototype),
 you can get pre-wired implementation from [omniverse](https://github.com/di-ninja/omniverse) library.
