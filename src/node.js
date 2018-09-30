@@ -9,6 +9,13 @@ import nodeRequireContext from './nodeRequireContext'
 import Dependency from './dependency'
 import requireFile from './nodeRequireFile'
 
+import {
+  InterfaceClass,
+  InterfacePrototype,
+  Interface,
+  instanceOf,
+} from './interface-prototype'
+
 export default makeContainer
 
 export function makeContainer (config) {
@@ -25,6 +32,11 @@ makeContainer.context = nodeRequireContext
 makeContainer.require = requireFile
 makeContainer.setInterfacePrototypeDefault = Container.setInterfacePrototypeDefault
 makeContainer.getInterfacePrototypeDefault = Container.getInterfacePrototypeDefault
+
+makeContainer.InterfaceClass = InterfaceClass
+makeContainer.InterfacePrototype = InterfacePrototype
+makeContainer.Interface = Interface
+makeContainer.instanceOf = instanceOf
 
 export class NodeContainer extends Container {
   depExists (requirePath) {

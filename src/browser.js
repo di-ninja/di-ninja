@@ -4,6 +4,14 @@ import makeContainerApi from './makeContainerApi'
 import BrowserRequire from './browserRequire'
 import Dependency from './dependency'
 
+import {
+  InterfaceClass,
+  InterfacePrototype,
+  Interface,
+  instanceOf,
+} from './interface-prototype'
+
+
 function makeContainer (config) {
   const container = new BrowserContainer(config)
   return makeContainerApi(container)
@@ -24,6 +32,11 @@ makeContainer.context = requireContext
 makeContainer.require = requireFile
 makeContainer.setInterfacePrototypeDefault = Container.setInterfacePrototypeDefault
 makeContainer.getInterfacePrototypeDefault = Container.getInterfacePrototypeDefault
+
+makeContainer.InterfaceClass = InterfaceClass
+makeContainer.InterfacePrototype = InterfacePrototype
+makeContainer.Interface = Interface
+makeContainer.instanceOf = instanceOf
 
 class BrowserContainer extends Container {
   depExists (requirePath) {
