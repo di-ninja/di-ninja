@@ -1660,7 +1660,5 @@ See also [`dependencies`](#53-dependencies) for the hack-less technic
 
 ## About
 Built with [babel](https://babeljs.io/) and ❤️ but use is unopinionated ;)  
-Browser usage is optimized for and tested with [webpack](https://webpack.js.org/).  
-Can be used with [interface-prototype](https://github.com/di-ninja/interface-prototype),
-you can get pre-wired implementation from [omniverse](https://github.com/di-ninja/omniverse) library.
+Browser usage is optimized for and tested with [webpack](https://webpack.js.org/).
 Inspired by [strategy](https://github.com/redcatphp/strategy) for php, itself based on [dice](https://r.je/dice.html) design.
