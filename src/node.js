@@ -9,7 +9,7 @@ import nodeRequireContext from './nodeRequireContext'
 import Dependency from './dependency'
 import requireFile from './nodeRequireFile'
 
-import {
+export {
   InterfaceClass,
   InterfacePrototype,
   Interface,
@@ -81,8 +81,3 @@ export class NodeContainer extends Container {
     }
   }
 }
-
-export InterfaceClass
-export InterfacePrototype
-export Interface
-export instanceOf

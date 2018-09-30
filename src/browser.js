@@ -4,13 +4,12 @@ import makeContainerApi from './makeContainerApi'
 import BrowserRequire from './browserRequire'
 import Dependency from './dependency'
 
-import {
+export {
   InterfaceClass,
   InterfacePrototype,
   Interface,
   instanceOf,
 } from './interface-prototype'
-
 
 function makeContainer (config) {
   const container = new BrowserContainer(config)
@@ -47,8 +46,3 @@ class BrowserContainer extends Container {
 }
 
 export default makeContainer
-
-export InterfaceClass
-export InterfacePrototype
-export Interface
-export instanceOf
