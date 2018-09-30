@@ -1660,5 +1660,5 @@ See also [`dependencies`](#53-dependencies) for the hack-less technic
 
 ## About
 Built with [babel](https://babeljs.io/) and ❤️ but use is unopinionated ;)  
-Browser usage is optimized for and tested with [webpack](https://webpack.js.org/).
+Work with NodeJS, [Webpack](https://webpack.js.org/), React-Native and UMD/AMD (requirejs).
 Inspired by [strategy](https://github.com/redcatphp/strategy) for php, itself based on [dice](https://r.je/dice.html) design.
