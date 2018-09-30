@@ -33,11 +33,6 @@ makeContainer.require = requireFile
 makeContainer.setInterfacePrototypeDefault = Container.setInterfacePrototypeDefault
 makeContainer.getInterfacePrototypeDefault = Container.getInterfacePrototypeDefault
 
-makeContainer.InterfaceClass = InterfaceClass
-makeContainer.InterfacePrototype = InterfacePrototype
-makeContainer.Interface = Interface
-makeContainer.instanceOf = instanceOf
-
 class BrowserContainer extends Container {
   depExists (requirePath) {
     return !!this.getRequire(requirePath)
@@ -52,3 +47,8 @@ class BrowserContainer extends Container {
 }
 
 export default makeContainer
+
+export InterfaceClass
+export InterfacePrototype
+export Interface
+export instanceOf
