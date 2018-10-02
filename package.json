@@ -42,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/di-ninja/di-ninja/issues"
   },
-  "homepage": "https://github.com/di-ninja/di-ninja#readme",
+  "homepage": "https://di-ninja.github.io/di-ninja/",
   "devDependencies": {
     "@babel/cli": "^7.0.0",
     "@babel/core": "^7.0.0",
