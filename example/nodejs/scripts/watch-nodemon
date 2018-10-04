@@ -1,0 +1,2 @@
+#!/bin/bash
+NODE_ENV=development nodemon dist/index.js --watch dist --watch .env -e js,ejs

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# node dist/cli.js install
+
+if [ "$NODE_ENV" = "production" ]; then
+
+  node dist/index &
+
+else
+
+  if [ ! -d node_modules ]; then
+    npm install
+  fi
+
+  npm run build-babel
+
+  npm run watch-babel &
+  npm run watch-remove &
+
+  npm run watch-nodemon &
+
+fi
+
+#keep container open
+tail -f /dev/null
