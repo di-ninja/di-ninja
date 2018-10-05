@@ -1,0 +1,15 @@
+@import "~@mdi/font/css/materialdesignicons.css";
+
+$font-family: 'Open Sans', serif;
+
+html,
+body {
+  min-height: 100vh;
+  font-family: $font-family;
+  font-size: 14px;
+  font-weight: 300;
+}
+
+#app{
+  height: 100%;
+}
