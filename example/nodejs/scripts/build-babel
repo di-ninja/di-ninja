@@ -1,2 +1,0 @@
-#!/bin/bash
-babel app --out-dir dist --delete-dir-on-start --copy-files --include-dotfiles --source-maps
