@@ -20,7 +20,7 @@ $ npm i di-ninja
   * Implement [IoC](https://en.wikipedia.org/wiki/Inversion_of_control) by [Composition-Root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/) design pattern, allowing to keep all things decoupled and to wire application components and config at one unique root place.
 
   * Replace the singleton anti-pattern with dependency-injection by refacto export of instances to export of classes and factories.
-  
+
   * Get a pure JavaScript non-dogmatic cross-transpiller [Dependency-Injection](https://en.wikipedia.org/wiki/Dependency_injection) framework.
 
   * Encourage adherence to the best practices of Object Oriented design
@@ -29,20 +29,20 @@ $ npm i di-ninja
   [Dependency-Injection](https://en.wikipedia.org/wiki/Dependency_injection),
   [Composition-Root](http://blog.ploeh.dk/2011/07/28/CompositionRoot/),
   [Strategy](https://en.wikipedia.org/wiki/Strategy_pattern) ...).
-  
+
   * Improve code testability.
-  
+
   * Extend the Art of JavaScript development.
 
 ## Paradigm - Dependency Injection vs Modules
 
-Why to not simply just use *ES6 import* or *CommonJS require* ?  
-Di-Ninja don't pretend to replace these features, that would be useless.  
-Using import/export for getting class or factory function is the good way to use it, that's why it was made for.  
+Why to not simply just use *ES6 import* or *CommonJS require* ?
+Di-Ninja don't pretend to replace these features, that would be useless.
+Using import/export for getting class or factory function is the good way to use it, that's why it was made for.
 But using modules to export [singleton](https://en.wikipedia.org/wiki/Singleton_pattern) is an [anti-pattern](https://en.wikipedia.org/wiki/Anti-pattern)
 and leading to [global state](https://softwareengineering.stackexchange.com/questions/148108/why-is-global-state-so-evil).
-It predisposes application to more need for refacto in future, less testability (unable without hack).  
-How to know when to use *dependency injection* over *import/require*, it's very simple:  
+It predisposes application to more need for refacto in future, less testability (unable without hack).
+How to know when to use *dependency injection* over *import/require*, it's very simple:
 when it's about the implementation, always use dependency injection, even if it's a factory that is exported,
 else if it's not an instance but a stateless input/output function with a general purpose,
 usually coming from a third party library, you can use import. In case of doubt always use dependency injection !
@@ -55,84 +55,86 @@ usually coming from a third party library, you can use import. In case of doubt 
 1. [Getting Started](#1-getting-started)
 
 2. [Dependencies declarations approaches](#2-dependencies-declarations-approaches)
-	1. [Composition Root](#21-composition-root)
-	2. [Decorator injection approach](#22-decorator-injection-approach)
-		1. [abstract class](#221-abstract-class)
-		2. [reference class](#222-reference-class)
+  1. [Composition Root](#21-composition-root)
+  2. [Decorator injection approach](#22-decorator-injection-approach)
+    1. [abstract class](#221-abstract-class)
+    2. [reference class](#222-reference-class)
 
 3. [Dependencies Resolution](#3-dependencies-resolution)
-	1. [Recursive classes or factories](#31-recursive-classes-or-factories)
-	2. [Recursive params](#32-recursive-params)
-	3. [Types of params](#33-types-of-params)
-		1. [interface](#331-interface)
-		2. [value](#332-value)
-		3. [factory](#333-factory)
-		5. [valueFactory](#334-valuefactory)
-		6. [classFactory](#335-classfactory)
-		4. [require](#336-require)
+  1. [Recursive classes or factories](#31-recursive-classes-or-factories)
+  2. [Recursive params](#32-recursive-params)
+  3. [Types of params](#33-types-of-params)
+    1. [interface](#331-interface)
+    2. [value](#332-value)
+    3. [factory](#333-factory)
+    5. [valueFactory](#334-valuefactory)
+    6. [classFactory](#335-classfactory)
+    4. [require](#336-require)
 
 4. [Rules](#4-rules)
-	
-	1. [dependencies](#41-dependencies)
-		1. [params](#411-params)
-		2. [calls](#412-calls)
-		3. [lazyCalls](#413-lazycalls)
-	
-	2. [instantiation](#42-instantiation)
-		1. [classDef](#421-classdef)
-		2. [instanceOf](#422-instanceof)
-		3. [substitutions](#423-substitutions)
-	
-	3. [single instance](#43-single-instance)
-		1. [shared](#431-shared)
-		2. [singleton](#432-singleton)
-		3. [sharedInTree](#433-sharedintree)
-	
-	4. [rule inheritance](#44-rule-inheritance)
-		1. [inheritInstanceOf](#441-inheritinstanceof)
-		2. [inheritPrototype](#442-inheritprototype)
-		3. [inheritMixins](#443-inheritmixins)
-		4. [decorator](#444-decorator)
 
-	5. [asynchrone dependencies resolution](#45-asynchrone-dependencies-resolution)
-		1. [asyncResolve](#451-asyncresolve)
-		2. [asyncCallsSerie](#452-asynccallsserie)
-		3. [asyncCallsParamsSerie](#453-asynccallsparamsserie)
-		
-	6. [dependency file location](#46-dependency-file-location)
-		1. [autoload](#461-autoload)
-		2. [path](#462-path)
+  1. [dependencies](#41-dependencies)
+    1. [params](#411-params)
+    2. [calls](#412-calls)
+    3. [lazyCalls](#413-lazycalls)
+
+  2. [instantiation](#42-instantiation)
+    1. [classDef](#421-classdef)
+    2. [instanceOf](#422-instanceof)
+    3. [substitutions](#423-substitutions)
+
+  3. [single instance](#43-single-instance)
+    1. [shared](#431-shared)
+    2. [singleton](#432-singleton)
+    3. [sharedInTree](#433-sharedintree)
+
+  4. [rule inheritance](#44-rule-inheritance)
+    1. [inheritInstanceOf](#441-inheritinstanceof)
+    2. [inheritPrototype](#442-inheritprototype)
+    3. [inheritMixins](#443-inheritmixins)
+    4. [decorator](#444-decorator)
+
+  5. [asynchrone dependencies resolution](#45-asynchrone-dependencies-resolution)
+    1. [asyncResolve](#451-asyncresolve)
+    2. [asyncCallsSerie](#452-asynccallsserie)
+    3. [asyncCallsParamsSerie](#453-asynccallsparamsserie)
+
+  6. [dependency file location](#46-dependency-file-location)
+    1. [autoload](#461-autoload)
+    2. [path](#462-path)
 
 
 5. [Container](#5-container)
 
-	1. [rules](#51-rules)
-	2. [rulesDefault](#52-rulesdefault)
-	
-	3. [dependencies](#53-dependencies)
-	4. [autoloadPathResolver](#54-autoloadpathresolver)
-	5. [autoloadExtensions](#55-autoloadextensions)
-	6. [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile)
-	
-	7. [defaultVar](#57-defaultvar)
-	8. [defaultRuleVar](#58-defaultrulevar)
-	9. [defaultDecoratorVar](#59-defaultdecoratorvar)
-	10. [defaultArgsVar](#510-defaultargsvar)
-	
-	11. [defaultFactory](#511-defaultfactory)
-	12. [defaultFunctionWrapper](#512-defaultfunctionwrapper)
-	
-	13. [promiseFactory](#513-promisefactory)
-	14. [promiseInterfaces](#514-promiseinterfaces)
-	
-	15. [interfacePrototype](#515-interfaceprototype)
-	16. [interfaceTypeCheck](#516-interfacetypecheck)
-	
-	17. [globalKey](#517-globalkey)
-	
-	18. [ruleCache](#518-rulecache)
-	19. [polyfillRequireContext](#519-polyfillrequirecontext)
-	
+  1. [rules](#51-rules)
+  2. [rulesDefault](#52-rulesdefault)
+
+  3. [dependencies](#53-dependencies)
+  4. [autoloadPathResolver](#54-autoloadpathresolver)
+  5. [autoloadExtensions](#55-autoloadextensions)
+  6. [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile)
+
+  7. [defaultVar](#57-defaultvar)
+  8. [defaultRuleVar](#58-defaultrulevar)
+  9. [defaultDecoratorVar](#59-defaultdecoratorvar)
+  10. [defaultArgsVar](#510-defaultargsvar)
+
+  11. [defaultFactory](#511-defaultfactory)
+  12. [defaultFunctionWrapper](#512-defaultfunctionwrapper)
+
+  13. [promiseFactory](#513-promisefactory)
+  14. [promiseInterfaces](#514-promiseinterfaces)
+
+  15. [interfacePrototype](#515-interfaceprototype)
+  16. [interfaceTypeCheck](#516-interfacetypecheck)
+
+  17. [globalKey](#517-globalkey)
+
+  18. [ruleCache](#518-rulecache)
+  19. [polyfillRequireContext](#519-polyfillrequirecontext)
+
+6. [Examples](#6-examples)
+
 
 ### 1. Getting Started
 ```javascript
@@ -148,14 +150,14 @@ di.get('MyClassName')
 
 ### 2. Dependencies declarations approaches
 
-To define dependencies, you can use [Composition-Root](#21-composition-root) or [Decorator injection approach](#22-decorator-injection-approach) for each components individually.  
-Differents approaches can be used for differents methods injections on same component.  
+To define dependencies, you can use [Composition-Root](#21-composition-root) or [Decorator injection approach](#22-decorator-injection-approach) for each components individually.
+Differents approaches can be used for differents methods injections on same component.
 Dependencies definition can be overrided, the last call of addRule or @di decorator will take precedence.
 
 #### 2.1 Composition-Root
 
-The Composition Root is the highest level of your application, the top overlay.  
-It's here that you will configure many rules for your components and wire them together.  
+The Composition Root is the highest level of your application, the top overlay.
+It's here that you will configure many rules for your components and wire them together.
 Using only the Composition Root design pattern has the advantage to let your components totaly unopinionated,
 all your classes and factories can keep uncoupled from the dependency injector (di-ninja).
 
@@ -197,10 +199,10 @@ function A(b){
 //function as a factory
 function B(){
   const object = { foo: 'bar' }
-  
+
   // if we return an object or other value than undefined,
   // this function will be treated by javascript as a factory
-  
+
   return object
 }
 
@@ -220,9 +222,9 @@ di.get('A')
 
 #### 2.2 Decorator injection approach
 
-The Decorator injection approach let your components define their own dependencies.  
+The Decorator injection approach let your components define their own dependencies.
 These dependencies declarations can rely on container level defined abstractions (recommanded),
-or on direct class or factory definition.  
+or on direct class or factory definition.
 It can be used in addition to the Composition-Root and replace the rule's key [`params`](#411-params) and also the parameters of call argument for rule's key [`calls`](#412-calls) and [`lazyCalls`](#413-lazycalls).
 
 ##### 2.2.1 abstract class
@@ -309,7 +311,7 @@ const a = new A( new B( C() ) )
 ```
 
 #### 3.2 Recursive params
-You can nest dependencies declarations to infinite. It's very common use for config.  
+You can nest dependencies declarations to infinite. It's very common use for config.
 (for others params behaviors see [`params`](#411-params))
 
 ```javascript
@@ -349,22 +351,22 @@ const a = new A( {
 ```
 
 #### 3.3. Types of params
-You can wrap each value of param with a di-ninja class that will tell container how to resolve the dependency.  
+You can wrap each value of param with a di-ninja class that will tell container how to resolve the dependency.
 By default all values and subvalues of params are traversed when it's an Object or Array,
-are wrapped with `classFactory` when it's a function, and else by `interface`.  
+are wrapped with `classFactory` when it's a function, and else by `interface`.
 All these behaviors can be configured, but the default config is well and the documentation rely on it.
 (see
 [`defaultVar`](#57-defaultvar),
 [`defaultRuleVar`](#58-defaultrulevar),
 [`defaultDecoratorVar`](#59-defaultdecoratorvar),
-[`defaultArgsVar`](#510-defaultargsvar),  
+[`defaultArgsVar`](#510-defaultargsvar),
 [`defaultFactory`](#511-defaultfactory),
 [`defaultFunctionWrapper`](#512-defaultfunctionwrapper))
 
 (for others params behaviors see [`params`](#411-params))
 
 ##### 3.3.1 interface
-Container will resolve dependency as, an instance of class or a value from factory, defined by corresponding rule's key.  
+Container will resolve dependency as, an instance of class or a value from factory, defined by corresponding rule's key.
 This is the default wrapper for string.
 ```javascript
 class A{
@@ -410,7 +412,7 @@ const a = new A( 'bar' )
 ```
 
 ##### 3.3.3 factory
-The behavior of this method can be configured with container config's key [`defaultFactory`](#511-defaultfactory).  
+The behavior of this method can be configured with container config's key [`defaultFactory`](#511-defaultfactory).
 By default it's an alias for [`valueFactory`](#334-valuefactory).
 
 ##### 3.3.4 valueFactory
@@ -438,7 +440,7 @@ const a = new A( getFoo() )
 ```
 
 ##### 3.3.5 classFactory
-Container will resolve dependency with an instance of the referenced class (or the returned value of a factory).  
+Container will resolve dependency with an instance of the referenced class (or the returned value of a factory).
 This is the default wrapper for classes references.
 ```javascript
 class A{
@@ -464,9 +466,9 @@ const a = new A( new B() )
 
 ##### 3.3.4 require
 Container will resolve dependency with an instance (or value returned by the function)
-of the class (or factory) (CJS export or ES6 export default) exported by specified file.  
-You can use rules to configure it.  
-The behavior of this method differ according to environment:  
+of the class (or factory) (CJS export or ES6 export default) exported by specified file.
+You can use rules to configure it.
+The behavior of this method differ according to environment:
 in all environment it will rely on preloaded require.context (see [`dependencies`](#53-dependencies))
 wich is the only way to include dependency in webpack (because of static require resolution),
 for node, if the dependency it's not registred, it will require the specified file and register it.
@@ -531,7 +533,7 @@ function A(b, c, d){
 ```
 
 ##### 4.1.1 params
-type: **array**  
+type: **array**
 containing nested dependencies
 
 The rule's key `params` define what will be injected to class constructor or factory.
@@ -558,10 +560,10 @@ di.get('A', ['E','F','G'])
 ```
 
 ##### 4.1.2 calls
-type: **array**  
+type: **array**
 stack of call array with 1st item for method name or callback and 2nd item an array of params for methods (working same as [`params`](#411-params)).
 
-Stack of methods to call after instance creation.  
+Stack of methods to call after instance creation.
 If some circular dependencies are detected, some items of calls stack will be placed automatically in [`lazyCalls`](#413-lazycalls).
 
 ```javascript
@@ -579,24 +581,24 @@ class A{
 di.addRule('A', {
   classDef: A,
   calls: [
-    
+
     [ 'method1', [ 'dep1' ] ],
     [ 'method2', [ 'dep2' ] ],
-    
+
     [
       function(a, dep3){
         a.method3(dep3)
       },
       [ 'dep3' ]
     ],
-    
+
   ],
 })
 
 ```
 
 ##### 4.1.3 lazyCalls
-type: **array** 
+type: **array**
 
 Same as [`calls`](#412-calls), but run after dependency has been distributed to needing instances, this helper offer a simple way to solving circular dependency problem.
 
@@ -607,7 +609,7 @@ The following rule's keys are about instantiations of classes and factories.
 type: **function**
 class or factory
 
-The `classDef` key reference the class that will be used for instantiation.  
+The `classDef` key reference the class that will be used for instantiation.
 It's used for use reference to class direcly in rule, you can do without if you configure container [`dependencies`](#53-dependencies) with require.context.
 ```javascript
 class A{}
@@ -634,7 +636,7 @@ type: **object** | **array**
 
 Substitutions, as indicated by it's name,
 substitutes a dependency defined by [`params`](#411-params), [`calls`](#412-calls) (and [`lazyCalls`](#413-lazycalls)).
-If an object is provided, the substitutions operate by associative key, else, if an array is provided, the substitution will be done only for `params` and will be index based.  
+If an object is provided, the substitutions operate by associative key, else, if an array is provided, the substitution will be done only for `params` and will be index based.
 By associative key, all dependencies of the rule's named as the key will be replaced by specified other rule's name.
 
 index based
@@ -764,7 +766,7 @@ For instance, imagine a MVC triad where the model needs to be shared between the
 
 The best way to explain this is a practical demonstration:
 ```javascript
-class A {    
+class A {
   constructor(b, c){
     this.b = b
     this.c = c
@@ -805,17 +807,17 @@ assert( a.c.d !== a2.c.d )
 ```
 
 By using `sharedInTree` it's possible to mark D as shared within each instance of an object tree.
-The important distinction between this and global shared objects is that this object is only shared within a single instance of the object tree. 
+The important distinction between this and global shared objects is that this object is only shared within a single instance of the object tree.
 
 
 #### 4.4. rule inheritance
-The following rule's keys are about rule inheritance.  
+The following rule's keys are about rule inheritance.
 There are three way to herit rule, the priority order of override is
 [`inheritInstanceOf`](#441-inheritinstanceof),
-overrided by [`inheritPrototype`](#442-inheritprototype), 
-overrided by [`inheritMixins`](#443-inheritmixins), 
+overrided by [`inheritPrototype`](#442-inheritprototype),
+overrided by [`inheritMixins`](#443-inheritmixins),
 and finally the rule itself wich is composed by rule definition and [`decorator`](#444-decorator).
-Priority between rule and decorator depends of calls order, the last take precedence, traditionally it's the rule.  
+Priority between rule and decorator depends of calls order, the last take precedence, traditionally it's the rule.
 Most of rules options are replaced except some options that will be merged:
 [`sharedInTree`](#433-sharedintree), [`substitutions`](#423-substitutions),
 [`calls`](#412-calls) and [`lazyCalls`](#413-lazycalls).
@@ -823,7 +825,7 @@ Most of rules options are replaced except some options that will be merged:
 See also [`rulesDefault`](#52-rulesDefault) in container config section.
 
 ##### 4.4.1 inheritInstanceOf
-type: **boolean** (default true)  
+type: **boolean** (default true)
 Enable inheritance of rules from instanceOf parents classes.
 
 ```javascript
@@ -832,7 +834,7 @@ class X{
     this.x = x
   }
 }
-    
+
 di.addRules({
   'X':{
     classDef: X,
@@ -851,9 +853,9 @@ assert( di.get('Y') === di.get('Y') )
 ```
 
 ##### 4.4.2 inheritPrototype
-type: **boolean** (default false)  
+type: **boolean** (default false)
 
-Enable inheritance of rules from ES6 extended parents classes.  
+Enable inheritance of rules from ES6 extended parents classes.
 [`decorator`](#444-decorator) must be enabled to parents rules you want to extend from.
 ```javascript
 class Z{
@@ -916,7 +918,7 @@ di.addRules({
 
 const a = di.get('A').getParams()
 const b = di.get('B').getParams()
-assert.deepEqual(b, a)  
+assert.deepEqual(b, a)
 ```
 
 ##### 4.4.4 decorator
@@ -925,11 +927,11 @@ type: **boolean** (default false)
 When set to `true`, a [`Symbol`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) property
 will be set on class or factory function, allowing to use [`inheritPrototype`](#442-inheritprototype).
 If the [decorator injection approach](#22-decorator-injection-approach) is used, it's not necessary to configure this rule,
-because the Symbol will be set whatever the decorator key value is.  
+because the Symbol will be set whatever the decorator key value is.
 This is required to enable [`inheritPrototype`](#442-inheritprototype) feature.
 
 #### 4.5. asynchronous dependencies resolution
-The following rule's keys allow you to manage the asynchronous dependencies resolution flow.  
+The following rule's keys allow you to manage the asynchronous dependencies resolution flow.
 When a dependency return a [`Promise`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise)
 and this promise is waited for resolution by [`asyncResolve`](#541-asyncresolve),
 the outputed object of `di.get()` method will be a Promise object,
@@ -939,7 +941,7 @@ wich will be resolved by the expected object.
 type: **boolean** (default false)
 
 When set to `true`, if a factory return a Promise, the dependency tree will wait for it's resolution,
-and then call the requiring dependency with the Promise's resolved value.  
+and then call the requiring dependency with the Promise's resolved value.
 Promise is detected with instanceof operator, if you want to use a specific Promise polyfill (eg: [bluebird](http://bluebirdjs.com)) you can use
 the [`promiseFactory`](#513-promisefactory) and [`promiseInterfaces`](#514-promiseinterfaces) container's config options.
 
@@ -1026,7 +1028,7 @@ di.addRules({
     instanceOf: 'A',
     asyncCallsSerie: true,
   },
-  
+
   'B': {
     classDef: B,
     params: ['D'],
@@ -1040,8 +1042,8 @@ di.addRules({
   'D':{
     classDef: D,
   },
-  
-  
+
+
 })
 
 di.get('A').then( a => {
@@ -1124,17 +1126,17 @@ di.get('A').then( a => {
 ```
 
 #### 4.6 dependency file location
-The following rule's keys are about dependency file location.  
+The following rule's keys are about dependency file location.
 
 ##### 4.6.1 autoload
 type: **boolean** (default false)
 
 When set to `true`, check for allready registred dependency and if not, in node, try to require it,
-if dependency is not found it can (maybe) throw an Error according to [`autoloadFailOnMissingFile`](#56-autoloadfailonmissingfile) container config.  
+if dependency is not found it can (maybe) throw an Error according to [`autoloadFailOnMissingFile`](#56-autoloadfailonmissingfile) container config.
 The require path resolution is based first on [`path`](#462-path) rule option if defined,
 then on [`instanceOf`](#422-instanceof) rule option if defined (if instanceOf point to a rule with it's own path it will get it),
 and finally on the key of the rule.
-This require path can be post-processed using [`autoloadPathResolver`](#54-autoloadpathresolver) container config.  
+This require path can be post-processed using [`autoloadPathResolver`](#54-autoloadpathresolver) container config.
 The colons character `:` can be used to get a subkey of exported,
 and you can use it multiple times in same expression to get nested value.
 When [`path`](#462-path) is defined it will implicitly set autoload to true.
@@ -1151,7 +1153,7 @@ di.addRules({
   '#server2': {
     path: 'http:Server',
   },
-  
+
 })
 
 assert( di.get('http:Server') instanceof require('http').Server )
@@ -1160,13 +1162,13 @@ assert( di.get('#server2') instanceof require('http').Server )
 ```
 
 ##### 4.6.2 path
-type: **string**  
+type: **string**
 
-The require path can be post-processed by [`autoloadPathResolver`](#54-autoloadpathresolver) container config.  
-When defined it will implicitly set [`autoload`](#461-autoload) to true.  
-You can traverse exported and get specific key using colons character `:`.  
+The require path can be post-processed by [`autoloadPathResolver`](#54-autoloadpathresolver) container config.
+When defined it will implicitly set [`autoload`](#461-autoload) to true.
+You can traverse exported and get specific key using colons character `:`.
 You can't use relative path, if you want to include relative path, your application source files for exemple,
-you have to alias directories (or files) using [`autoloadPathResolver`](#54-autoloadpathresolver) feature.  
+you have to alias directories (or files) using [`autoloadPathResolver`](#54-autoloadpathresolver) feature.
 See [`autoload`](#461-autoload) section for more details on the requiring behavior based on implicit path with instanceOf and rule's key.
 
 ```javascript
@@ -1212,7 +1214,7 @@ di.addRule('#myClassName', rule)
 ```
 
 #### 5.2 rulesDefault
-Default values for rules, each rule will be extended from this setup, values will be overidded or merged.  
+Default values for rules, each rule will be extended from this setup, values will be overidded or merged.
 See [rule inheritance](#44-rule-inheritance) documentation section for more details on extending.
 See [`rules`](#4-rules) section for rules options.
 ```javascript
@@ -1222,7 +1224,7 @@ di.config('rulesDefault',rulesDefault)
 #### 5.3 dependencies
 Dependencies is intendeed to allow you to "inject" require's context directories as preload dependencies.
 It work using the webpack `require.context` feature,
-but a node polyfill called `container.context` is provided with di-ninja allowing you to build isomorphic architecture.  
+but a node polyfill called `container.context` is provided with di-ninja allowing you to build isomorphic architecture.
 see also [`polyfillRequireContext`](#519-polyfillrequirecontext)
 
 NodeJS example
@@ -1232,24 +1234,24 @@ import container from 'di-ninja'
 const di = container({
   rules:{
     'app/A': {
-      
+
     },
     'app/B': {
-      
+
     },
     'app/B/C': {
-      
+
     },
   },
-  
+
   dependencies: {
-    
+
     'app' : container.context('./src', true, /\.js$/),
-    
+
     'A': container.require('./src/A'),
-    
+
     'B': container.dependency(require('./src/B')),
-    
+
   },
 })
 
@@ -1266,8 +1268,8 @@ assert( di.get('B') instanceof require('./src/B').default )
 ```
 
 
-Isomorphic example  
-Use the same code for browser compilation via webpack than on server-side with nodejs.  
+Isomorphic example
+Use the same code for browser compilation via webpack than on server-side with nodejs.
 
 in webpack.config.js
 
@@ -1299,22 +1301,22 @@ if(process.env.APP_ENV !== 'browser'){
 const di = container({
   rules:{
     'app/A': {
-      
+
     },
     'app/B': {
-      
+
     },
     'app/B/C': {
-      
+
     },
-    
+
   },
-  
+
   dependencies: {
-    'app' : require.context('./src', true, /\.js$/),    
-    
+    'app' : require.context('./src', true, /\.js$/),
+
     'A': container.dependency( require('./src/A') ),
-    
+
     'B': container.dependency( require('./src/B') ),
   },
 })
@@ -1381,11 +1383,11 @@ di.config('autoloadExtensions', new RegExp('\.(js|jsx)$'))
 
 
 #### 5.6 autoloadFailOnMissingFile
-Possible values are string `path`, `true` or `false`.  
-Setted to false, it will never throw error on missing dependency.  
-Setted to true, it will always throw an error on missing dependency.  
+Possible values are string `path`, `true` or `false`.
+Setted to false, it will never throw error on missing dependency.
+Setted to true, it will always throw an error on missing dependency.
 Setted to `path`, it will throw error only if a dependency with a specified rule's option [`path`](#462-path) is specified.
-The default value is `path`.  
+The default value is `path`.
 
 ```javascript
 di.config('autoloadFailOnMissingFile', true)
@@ -1399,8 +1401,8 @@ and [`defaultArgsVar`](#510-defaultargsvar).
 
 This is about implicit wrapping of [`params`](#411-params), [`calls`](#412-calls) and [`lazyCalls`](#413-lazycalls).
 
-Possible values are `interface` or `value`.  
-Default is `interface`.  
+Possible values are `interface` or `value`.
+Default is `interface`.
 
 `interface` mean that all scalar values will be implicitly wrapped by di.interface(), it will be resolved as class.
 `value` mean that all scalar values will be wrapped by di.value(), it will be left as untouched.
@@ -1443,25 +1445,25 @@ di.addRule('A', {
 ```
 
 #### 5.8 defaultRuleVar
-Implicit wrapping for scalar values defined from [`rules`](#4-rules).  
+Implicit wrapping for scalar values defined from [`rules`](#4-rules).
 see [`defaultVar`](#57-defaultvar).
 
 
 #### 5.9 defaultDecoratorVar
-Implicit wrapping for scalar values defined from [`decorator`](#444-decorator).  
+Implicit wrapping for scalar values defined from [`decorator`](#444-decorator).
 see [`defaultVar`](#57-defaultvar).
 
 
 #### 5.10 defaultArgsVar
-Implicit wrapping for scalar values defined from manual call (see [`params`](#411-params)).  
+Implicit wrapping for scalar values defined from manual call (see [`params`](#411-params)).
 see [`defaultVar`](#57-defaultvar).
 
 #### 5.11 defaultFactory
 default wrapper class to instanciate for di.factory() method.
 
 #### 5.12 defaultFunctionWrapper
-Implicit wrapping for function or class values.  
-Possible values are ClassFactory or ValueFactory.  
+Implicit wrapping for function or class values.
+Possible values are ClassFactory or ValueFactory.
 The default value is ClassFactory.
 
 ClassFactory example
@@ -1499,9 +1501,9 @@ di.addRule('A', {
 ```
 
 #### 5.13 promiseFactory
-default: Promise (global)  
-`promiseFactory` option let you modify the way DiNinja create Promise for handle [`asyncResolve`](#451-asyncresolve).  
-For example, you can use it with bluebird.  
+default: Promise (global)
+`promiseFactory` option let you modify the way DiNinja create Promise for handle [`asyncResolve`](#451-asyncresolve).
+For example, you can use it with bluebird.
 The common way is to use it in combination with [`promiseInterfaces`](#514-promiseinterfaces) option.
 
 ```javascript
@@ -1514,18 +1516,18 @@ function A (b) {
 }
 function B () {
   return new Promise((resolve, reject) => {
-	resolve('b')
+  resolve('b')
   })
 }
 
 di.addRules({
   'A': {
-	classDef: A,
-	params: ['B']
+  classDef: A,
+  params: ['B']
   },
   'B': {
-	classDef: B,
-	asyncResolve: true
+  classDef: B,
+  asyncResolve: true
   }
 })
 
@@ -1534,10 +1536,10 @@ assert( di.get('A') instanceof bluebird )
 ```
 
 #### 5.14 promiseInterfaces
-default: Promise (global)  
-`promiseInterfaces` option let you modify the way DiNinja recognize Promise.  
-For example, you can use it with bluebird.  
-The common way is to use it in combination with [`promiseFactory`](#513-promisefactory) option.  
+default: Promise (global)
+`promiseInterfaces` option let you modify the way DiNinja recognize Promise.
+For example, you can use it with bluebird.
+The common way is to use it in combination with [`promiseFactory`](#513-promisefactory) option.
 The [`promiseFactory`](#513-promisefactory) option will automatically be pushed to promiseInterfaces.
 
 ```javascript
@@ -1580,7 +1582,7 @@ import {
 } from 'interface-prototype'
 
 di.config('interfacePrototype', InterfacePrototype)
-    
+
 const I = new Interface();
 
 @di('A')
@@ -1592,9 +1594,9 @@ class A{}
 class B{}
 
 di.addRules({
-	[I]: {
-		classDef: A,
-	}
+  [I]: {
+    classDef: A,
+  }
 })
 
 @di('D', [I])
@@ -1611,21 +1613,21 @@ assert(di.get(I) instanceof A)
 assert( !( di.get(I) instanceof B ))
 
 assert(di.get('D').i instanceof A)
- 
+
 ```
 
 #### 5.16 interfaceTypeCheck
 type: **boolean** (default false)
 
 Enable check for "implemented" interface using [`interfacePrototype`](#515-interfaceprototype).
-If a manually provided dependency doesn't "implement" the required "interface", it will throw an error.  
+If a manually provided dependency doesn't "implement" the required "interface", it will throw an error.
 In combination with [interface-prototype](https://github.com/di-ninja/interface-prototype),
-this enable runtime type-check and custom type-check for all type of variables.  
+this enable runtime type-check and custom type-check for all type of variables.
 
 
 #### 5.17 globalKey
-type: **string** | **boolean** (default false)  
-When setted to true it will be transformed to string 'di'.  
+type: **string** | **boolean** (default false)
+When setted to true it will be transformed to string 'di'.
 If provided, global.globalKey (on node) or window.globalKey (on browser) will be set to the instance of container.
 ```javascript
 container({
@@ -1636,8 +1638,8 @@ di.get('A')
 ```
 
 #### 5.18 ruleCache
-type: **boolean** (default true)  
-Enable cache for built rules, optimizing the future calls of `di.get()`.  
+type: **boolean** (default true)
+Enable cache for built rules, optimizing the future calls of `di.get()`.
 You can set it to false when you have rules dynamically modified after some `di.get()` calls.
 ```javascript
 di.config('ruleCache', false)
@@ -1652,13 +1654,21 @@ const a2 = di.get('A')
 ```
 
 #### 5.19 polyfillRequireContext
-type: **boolean** (default false)  
-This is an experimental feature, so be carefull.  
-It will automatically polyfill the [webpack's `require.context` method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.  
-It's an helper to enforce easy isomorphism (cross-environment).  
+type: **boolean** (default false)
+This is an experimental feature, so be carefull.
+It will automatically polyfill the [webpack's `require.context` method](https://webpack.js.org/guides/dependency-management/#require-context) to nodejs environment.
+It's an helper to enforce easy isomorphism (cross-environment).
 See also [`dependencies`](#53-dependencies) for the hack-less technic
 
+## 6 Examples
+
+Here is a list of examples of complex di-ninja implementations with dependencies wired by directories:
+[di-ninja-nodejs-example](https://github.com/di-ninja/di-ninja-nodejs-example) (using di-ninja node polyfill for `require.context()`)
+[di-ninja-webpack-example](https://github.com/di-ninja/di-ninja-webpack-example) (using `require.context()` native method of webpack)
+[di-ninja-reactnative-example](https://github.com/di-ninja/di-ninja-reactnative-example) (using [babel-plugin-require-context-polyfill](https://github.com/di-ninja/babel-plugin-require-context-polyfill))
+
+
 ## About
-Built with [babel](https://babeljs.io/) and ❤️ but use is unopinionated ;)  
+Built with [babel](https://babeljs.io/) and ❤️ but use is unopinionated ;)
 Work with NodeJS, [Webpack](https://webpack.js.org/), React-Native and UMD/AMD (requirejs).
 Inspired by [strategy](https://github.com/redcatphp/strategy) for php, itself based on [dice](https://r.je/dice.html) design.
