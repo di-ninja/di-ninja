@@ -55,86 +55,85 @@ usually coming from a third party library, you can use import. In case of doubt 
 1. [Getting Started](#1-getting-started)
 
 2. [Dependencies declarations approaches](#2-dependencies-declarations-approaches)
-  1. [Composition Root](#21-composition-root)
-  2. [Decorator injection approach](#22-decorator-injection-approach)
-    1. [abstract class](#221-abstract-class)
-    2. [reference class](#222-reference-class)
+	1. [Composition Root](#21-composition-root)
+	2. [Decorator injection approach](#22-decorator-injection-approach)
+		1. [abstract class](#221-abstract-class)
+		2. [reference class](#222-reference-class)
 
 3. [Dependencies Resolution](#3-dependencies-resolution)
-  1. [Recursive classes or factories](#31-recursive-classes-or-factories)
-  2. [Recursive params](#32-recursive-params)
-  3. [Types of params](#33-types-of-params)
-    1. [interface](#331-interface)
-    2. [value](#332-value)
-    3. [factory](#333-factory)
-    5. [valueFactory](#334-valuefactory)
-    6. [classFactory](#335-classfactory)
-    4. [require](#336-require)
+	1. [Recursive classes or factories](#31-recursive-classes-or-factories)
+	2. [Recursive params](#32-recursive-params)
+	3. [Types of params](#33-types-of-params)
+		1. [interface](#331-interface)
+		2. [value](#332-value)
+		3. [factory](#333-factory)
+		5. [valueFactory](#334-valuefactory)
+		6. [classFactory](#335-classfactory)
+		4. [require](#336-require)
 
 4. [Rules](#4-rules)
-  
-  1. [dependencies](#41-dependencies)
-    1. [params](#411-params)
-    2. [calls](#412-calls)
-    3. [lazyCalls](#413-lazycalls)
-  
-  2. [instantiation](#42-instantiation)
-    1. [classDef](#421-classdef)
-    2. [instanceOf](#422-instanceof)
-    3. [substitutions](#423-substitutions)
-  
-  3. [single instance](#43-single-instance)
-    1. [shared](#431-shared)
-    2. [singleton](#432-singleton)
-    3. [sharedInTree](#433-sharedintree)
-  
-  4. [rule inheritance](#44-rule-inheritance)
-    1. [inheritInstanceOf](#441-inheritinstanceof)
-    2. [inheritPrototype](#442-inheritprototype)
-    3. [inheritMixins](#443-inheritmixins)
-    4. [decorator](#444-decorator)
+	
+	1. [dependencies](#41-dependencies)
+		1. [params](#411-params)
+		2. [calls](#412-calls)
+		3. [lazyCalls](#413-lazycalls)
+	
+	2. [instantiation](#42-instantiation)
+		1. [classDef](#421-classdef)
+		2. [instanceOf](#422-instanceof)
+		3. [substitutions](#423-substitutions)
+	
+	3. [single instance](#43-single-instance)
+		1. [shared](#431-shared)
+		2. [singleton](#432-singleton)
+		3. [sharedInTree](#433-sharedintree)
+	
+	4. [rule inheritance](#44-rule-inheritance)
+		1. [inheritInstanceOf](#441-inheritinstanceof)
+		2. [inheritPrototype](#442-inheritprototype)
+		3. [inheritMixins](#443-inheritmixins)
+		4. [decorator](#444-decorator)
 
-  5. [asynchrone dependencies resolution](#45-asynchrone-dependencies-resolution)
-    1. [asyncResolve](#451-asyncresolve)
-    2. [asyncCallsSerie](#452-asynccallsserie)
-    3. [asyncCallsParamsSerie](#453-asynccallsparamsserie)
-    
-  6. [dependency file location](#46-dependency-file-location)
-    1. [autoload](#461-autoload)
-    2. [path](#462-path)
+	5. [asynchrone dependencies resolution](#45-asynchrone-dependencies-resolution)
+		1. [asyncResolve](#451-asyncresolve)
+		2. [asyncCallsSerie](#452-asynccallsserie)
+		3. [asyncCallsParamsSerie](#453-asynccallsparamsserie)
+		
+	6. [dependency file location](#46-dependency-file-location)
+		1. [autoload](#461-autoload)
+		2. [path](#462-path)
 
 
 5. [Container](#5-container)
 
-  1. [rules](#51-rules)
-  2. [rulesDefault](#52-rulesdefault)
-  
-  3. [dependencies](#53-dependencies)
-  4. [autoloadPathResolver](#54-autoloadpathresolver)
-  5. [autoloadExtensions](#55-autoloadextensions)
-  6. [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile)
-  
-  7. [defaultVar](#57-defaultvar)
-  8. [defaultRuleVar](#58-defaultrulevar)
-  9. [defaultDecoratorVar](#59-defaultdecoratorvar)
-  10. [defaultArgsVar](#510-defaultargsvar)
-  
-  11. [defaultFactory](#511-defaultfactory)
-  12. [defaultFunctionWrapper](#512-defaultfunctionwrapper)
-  
-  13. [promiseFactory](#513-promisefactory)
-  14. [promiseInterfaces](#514-promiseinterfaces)
-  
-  15. [interfacePrototype](#515-interfaceprototype)
-  16. [interfaceTypeCheck](#516-interfacetypecheck)
-  
-  17. [globalKey](#517-globalkey)
-  
-  18. [ruleCache](#518-rulecache)
-  19. [polyfillRequireContext](#519-polyfillrequirecontext)
+	1. [rules](#51-rules)
+	2. [rulesDefault](#52-rulesdefault)
+	
+	3. [dependencies](#53-dependencies)
+	4. [autoloadPathResolver](#54-autoloadpathresolver)
+	5. [autoloadExtensions](#55-autoloadextensions)
+	6. [autoloadFailOnMissingFile](#56-autoloadfailonmissingfile)
+	
+	7. [defaultVar](#57-defaultvar)
+	8. [defaultRuleVar](#58-defaultrulevar)
+	9. [defaultDecoratorVar](#59-defaultdecoratorvar)
+	10. [defaultArgsVar](#510-defaultargsvar)
+	
+	11. [defaultFactory](#511-defaultfactory)
+	12. [defaultFunctionWrapper](#512-defaultfunctionwrapper)
+	
+	13. [promiseFactory](#513-promisefactory)
+	14. [promiseInterfaces](#514-promiseinterfaces)
+	
+	15. [interfacePrototype](#515-interfaceprototype)
+	16. [interfaceTypeCheck](#516-interfacetypecheck)
+	
+	17. [globalKey](#517-globalkey)
+	
+	18. [ruleCache](#518-rulecache)
+	19. [polyfillRequireContext](#519-polyfillrequirecontext)
 
 6. [Examples](#6-examples)
-  
 
 ### 1. Getting Started
 ```javascript
@@ -1516,18 +1515,18 @@ function A (b) {
 }
 function B () {
   return new Promise((resolve, reject) => {
-  resolve('b')
+	resolve('b')
   })
 }
 
 di.addRules({
   'A': {
-  classDef: A,
-  params: ['B']
+	classDef: A,
+	params: ['B']
   },
   'B': {
-  classDef: B,
-  asyncResolve: true
+	classDef: B,
+	asyncResolve: true
   }
 })
 
@@ -1594,9 +1593,9 @@ class A{}
 class B{}
 
 di.addRules({
-  [I]: {
-    classDef: A,
-  }
+	[I]: {
+		classDef: A,
+	}
 })
 
 @di('D', [I])
@@ -1660,12 +1659,13 @@ It will automatically polyfill the [webpack's `require.context` method](https://
 It's an helper to enforce easy isomorphism (cross-environment).  
 See also [`dependencies`](#53-dependencies) for the hack-less technic
 
-## 6 Examples
+### 6 Examples
 
 Here is a list of examples of complex di-ninja implementations with dependencies wired by directories:
 [di-ninja-nodejs-example](https://github.com/di-ninja/di-ninja-nodejs-example) (using di-ninja node polyfill for `require.context()`)
 [di-ninja-webpack-example](https://github.com/di-ninja/di-ninja-webpack-example) (using `require.context()` native method of webpack)
 [di-ninja-reactnative-example](https://github.com/di-ninja/di-ninja-reactnative-example) (using [babel-plugin-require-context-polyfill](https://github.com/di-ninja/babel-plugin-require-context-polyfill))
+
 
 ## About
 Built with [babel](https://babeljs.io/) and ❤️ but use is unopinionated ;)  
