@@ -1662,9 +1662,9 @@ See also [`dependencies`](#53-dependencies) for the hack-less technic
 ### 6 Examples
 
 Here is a list of examples of complex di-ninja implementations with dependencies wired by directories:
-[di-ninja-nodejs-example](https://github.com/di-ninja/di-ninja-nodejs-example) (using di-ninja node polyfill for `require.context()`)
-[di-ninja-webpack-example](https://github.com/di-ninja/di-ninja-webpack-example) (using `require.context()` native method of webpack)
-[di-ninja-reactnative-example](https://github.com/di-ninja/di-ninja-reactnative-example) (using [babel-plugin-require-context-polyfill](https://github.com/di-ninja/babel-plugin-require-context-polyfill))
+1. [di-ninja-nodejs-example](https://github.com/di-ninja/di-ninja-nodejs-example) (using di-ninja node polyfill for `require.context()`)
+2. [di-ninja-webpack-example](https://github.com/di-ninja/di-ninja-webpack-example) (using `require.context()` native method of webpack)
+3. [di-ninja-reactnative-example](https://github.com/di-ninja/di-ninja-reactnative-example) (using [babel-plugin-require-context-polyfill](https://github.com/di-ninja/babel-plugin-require-context-polyfill))
 
 
 ## About
