@@ -1,6 +1,6 @@
 {
   "name": "di-ninja",
-  "version": "1.10.5",
+  "version": "1.10.6",
   "description": "The Dependency-Injection Framework for JavaScript NodeJS and Browser",
   "main": "node.js",
   "module": "browser.js",
