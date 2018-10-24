@@ -30,6 +30,8 @@ import promiseInterface from './promiseInterface'
 
 import isWin32AbsolutePath from './isWin32AbsolutePath'
 
+import LazyRequire from './lazyRequire'
+
 const SEP = PATH.sep
 const SEP_BACK = SEP !== '/'
 
@@ -64,7 +66,9 @@ const configMethods = new Map([
   ['dependencies', 'setDependencies'],
   ['rules', 'addRules'],
 
-  ['polyfillRequireContext', 'setPolyfillRequireContext']
+  ['polyfillRequireContext', 'setPolyfillRequireContext'],
+  
+  ['lazyRequire', 'setLazyRequire']
 ])
 const allowedDefaultVars = ['interface', 'value']
 
@@ -177,6 +181,8 @@ export default class Container {
   }
 
   setPolyfillRequireContext (polyfill = true) {}
+  
+  setLazyRequire (enable = false) {}
 
   setRulesDefault (rulesDefault = {}) {
     Object.assign(this.rulesDefault, rulesDefault)
@@ -540,9 +546,14 @@ export default class Container {
           return
         }
       }
-      const req = this.requireDep(key, path, rule.path)
-      if (req) {
-        this.registerRequire(key, req)
+      if(this.lazyRequire){
+        this.rules[key].classDef = new LazyRequire(this, key, path, rule.path)
+      }
+      else{
+        const req = this.requireDep(key, path, rule.path)
+        if (req) {
+          this.registerRequire(key, req)
+        }
       }
     }
   }
@@ -633,6 +644,8 @@ export default class Container {
     } else {
       this.registerClass(name, r)
     }
+    
+    return r
   }
 
   wrap (types = [], wrap = true, interfaceName) {
@@ -727,7 +740,7 @@ export default class Container {
 
   makeProvider (interfaceName) {
     const rule = this.getRule(interfaceName)
-    const ClassDef = rule.resolvedInstanceOf
+    let ClassDef = rule.resolvedInstanceOf
     return (args, sharedInstances, stack) => {
       // check for shared after params load
       if (this.instanceRegistry[interfaceName]) {
@@ -762,7 +775,11 @@ export default class Container {
 
       const makeInstance = (resolvedParams) => {
         resolvedParams = structuredResolveParamsInterface(params, resolvedParams)
-
+        
+        if(ClassDef instanceof LazyRequire){
+          ClassDef = ClassDef.require()
+        }
+        
         if (this.interfaceTypeCheck) {
           structuredInterfacePrototype(rule.params || ClassDef[this.symInterfaces] || [], resolvedParams)
         }

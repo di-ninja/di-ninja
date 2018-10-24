@@ -6,7 +6,8 @@ export default ({di, assert}) => {
       rulesDefault: {
         autoload: true
       },
-      autoloadFailOnMissingFile: true
+      autoloadFailOnMissingFile: true,
+      lazyRequire: false,
     })
 
     it('should throw an error', function () {

@@ -80,4 +80,8 @@ export class NodeContainer extends Container {
       }
     }
   }
+  
+  setLazyRequire (enable = false) {
+    this.lazyRequire = enable
+  }
 }
