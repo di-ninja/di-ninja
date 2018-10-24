@@ -6,7 +6,7 @@ if (process.env.APP_ENV !== 'browser') {
   require.context = container.context
 }
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     di.config({
       rules: (di) => ({

@@ -7,7 +7,7 @@ import {
 
 // import InterfaceTypeError from '../../src/interfaceTypeError'
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     class A {
       constructor (...params) {

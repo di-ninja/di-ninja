@@ -67,7 +67,7 @@ const configMethods = new Map([
   ['rules', 'addRules'],
 
   ['polyfillRequireContext', 'setPolyfillRequireContext'],
-  
+
   ['lazyRequire', 'setLazyRequire']
 ])
 const allowedDefaultVars = ['interface', 'value']
@@ -181,7 +181,7 @@ export default class Container {
   }
 
   setPolyfillRequireContext (polyfill = true) {}
-  
+
   setLazyRequire (enable = false) {}
 
   setRulesDefault (rulesDefault = {}) {
@@ -546,10 +546,9 @@ export default class Container {
           return
         }
       }
-      if(this.lazyRequire){
+      if (this.lazyRequire) {
         this.rules[key].classDef = new LazyRequire(this, key, path, rule.path)
-      }
-      else{
+      } else {
         const req = this.requireDep(key, path, rule.path)
         if (req) {
           this.registerRequire(key, req)
@@ -644,7 +643,7 @@ export default class Container {
     } else {
       this.registerClass(name, r)
     }
-    
+
     return r
   }
 
@@ -775,11 +774,11 @@ export default class Container {
 
       const makeInstance = (resolvedParams) => {
         resolvedParams = structuredResolveParamsInterface(params, resolvedParams)
-        
-        if(ClassDef instanceof LazyRequire){
+
+        if (ClassDef instanceof LazyRequire) {
           ClassDef = ClassDef.require()
         }
-        
+
         if (this.interfaceTypeCheck) {
           structuredInterfacePrototype(rule.params || ClassDef[this.symInterfaces] || [], resolvedParams)
         }

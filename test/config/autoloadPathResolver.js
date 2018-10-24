@@ -8,7 +8,7 @@ if (process.env.APP_ENV !== 'browser') {
   require.context = container.context
 }
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     const aliasMap = {
       'app': path.resolve(__dirname, '../autoload')

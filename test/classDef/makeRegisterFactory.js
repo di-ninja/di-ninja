@@ -6,7 +6,7 @@ if (process.env.APP_ENV !== 'browser') {
   require.context = container.context
 }
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     di.config({
       rulesDefault: {
@@ -23,10 +23,10 @@ export default ({di, assert}) => {
 
       },
       'Loader': {
-        classDef: di.makeRegisterFactory('app/', [{foo: di.value('bar')}])
+        classDef: di.makeRegisterFactory('app/', [{ foo: di.value('bar') }])
       },
       'LoaderCurry': {
-        classDef: di.makeRegisterFactory('app/', [{foo: di.value('bar')}], undefined, true)
+        classDef: di.makeRegisterFactory('app/', [{ foo: di.value('bar') }], undefined, true)
       },
       'Loader2': {
         classDef: di.makeRegisterFactory('app/', [], undefined, false, ['then', 'test'])
@@ -37,15 +37,15 @@ export default ({di, assert}) => {
       const instance = di.get('Loader')
       const { A } = instance
       assert(A instanceof require('../autoload/A').default)
-      assert.deepEqual(A.params[0], {foo: 'bar'})
+      assert.deepEqual(A.params[0], { foo: 'bar' })
     })
 
     it('should load an instance of A with dependencies and merged dependencies', function () {
       const instance = di.get('LoaderCurry')
       const { A } = instance
-      const a = A({foo2: 'bar2'})
+      const a = A({ foo2: 'bar2' })
       assert(a instanceof require('../autoload/A').default)
-      assert.deepEqual(a.params[0], {foo: 'bar', foo2: 'bar2'})
+      assert.deepEqual(a.params[0], { foo: 'bar', foo2: 'bar2' })
     })
 
     it('should return undefined', function () {

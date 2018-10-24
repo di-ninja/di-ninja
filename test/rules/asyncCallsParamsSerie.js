@@ -2,7 +2,7 @@
 
 // waiting for https://github.com/sinonjs/lolex/pull/105#pullrequestreview-49708156
 
-export default ({di, assert, sinon}) => {
+export default ({ di, assert, sinon }) => {
   return function () {
     let clock
     before(function () {

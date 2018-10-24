@@ -2,7 +2,7 @@
 
 import path from 'path'
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     di.config('autoloadPathResolver', {
       'app': path.resolve(__dirname, '../autoload')

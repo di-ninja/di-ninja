@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-export default ({di, assert, sinon}) => {
+export default ({ di, assert, sinon }) => {
   return function () {
     let clock
     before(function () {

@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 /* global diNinja */
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     di.config({
       globalKey: 'diNinja'

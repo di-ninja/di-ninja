@@ -2,7 +2,7 @@
 
 import container from '../../src/node'
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     di.config({
       rules: {

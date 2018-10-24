@@ -6,7 +6,7 @@ import {
   Interface
 } from '../../src/interface-prototype'
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     di.config('interfacePrototype', InterfacePrototype)
 

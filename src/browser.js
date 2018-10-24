@@ -8,7 +8,7 @@ export {
   InterfaceClass,
   InterfacePrototype,
   Interface,
-  instanceOf,
+  instanceOf
 } from './interface-prototype'
 
 function makeContainer (config) {

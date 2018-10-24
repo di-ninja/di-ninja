@@ -2,7 +2,7 @@
 
 import Bluebird from 'bluebird'
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     di.config('promiseFactory', Bluebird)
 

@@ -13,7 +13,7 @@ export {
   InterfaceClass,
   InterfacePrototype,
   Interface,
-  instanceOf,
+  instanceOf
 } from './interface-prototype'
 
 export default makeContainer
@@ -80,7 +80,7 @@ export class NodeContainer extends Container {
       }
     }
   }
-  
+
   setLazyRequire (enable = false) {
     this.lazyRequire = enable
   }

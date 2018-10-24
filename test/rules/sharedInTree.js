@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 
-export default ({di, assert}) => {
+export default ({ di, assert }) => {
   return function () {
     class A {
       constructor (...params) {
@@ -51,11 +51,11 @@ export default ({di, assert}) => {
       'H': {
         classDef: H,
         sharedInTree: ['A'],
-        params: [{a: 'A', i: 'I'}]
+        params: [{ a: 'A', i: 'I' }]
       },
       'I': {
         classDef: I,
-        params: [{a: 'A', j: 'J'}]
+        params: [{ a: 'A', j: 'J' }]
       },
       'J': {
         classDef: J,
@@ -64,15 +64,15 @@ export default ({di, assert}) => {
       'K': {
         classDef: K,
         sharedInTree: ['A'],
-        params: [{i: 'I'}]
+        params: [{ i: 'I' }]
       }
     })
 
     describe('sharedInTree accross tree with direct child param dependency', function () {
       it('sharedInstances should be the sames accross the tree', function () {
         const instance = di.get('H')
-        const [ {a, i} ] = instance.getParams()
-        const [ {a: a2, j} ] = i.getParams()
+        const [ { a, i } ] = instance.getParams()
+        const [ { a: a2, j } ] = i.getParams()
         const [ a3 ] = j.getParams()
         assert.strictEqual(a, a2)
         assert.strictEqual(a, a3)
@@ -82,8 +82,8 @@ export default ({di, assert}) => {
     describe('sharedInTree accross tree without direct child param dependency', function () {
       it('sharedInstances should be the sames accross the tree', function () {
         const instance = di.get('K')
-        const [ {i} ] = instance.getParams()
-        const [ {a, j} ] = i.getParams()
+        const [ { i } ] = instance.getParams()
+        const [ { a, j } ] = i.getParams()
         const [ a2 ] = j.getParams()
         assert.strictEqual(a, a2)
       })
