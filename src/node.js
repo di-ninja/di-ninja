@@ -36,7 +36,7 @@ makeContainer.getInterfacePrototypeDefault = Container.getInterfacePrototypeDefa
 export class NodeContainer extends Container {
   depExists (requirePath) {
     requirePath = PATH.normalize(requirePath)
-    if (undefined !== this.requires[requirePath]) {
+    if (requirePath in this.requires) {
       return true
     }
 

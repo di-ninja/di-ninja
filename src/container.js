@@ -31,6 +31,7 @@ import promiseInterface from './promiseInterface'
 import isWin32AbsolutePath from './isWin32AbsolutePath'
 
 import LazyRequire from './lazyRequire'
+import LazyCall from './lazyCall'
 
 const SEP = PATH.sep
 const SEP_BACK = SEP !== '/'
@@ -167,7 +168,7 @@ export default class Container {
     Object.assign(this.dependencies, dependencies)
     this.loadPaths(this.dependencies)
     this.registerDirectories(this.dependencies)
-    this.registerRequireMap(this.requires)
+    if (!this.lazyRequire) { this.registerRequireMap(this.requires) }
   }
 
   setPromiseFactory (promiseFactory = Promise) {
@@ -234,7 +235,9 @@ export default class Container {
       const context = dirs[dirKey]
 
       if (context instanceof Dependency) {
-        this.setRequire(dirKey, context.getDependency())
+        const dep = context.getDependency()
+        this.setRequire(dirKey, dep)
+        this.registerRequire(dirKey, dep)
         return
       }
 
@@ -256,14 +259,33 @@ export default class Container {
           }
 
           key = dirKey + '/' + key.substr(0, key.lastIndexOf('.') || key.length)
-          const ctxFilename = context(filename)
-
-          this.setRequire(key, ctxFilename)
 
           const pathFragments = key.split('/')
           const lastPathFragment = pathFragments.pop()
-          if (lastPathFragment === 'index' || lastPathFragment === pathFragments.pop()) {
-            this.setRequire(key.substr(0, key.lastIndexOf('/')), ctxFilename)
+          const isDirIndex = lastPathFragment === 'index' || lastPathFragment === pathFragments.pop()
+          const keyParent = isDirIndex ? key.substr(0, key.lastIndexOf('/')) : undefined
+
+          let ctxFilename
+          if (this.lazyRequire) {
+            ctxFilename = new LazyCall(() => {
+              const required = context(filename)
+
+              this.registerRequire(key, required)
+              isDirIndex && this.registerRequire(keyParent, required)
+
+              return required
+            })
+
+            this.setRequire(key, ctxFilename)
+            isDirIndex && this.setRequire(keyParent, ctxFilename)
+          } else {
+            ctxFilename = context(filename)
+
+            this.setRequire(key, ctxFilename)
+            isDirIndex && this.setRequire(keyParent, ctxFilename)
+
+            this.registerRequire(key, ctxFilename)
+            isDirIndex && this.registerRequire(keyParent, ctxFilename)
           }
         })
     })
@@ -609,12 +631,20 @@ export default class Container {
     return required
   }
 
+  requiresLoaded = {}
   setRequire (key, required) {
     key = PATH.normalize(key)
-    this.requires[key] = required
+    Object.defineProperty(this.requires, key, {
+      get: () => {
+        if (!(key in this.requiresLoaded)) { this.requiresLoaded[key] = required instanceof LazyCall ? required.run() : required }
+        return this.requiresLoaded[key]
+      },
+      enumerable: true,
+      configurable: true
+    })
   }
   getRequire (key) {
-    key = PATH.normalize(key)
+    if (typeof key === 'string') { key = PATH.normalize(key) }
     return this.requires[key]
   }
 
@@ -1240,6 +1270,7 @@ export default class Container {
         throw new Error('Cyclic interface definition error in ' + JSON.stringify(stack.concat(str), null, 2))
       }
       stack.push(str)
+      if (require) { this.getRequire(str) }
       const rule = this.rules[str]
       let resolved = false
       if (rule) {
