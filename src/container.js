@@ -739,7 +739,7 @@ export default class Container {
   }
 
   exists (name) {
-    return Boolean(this.rules[name])
+    return Boolean(this.rules[name]) || name in this.requires
   }
 
   get (interfaceDef, args, sharedInstances = {}, stack = []) {
