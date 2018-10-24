@@ -63,12 +63,12 @@ const configMethods = new Map([
   ['promiseInterfaces', 'setPromiseInterfaces'],
 
   // order matters for theses methods
+  ['lazyRequire', 'setLazyRequire'],
   ['dependencies', 'setDependencies'],
   ['rules', 'addRules'],
 
-  ['polyfillRequireContext', 'setPolyfillRequireContext'],
+  ['polyfillRequireContext', 'setPolyfillRequireContext']
 
-  ['lazyRequire', 'setLazyRequire']
 ])
 const allowedDefaultVars = ['interface', 'value']
 
