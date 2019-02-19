@@ -1,5 +1,7 @@
 /node_modules
 /dist
+/module.js
+/module.js.map
 /browser.js
 /browser.js.map
 /test/browser.dist.js
