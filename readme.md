@@ -1668,6 +1668,7 @@ Here is a list of examples of complex di-ninja implementations with dependencies
 
 
 ## About
-Built with [babel](https://babeljs.io/) and ❤️ but use is unopinionated ;)  
+Built with [babel](https://babeljs.io/).   
 Work with NodeJS, [Webpack](https://webpack.js.org/), React-Native and UMD/AMD (requirejs).
 Inspired by [strategy](https://github.com/redcatphp/strategy) for php, itself based on [dice](https://r.je/dice.html) design.
+Made with ❤️ and 🦊.
