@@ -191,7 +191,7 @@ export default class Container {
 
   setAutoloadExtensions (autoloadExtensions = ['js']) {
     this.autoloadExtensions = autoloadExtensions
-    if (this.autoloadExtensions instanceof Array) {
+    if (Array.isArray(this.autoloadExtensions)) {
       this.loadExtensionRegex = new RegExp('.(' + this.autoloadExtensions.join('|') + ')$')
     } else {
       this.loadExtensionRegex = this.autoloadExtensions
@@ -904,7 +904,7 @@ export default class Container {
     }
 
     if (typeof interfaceDef === 'object' && !(interfaceDef instanceof Var)) {
-      if (interfaceDef instanceof Array) {
+      if (Array.isArray(interfaceDef)) {
         return interfaceDef.map(interfaceDefVal => {
           return this.getParam(interfaceDefVal, rule, sharedInstances, defaultVar, undefined, stack)
         })
@@ -933,7 +933,7 @@ export default class Container {
     switch (defaultVar) {
       case 'interface':
         if (typeof type === 'object' && type !== null) {
-          if (type instanceof Array) {
+          if (Array.isArray(type)) {
             return type.map(v => {
               return typeof v === 'object' && v !== null && !(v instanceof Var) ? this.wrapVarType(v, defaultVar) : v
             })
@@ -1045,7 +1045,7 @@ export default class Container {
     )
   }
   ruleCollectExtendsRecursive (mixinGroup, mixinsGroups = []) {
-    if (!(mixinGroup instanceof Array)) {
+    if (!Array.isArray(mixinGroup)) {
       mixinGroup = [mixinGroup]
     }
     mixinsGroups.push(mixinGroup)

@@ -11,7 +11,7 @@ function structuredPromiseAllRecursive (structure, value, PromiseInterface = nat
     return PromiseFactory.resolve(value)
   }
 
-  if (value instanceof Array) {
+  if (Array.isArray(value)) {
     return PromiseFactory.all(value.map((val, key) => {
       return structuredPromiseAllRecursive(structure[key], val, PromiseInterface, PromiseFactory)
     }))

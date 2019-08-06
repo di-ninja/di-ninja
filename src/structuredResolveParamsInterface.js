@@ -10,7 +10,7 @@ function structuredResolveParamsInterface (structure, value) {
     return value
   }
 
-  if (value instanceof Array) {
+  if (Array.isArray(value)) {
     return value.map((val, key) => {
       return structuredResolveParamsInterface(structure[key], val)
     })
