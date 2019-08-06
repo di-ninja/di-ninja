@@ -69,7 +69,7 @@ export default ({ di, assert }) => {
 
     it('sould be F from root', function () {
       const F = di.get('app/F')
-      assert.instanceOf(F, require('../autoload/F/index').default)
+      assert.instanceOf(F, require('../autoload/F').default)
     })
 
     it('sould be G from index', function () {
