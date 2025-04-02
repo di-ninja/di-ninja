@@ -1,3 +1,5 @@
+# this project is not maintained anymore, We recommend to use lightweight and powerfull [nctx](https://github.com/devthefuture-org/nctx)
+
 # Di-Ninja [![Di-Ninja ICON](https://raw.githubusercontent.com/di-ninja/di-ninja/master/icon/icon.png)](https://github.com/di-ninja/di-ninja#)
 
 [![npm version](https://badge.fury.io/js/di-ninja.svg)](https://www.npmjs.com/package/di-ninja)
